@@ -453,7 +453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_head: {fileID: 6598593454969276741}
   m_gravity: -9.8
-  m_characterSpeed: 10
+  m_characterSpeed: 6
   m_jumpHeight: 1.5
 --- !u!114 &9113268958727739233
 MonoBehaviour:
