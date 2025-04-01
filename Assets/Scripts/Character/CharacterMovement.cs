@@ -16,12 +16,10 @@ public class CharacterMovement : MonoBehaviour
     //Private
     private Vector3 _velocity;
     private CharacterController _characterController;
-    private PlayerInput _playerInput;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _playerInput = GetComponent<PlayerInput>();
 
         // If the Character Controller component doesn't exist, add one
         if (_characterController == null)
@@ -66,20 +64,20 @@ public class CharacterMovement : MonoBehaviour
     Vector3 GetMovementInput()
     {
         //Temp - Read "Move" input value
-        Vector2 value = _playerInput.actions.FindAction("Move").ReadValue<Vector2>();
+        Vector2 value = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
         return new Vector3(value.x, 0, value.y);
     }
 
     bool IsTryingToJump()
     {
         //Temp - Read if "Jump" is pressed
-        return _playerInput.actions.FindAction("Jump").IsPressed();
+        return GameManager.GetInstance().m_inputManager.m_jump.IsPressed();
     }
 
     bool IsSprinting()
     {
         //Temp - Read if "Sprint" is pressed
-        return _playerInput.actions.FindAction("Sprint").IsPressed();
+        return GameManager.GetInstance().m_inputManager.m_sprint.IsPressed();
     }
 
 }

@@ -7,13 +7,8 @@ public class CharacterLook : MonoBehaviour
     public float m_lookSpeed = 5.0f;
 
 
-    private PlayerInput _playerInput;
     private float xRotation = 0;
 
-    private void Awake()
-    {
-        _playerInput = transform.parent.GetComponent<PlayerInput>();
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +31,7 @@ public class CharacterLook : MonoBehaviour
     {
         //Temp - Read "Look" input value
         //Screen size dependent - CHANGE!!
-        return _playerInput.actions.FindAction("Look").ReadValue<Vector2>();
+        return GameManager.GetInstance().m_inputManager.m_look.ReadValue<Vector2>();
     }
 }
+ 
