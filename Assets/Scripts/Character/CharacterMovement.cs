@@ -16,7 +16,7 @@ public class CharacterMovement : MonoBehaviour
     //Private
     private Vector3 _velocity;
     private CharacterController _characterController;
-
+    private StateMachineFilter _stateMachine;
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
@@ -26,6 +26,9 @@ public class CharacterMovement : MonoBehaviour
         {
             _characterController = gameObject.AddComponent<CharacterController>();
         }
+        _stateMachine = new StateMachineFilter();
+        _stateMachine.InitializeStateMachine<CharacterStates.StateIdle>(GameManager.GetInstance().m_characterStatesData.GetStatesDictionary());
+        _stateMachine.SetCurrentState<CharacterStates.StateIdle>();
     }
 
     void Update()

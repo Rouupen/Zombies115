@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     #region Scriptable Objects
     [Header("Scriptable Objects Data")]
     public SO_InputData m_inputData;
+    public SO_CharacterStatesFilter m_characterStatesData;
     #endregion
 
 
