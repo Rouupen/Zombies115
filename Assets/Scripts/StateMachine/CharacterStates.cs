@@ -1,47 +1,45 @@
 using UnityEngine;
 
-namespace CharacterStates
+public enum CharacterStates
 {
-    public enum CharacterStates
+    Idle,
+    Running
+}
+
+
+public class Idle : State
+{
+    public override void OnEnter()
     {
-        Idle,
-        Running
+        Debug.Log("OnEnter Idle");
     }
 
-
-    public class StateIdle : State
+    public override void OnUpdate()
     {
-        public override void OnEnter()
-        {
-            Debug.Log("OnEnter");
-        }
-
-        public override void OnUpdate()
-        {
-            Debug.Log("OnUpdate");
-        }
-
-        public override void OnExit()
-        {
-            Debug.Log("OnExit");
-        }
+        Debug.Log("OnUpdate Idle");
     }
 
-    public class StateRunning : State
+    public override void OnExit()
     {
-        public override void OnEnter()
-        {
-            Debug.Log("OnEnter");
-        }
-
-        public override void OnUpdate()
-        {
-            Debug.Log("OnUpdate");
-        }
-
-        public override void OnExit()
-        {
-            Debug.Log("OnExit");
-        }
+        Debug.Log("OnExit Idle");
     }
 }
+
+public class Running : State
+{
+    public override void OnEnter()
+    {
+        Debug.Log("OnEnter Running");
+    }
+
+    public override void OnUpdate()
+    {
+        Debug.Log("OnUpdate Running");
+    }
+
+    public override void OnExit()
+    {
+        Debug.Log("OnExit Running");
+    }
+}
+

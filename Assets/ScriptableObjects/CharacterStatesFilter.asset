@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: CharacterStatesFilter
   m_EditorClassIdentifier: 
   m_statesInfo:
-  - m_currentState: 0
-    m_allowedStates: 0000000001000000
+  - m_mainState: 0
+    m_allowedStates: 01000000
+  - m_mainState: 1
+    m_allowedStates: 00000000

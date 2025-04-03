@@ -15,10 +15,14 @@ public class GameManager : MonoBehaviour
 
     public InputManager m_inputManager { get { return _inputManager; } }
     private InputManager _inputManager;
-
     #endregion
 
-    
+    #region StateMachines
+    public delegate void UpdateStateMachines();
+    public UpdateStateMachines m_updateStateMachines;
+    #endregion
+
+
     private void Awake()
     {
         if (_instance != null)
@@ -29,6 +33,14 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         InitializeManagers();
+    }
+
+    private void Update()
+    {
+        if (m_updateStateMachines != null) 
+        {
+            m_updateStateMachines();
+        }
     }
 
     public static GameManager GetInstance() 

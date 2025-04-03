@@ -27,8 +27,8 @@ public class CharacterMovement : MonoBehaviour
             _characterController = gameObject.AddComponent<CharacterController>();
         }
         _stateMachine = new StateMachineFilter();
-        _stateMachine.InitializeStateMachine<CharacterStates.StateIdle>(GameManager.GetInstance().m_characterStatesData.GetStatesDictionary());
-        _stateMachine.SetCurrentState<CharacterStates.StateIdle>();
+        _stateMachine.InitializeStateMachine<Idle>(GameManager.GetInstance().m_characterStatesData.GetStatesData());
+        _stateMachine.SetCurrentState<Running>();
     }
 
     void Update()

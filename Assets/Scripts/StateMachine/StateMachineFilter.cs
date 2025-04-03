@@ -1,13 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StateName
+public struct AllowedStatesFilter
 {
+    public System.Type m_mainState;
+    public List<System.Type> m_allowedStates;
 }
 
 public abstract class State
 {
-    public StateName m_stateName;
     public abstract void OnEnter();
     public abstract void OnUpdate();
     public abstract void OnExit();
@@ -16,7 +18,7 @@ public abstract class State
 public class StateMachineFilter
 {
     private State _currentState;
-    private Dictionary<State, System.Type> _dictionary;
+    private List<AllowedStatesFilter> _statesData;
     private bool IsStateMachineInitialized()
     {
         if (_currentState != null)
@@ -27,7 +29,7 @@ public class StateMachineFilter
     }
 
     // Initialize the StateMachine with the Type T (need a empty constructor)
-    public void InitializeStateMachine<T>(Dictionary<State, System.Type> dictionary) where T : State, new()
+    public void InitializeStateMachine<T>(List<AllowedStatesFilter> statesData) where T : State, new()
     {
         if (IsStateMachineInitialized())
         {
@@ -36,7 +38,8 @@ public class StateMachineFilter
         }
         _currentState = new T();
         _currentState.OnEnter();
-        _dictionary = dictionary;
+        _statesData = statesData;
+        GameManager.GetInstance().m_updateStateMachines += UpdateStateMachine;
     }
 
     public void DeinitializeStateMachine()
@@ -50,35 +53,55 @@ public class StateMachineFilter
 
     public bool SetCurrentState<T>() where T : State, new()
     {
-        if (IsStateMachineInitialized())
+        if (!IsStateMachineInitialized())
+        {
+            return false;
+        }
+        
+        if (!IsStateAvailable<T>())
         {
             return false;
         }
 
-        if (!IsStateAvailable()) 
-        {
-            return false;
-        }
-        //TEMP
         _currentState.OnExit();
-        _currentState = new T(); 
+        _currentState = new T();
         _currentState.OnEnter();
-        return false;
+
+        return true;
     }
 
 
-    public bool IsStateAvailable()
+    public bool IsStateAvailable<T>() where T : State, new()
     {
-        return true;
+        if (_statesData == null || _statesData.Count == 0 || _currentState.GetType() == typeof(T))
+        {
+            return false;
+        }
+
+        for (int i = 0; i < _statesData.Count; i++)
+        {
+            if (_statesData[i].m_mainState == _currentState.GetType())
+            {
+                for (int j = 0; j < _statesData[i].m_allowedStates.Count; j++)
+                {
+                    if (_statesData[i].m_allowedStates[j] == typeof(T))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public void UpdateStateMachine()
     {
-        if (IsStateMachineInitialized()) 
+        if (IsStateMachineInitialized())
         {
-            return;
+            _currentState.OnUpdate();
         }
-        _currentState.OnUpdate();
     }
 
 }
