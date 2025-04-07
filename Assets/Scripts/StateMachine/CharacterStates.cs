@@ -3,133 +3,174 @@ using UnityEngine;
 public enum CharacterStates
 {
     Idle,
-    Running
+    Running,
+    Crouching,
+    Crawling,
+    Jumping,
+    OnAir,
+    Interacting
 }
 
-
-public class Idle : State
+public class CharacterState : State
 {
+    protected PlayerController _playerController;
+    
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Idle");
+        base.OnEnter();
+        _playerController = _gameManagerInstance.m_playerController;
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Idle");
+        base.OnUpdate();
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Idle");
+        base.OnExit();
     }
 }
 
-public class Running : State
+public class Idle : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Running");
+        base.OnEnter();
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Running");
+        base.OnUpdate();
+        _playerController.m_characterMovement.UpdateMove();
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Running");
+        base.OnExit();
     }
 }
 
-public class Crouching : State
+public class Running : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Crouching");
+        base.OnEnter();
+        _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterRunningSpeed);
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Crouching");
+        base.OnUpdate();
+        _playerController.m_characterMovement.UpdateMove();
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Crouching");
+        base.OnExit();
+        _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterWalkngSpeed);
     }
 }
 
-public class Crawling : State
+public class Crouching : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Crawling");
+        base.OnEnter();
+        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_crouchHeight);
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Crawling");
+        base.OnUpdate();
+        _playerController.m_characterMovement.UpdateMove();
+
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Crawling");
+        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_standHeight);
+        base.OnExit();
     }
 }
 
-public class Jumping : State
+public class Crawling : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Jumping");
+        base.OnEnter();
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Jumping");
+        base.OnUpdate();
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Jumping");
+        base.OnExit();
     }
 }
 
-public class OnAir : State
+public class Jumping : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter OnAir");
+        base.OnEnter();
+        _playerController.m_characterMovement.Jump();
+        _playerController.m_characterMovement.GetStateMachine().SetCurrentState<OnAir>();
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate OnAir");
+        base.OnUpdate();
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit OnAir");
+        base.OnExit();
     }
 }
 
-public class Interacting : State
+public class OnAir : CharacterState
 {
     public override void OnEnter()
     {
-        Debug.Log("OnEnter Interacting");
+        base.OnEnter();
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("OnUpdate Interacting");
+        base.OnUpdate();
+        _playerController.m_characterMovement.UpdateAirMove();
+
+        if (_playerController.m_characterController.isGrounded)
+        {
+            _playerController.m_characterMovement.GetStateMachine().SetCurrentState<Idle>();
+        }
     }
 
     public override void OnExit()
     {
-        Debug.Log("OnExit Interacting");
+        base.OnExit();
+    }
+}
+
+public class Interacting : CharacterState
+{
+    public override void OnEnter()
+    {
+        base.OnEnter();
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
     }
 }
 

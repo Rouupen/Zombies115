@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    #region Player
+    public PlayerController m_playerController;
+
+    #endregion
+
     #region Managers
     private static GameManager _instance;
 

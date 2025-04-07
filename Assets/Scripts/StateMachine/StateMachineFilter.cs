@@ -10,9 +10,20 @@ public struct AllowedStatesFilter
 
 public abstract class State
 {
-    public abstract void OnEnter();
-    public abstract void OnUpdate();
-    public abstract void OnExit();
+    protected GameManager _gameManagerInstance;
+
+    public virtual void OnEnter() 
+    {
+        _gameManagerInstance = GameManager.GetInstance();
+    }
+    public virtual void OnUpdate()
+    { 
+    
+    }
+    public virtual void OnExit()
+    {
+
+    }
 }
 
 public class StateMachineFilter
@@ -70,6 +81,14 @@ public class StateMachineFilter
         return true;
     }
 
+    public bool CurrentStateIs<T>() where T : State, new()
+    {
+        if (typeof(T) == _currentState.GetType())
+        {
+            return true;
+        }
+        return false;
+    }
 
     public bool IsStateAvailable<T>() where T : State, new()
     {
