@@ -6,9 +6,21 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement m_characterMovement;
     public CharacterLook m_characterLook;
 
-    private void Start()
+    private StateMachineFilter _stateMachine;
+
+    private void Awake()
     {
-        GameManager.GetInstance().m_playerController = this;
-        GameManager.GetInstance().m_playerController = this;
+        InitializeStateMachine();
+    }
+
+    void InitializeStateMachine()
+    {
+        _stateMachine = new StateMachineFilter();
+        _stateMachine.InitializeStateMachine<Idle>(GameManager.GetInstance().m_characterStatesData.GetStatesData());
+    }
+
+    public StateMachineFilter GetStateMachine()
+    {
+        return _stateMachine;
     }
 }

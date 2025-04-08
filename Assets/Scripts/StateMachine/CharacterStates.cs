@@ -118,7 +118,7 @@ public class Jumping : CharacterState
     {
         base.OnEnter();
         _playerController.m_characterMovement.Jump();
-        _playerController.m_characterMovement.GetStateMachine().SetCurrentState<OnAir>();
+        _playerController.GetStateMachine().SetCurrentState<OnAir>();
     }
 
     public override void OnUpdate()
@@ -146,7 +146,7 @@ public class OnAir : CharacterState
 
         if (_playerController.m_characterController.isGrounded)
         {
-            _playerController.m_characterMovement.GetStateMachine().SetCurrentState<Idle>();
+            _playerController.GetStateMachine().SetCurrentState<Idle>();
         }
     }
 

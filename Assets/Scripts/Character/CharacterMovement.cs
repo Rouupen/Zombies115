@@ -22,7 +22,7 @@ public class CharacterMovement : MonoBehaviour
     private float _currentPlayerSpeed;
     private Vector3 _velocity;
     private CharacterController _characterController;
-    private StateMachineFilter _stateMachine;
+    private PlayerController _playerController;
 
     private void Awake()
     {
@@ -35,11 +35,9 @@ public class CharacterMovement : MonoBehaviour
         }
 
         _currentPlayerSpeed = m_characterWalkngSpeed;
-
-        InitializeStateMachine();
+        _playerController = GetComponent<PlayerController>();
 
         InitializeInputBinding();
-
     }
 
     private void OnDestroy()
@@ -47,11 +45,7 @@ public class CharacterMovement : MonoBehaviour
         DeinitilizeInputBinding();
     }
 
-    void InitializeStateMachine()
-    {
-        _stateMachine = new StateMachineFilter();
-        _stateMachine.InitializeStateMachine<Idle>(GameManager.GetInstance().m_characterStatesData.GetStatesData());
-    }
+
 
     void InitializeInputBinding()
     {
@@ -135,36 +129,32 @@ public class CharacterMovement : MonoBehaviour
 
     void StartRunning(InputAction.CallbackContext context)
     {
-        _stateMachine.SetCurrentState<Running>();
+        _playerController.GetStateMachine().SetCurrentState<Running>();
     }
 
     void EndRunning(InputAction.CallbackContext context)
     {
-        _stateMachine.SetCurrentState<Idle>();
+        _playerController.GetStateMachine().SetCurrentState<Idle>();
     }
 
     void StartJumping(InputAction.CallbackContext context)
     {
         if (_characterController.isGrounded)
         {
-            _stateMachine.SetCurrentState<Jumping>();
+            _playerController.GetStateMachine().SetCurrentState<Jumping>();
         }
     }
 
     void EvaluateCrouch(InputAction.CallbackContext context)
     {
-        if (!_stateMachine.CurrentStateIs<Crouching>())
+        if (!_playerController.GetStateMachine().CurrentStateIs<Crouching>())
         {
-            _stateMachine.SetCurrentState<Crouching>();
+            _playerController.GetStateMachine().SetCurrentState<Crouching>();
         }
         else
         {
-            _stateMachine.SetCurrentState<Idle>();
+            _playerController.GetStateMachine().SetCurrentState<Idle>();
         }
     }
 
-    public StateMachineFilter GetStateMachine()
-    {
-        return _stateMachine;
-    }
 }
