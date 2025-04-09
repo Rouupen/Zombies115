@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76158e17e6a864c45b27038316d5bc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lookSpeed: 5
+  m_lookSpeed: 20
 --- !u!1 &7427882136687626595
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,8 +599,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxAngleInertia: 10
-  m_inertiaSpeed: 3
+  m_inertiaSpeed: 5
   m_returnToOriginalPositionInertiaSpeed: 7
+  m_recoilUpPositionSpeed: 0.05
+  m_recoilRightRotationSpeed: -20
+  m_recoilTime: 0.05
+  m_recoilRecoverySpeedTime: 0.15
 --- !u!4 &2078686224293408890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2a628e88bb043b4aadb3bd6752729c5, type: 3}

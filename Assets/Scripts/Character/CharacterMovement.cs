@@ -24,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController _characterController;
     private PlayerController _playerController;
 
-    private void Awake()
+    private void Start()
     {
         _characterController = GetComponent<CharacterController>();
 
