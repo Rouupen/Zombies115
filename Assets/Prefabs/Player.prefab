@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76158e17e6a864c45b27038316d5bc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lookSpeed: 20
+  m_lookSpeed: 1000
 --- !u!114 &3792498613240448861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +868,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxAngleInertia: 10
   m_maxTranslationInertia: 10
-  m_inertiaSpeed: 5
+  m_lookInertiaRotationSpeed: 5
+  m_lookInertiaTraslationSpeed: 5
   m_returnToOriginalPositionInertiaSpeed: 7
   m_recoilUpPositionSpeed: 0.05
   m_recoilRightRotationSpeed: -20
@@ -904,20 +905,18 @@ MonoBehaviour:
   m_startAimTime: 0.1
   m_endAimTime: 0.1
   m_inertiaReductionWhileAiming: 0.3
+  m_localPositionWeaponIdle: {x: 0, y: 0, z: 0}
+  m_localRotationWeaponIdle: {x: 0, y: 0, z: 0, w: 0}
   m_localPositionWeaponWalking: {x: 0, y: 0, z: 0}
-  m_localPositionTranslationCurve:
+  m_localRotationWeaponWalking: {x: 0, y: 0, z: 0, w: 0}
+  m_localPositionWalkingTranslationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_localPositionTranslationTime: 0.15
-  m_translationCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  m_localPositionWeaponWalkingTime: 0.15
+  m_translationSpeed: 1
   m_translationHorizontalDistance: 0.5
   m_translationForwardDistance: 0.1
   m_translationTime: 0.25
@@ -944,6 +943,7 @@ MonoBehaviour:
   m_rotationLoopForwardTime: 2
   m_bounceHorizontalAmplitude: 0.03
   m_bounceVerticalAmplitude: 0.02
+  m_rotationForwardAmplitude: 2
   m_dampingCurve:
     serializedVersion: 2
     m_Curve:

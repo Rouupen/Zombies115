@@ -3,16 +3,25 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI;
 
 //TESTING - Spaghetti code for now :)
 public class Weapon : MonoBehaviour
 {
     [Header("---FAST TESTING---")]
     [Header("Look Inertia")]
-    public float m_maxAngleInertia = 10.0f;
+    public Vector2 m_maxAngleInertia = new Vector2(30,15);
     public float m_maxTranslationInertia = 10.0f;
-    public float m_inertiaSpeed = 5.0f;
-    public float m_returnToOriginalPositionInertiaSpeed = 7.0f;
+    public float m_lookInertiaRotationSpeed = 5.0f;
+    public float m_lookInertiaTraslationSpeed = 5.0f;
+    public float m_returnToOriginalPositionInertiaTime = 0.25f;
+    public AnimationCurve m_returnToOriginalPositionInertiaCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    //Look Inertia private values
+    private Vector3 _positionLookInertia;
+    private Quaternion _rotationLookInertia;
+    private Coroutine _returnToPositionInertia;
+
 
     [Header("Recoil Inertia")]
     public float m_recoilUpPositionSpeed = 0.05f;
@@ -30,14 +39,16 @@ public class Weapon : MonoBehaviour
     public float m_inertiaReductionWhileAiming = 0.1f;
     [Header("Idle")]
     public Vector3 m_localPositionWeaponIdle;
+    public Quaternion m_localRotationWeaponIdle;
 
     [Header("Walking - Start/End")]
     public Vector3 m_localPositionWeaponWalking;
+    public Quaternion m_localRotationWeaponWalking;
     public AnimationCurve m_localPositionWalkingTranslationCurve;
     public float m_localPositionWeaponWalkingTime = 0.15f;
 
     [Header("Walking - Direction translation")]
-    public AnimationCurve m_translationCurve;
+    public float m_translationSpeed = 1f;
     public float m_translationHorizontalDistance = 0.5f;
     public float m_translationForwardDistance = 0.1f;
     public float m_translationTime = 0.25f;
@@ -57,6 +68,7 @@ public class Weapon : MonoBehaviour
     private float _currentVerticalBounceTime = 0f;
     private float _currentHorizontalBounceTime = 0f;
     private float _currentForwardRotationTime = 0f;
+    private Vector3 _currentDirecitionTranslation;
     private Coroutine _startEndWalking;
     private bool _isWalking;
 
@@ -70,7 +82,7 @@ public class Weapon : MonoBehaviour
     private Quaternion _socketOriginalRotation;
     private Vector3 _socketOriginalPosition;
     private Vector3 _currentSocketPosition;
-    private Quaternion _lastRotation;
+    private Quaternion _currentSocketRotation;
     private Coroutine _coroutineFire;
     private Coroutine _coroutineAim;
     private Coroutine _coroutineDamping;
@@ -81,14 +93,19 @@ public class Weapon : MonoBehaviour
 
     //Temp
     bool _wasGrounded = true;
+    private Vector3 _walkingPositionOffset;
+    private Quaternion _walkingRotationOffset;
+    private Vector3 _inertiaPositionOffset;
+    private Quaternion _inertiaRotationOffset;
+
     private void Start()
     {
         _socket = transform.parent;
         _socketOriginalRotation = _socket.localRotation;
         _socketOriginalPosition = _socket.localPosition;
         _currentSocketPosition = _socketOriginalPosition;
-        _lastRotation = _socketOriginalRotation;
-
+        _currentSocketRotation = _socketOriginalRotation;
+        _walkingRotationOffset = Quaternion.identity;
         GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
@@ -107,27 +124,82 @@ public class Weapon : MonoBehaviour
         {
             return;
         }
-        //float recoilInertiaReduction = _isAiming ? m_inertiaReductionWhileAiming : 1;
-
-        //Vector2 dir = GameManager.GetInstance().m_inputManager.m_look.ReadValue<Vector2>();
-        //dir.y += GameManager.GetInstance().m_playerController.m_characterController.velocity.normalized.y;
-        //dir = Vector2.ClampMagnitude(dir, 1f);
-        //if (dir == Vector2.zero)
-        //{
-        //    float angleDiff = Quaternion.Angle(_socket.localRotation, _socketOriginalRotation);
-        //    float returnSpeed = (angleDiff / m_maxAngleInertia) * m_returnToOriginalPositionInertiaSpeed;
-        //    _socket.localRotation = Quaternion.Slerp(_socket.localRotation, _socketOriginalRotation, Time.deltaTime * returnSpeed);
-        //    _socket.localPosition = Vector3.Slerp(_socket.localPosition, _socketOriginalPosition, Time.deltaTime * returnSpeed);
-        //}
-        //else
-        //{
-        //    Quaternion targetRot = Quaternion.Euler(-dir.y * m_maxAngleInertia / 3 * recoilInertiaReduction, dir.x * m_maxAngleInertia * recoilInertiaReduction, 0f);
-        //    Vector3 targetPos = new Vector3(-dir.x * m_maxTranslationInertia * recoilInertiaReduction, 0, 0f);
-        //    _socket.localRotation = Quaternion.Slerp(_socket.localRotation, _socketOriginalRotation * targetRot, Time.deltaTime * m_inertiaSpeed);
-        //    _socket.localPosition = Vector3.Slerp(_socket.localPosition, _socketOriginalPosition + targetPos, Time.deltaTime * m_inertiaSpeed);
-        //}
-
+        UpdateInertia();
         WalkingLoop();
+
+        _socket.localPosition = _currentSocketPosition + _inertiaPositionOffset + _walkingPositionOffset;
+        _socket.localRotation = _currentSocketRotation * _inertiaRotationOffset * _walkingRotationOffset;
+    }
+    private Vector2 _lookVelocitySmooth = Vector2.zero;
+    private Vector2 _lookVelocityRef = Vector2.zero;
+
+    private void ReturnToPositionInertiaAnimation()
+    {
+        if (_returnToPositionInertia != null)
+        {
+            StopCoroutine(_returnToPositionInertia);
+        }
+        _returnToPositionInertia = StartCoroutine(ReturnToPositionInertia());
+    }
+
+    private IEnumerator ReturnToPositionInertia()
+    {
+        float currentTime = 0;
+
+        Vector3 originalPositionOffset = _inertiaPositionOffset;
+        Quaternion originalRotaitonOffset = _inertiaRotationOffset;
+
+
+        while (currentTime <= m_returnToOriginalPositionInertiaTime)
+        {
+            float tValue = m_returnToOriginalPositionInertiaCurve.Evaluate(currentTime / m_returnToOriginalPositionInertiaTime);
+            _inertiaRotationOffset = Quaternion.Slerp(originalRotaitonOffset, Quaternion.identity, tValue);
+            _inertiaPositionOffset = Vector3.Slerp(originalPositionOffset, Vector3.zero, tValue);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        _inertiaRotationOffset = Quaternion.identity;
+        _inertiaPositionOffset = Vector3.zero;
+        _returnToPositionInertia = null;
+    }
+    private void UpdateInertia()
+    {
+        float recoilInertiaReduction = _isAiming ? m_inertiaReductionWhileAiming : 1;
+
+        Vector2 lookVelocity = GameManager.GetInstance().m_playerController.m_characterLook.GetLookVelocity();
+        lookVelocity.y += GameManager.GetInstance().m_playerController.m_characterController.velocity.y;
+        if (lookVelocity.magnitude <= 0.1f)
+        {
+            if (_returnToPositionInertia == null && (_inertiaRotationOffset != Quaternion.identity || _inertiaPositionOffset != Vector3.zero))
+            {
+                ReturnToPositionInertiaAnimation();
+            }
+        }
+        else
+        {
+            Vector2 rawLookVelocity = GameManager.GetInstance().m_playerController.m_characterLook.GetLookVelocity();
+            _lookVelocitySmooth = Vector2.SmoothDamp(_lookVelocitySmooth, rawLookVelocity, ref _lookVelocityRef, 0.1f); // 0.01s smooth
+            lookVelocity = _lookVelocitySmooth;
+
+            if (_returnToPositionInertia != null)
+            {
+                StopCoroutine(_returnToPositionInertia);
+                _returnToPositionInertia = null;
+            }
+
+            Quaternion targetRot = Quaternion.Euler(
+                Mathf.Clamp(-lookVelocity.y * m_lookInertiaRotationSpeed * recoilInertiaReduction, -m_maxAngleInertia.y, m_maxAngleInertia.y),
+                Mathf.Clamp(lookVelocity.x * m_lookInertiaRotationSpeed * recoilInertiaReduction, -m_maxAngleInertia.x, m_maxAngleInertia.x),
+                0f);
+
+            Vector3 targetPos = new Vector3(
+                Mathf.Clamp(-lookVelocity.x * m_lookInertiaTraslationSpeed * recoilInertiaReduction, -m_maxTranslationInertia, m_maxTranslationInertia),
+                0f,
+                0f);
+
+            _inertiaPositionOffset = Vector3.Slerp(_inertiaPositionOffset, targetPos, Time.deltaTime * m_lookInertiaTraslationSpeed);
+            _inertiaRotationOffset = Quaternion.Slerp(_inertiaRotationOffset, targetRot, Time.deltaTime * m_lookInertiaRotationSpeed);
+        }
     }
 
     private void StartEndWalking(bool starting)
@@ -143,18 +215,26 @@ public class Weapon : MonoBehaviour
     private IEnumerator StartEndWalkAnimation(bool starting)
     {
         float currentTime = 0;
-        Vector3 startPosition = _socket.localPosition;
         Vector3 endPosition = starting ? m_localPositionWeaponWalking : m_localPositionWeaponIdle;
+        Quaternion endRotation = starting ? m_localRotationWeaponWalking : m_localRotationWeaponIdle;
+
+        Vector3 startPosition = _socket.localPosition;
+        Quaternion startRotation = _socket.localRotation;
         while (currentTime <= m_localPositionWeaponWalkingTime)
         {
-            Vector3 currentPosition = Vector3.Slerp(_currentSocketPosition, endPosition, m_localPositionWalkingTranslationCurve.Evaluate((currentTime / m_localPositionWeaponWalkingTime) % 1));
+            float valueCurve = m_localPositionWalkingTranslationCurve.Evaluate((currentTime / m_localPositionWeaponWalkingTime) % 1);
+            print(valueCurve);
+            Vector3 currentPosition = Vector3.Slerp(startPosition, endPosition, valueCurve);
+            Quaternion currentRotation = Quaternion.Slerp(startRotation, endRotation, valueCurve);
+
             _currentSocketPosition = currentPosition;
-            _socket.localPosition = currentPosition;
+            _currentSocketRotation = currentRotation;
+
             currentTime += Time.deltaTime;
             yield return null;
         }
         _currentSocketPosition = endPosition;
-        _socket.localPosition = endPosition;
+        _currentSocketRotation = endRotation;
         _startEndWalking = null;
     }
     private void WalkingLoop()
@@ -162,6 +242,7 @@ public class Weapon : MonoBehaviour
         //WALKING
         if (!_isAiming && GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
         {
+
             Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterController.velocity;
             characterVelocity.y = 0f; //Ingore the Y-axies
 
@@ -173,6 +254,7 @@ public class Weapon : MonoBehaviour
                     StartEndWalking(true);
                 }
 
+                //Bounce
                 _currentVerticalBounceTime += Time.deltaTime / m_bounceVerticalTime;
                 _currentHorizontalBounceTime += Time.deltaTime / m_bounceHorizontalTime;
                 _currentForwardRotationTime += Time.deltaTime / m_rotationLoopForwardTime;
@@ -184,13 +266,29 @@ public class Weapon : MonoBehaviour
                     );
 
                 Quaternion newRotation = Quaternion.Euler(
-                    _socketOriginalRotation.x,
-                    _socketOriginalRotation.y,
-                    _socketOriginalRotation.z + m_rotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_rotationForwardAmplitude
+                    0.0f,
+                    0.0f,
+                    m_rotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_rotationForwardAmplitude
                     );
 
-                _socket.localPosition = _currentSocketPosition + newPosition;
-                _socket.localRotation = newRotation;
+
+                //Dir translation
+                Vector3 charDirection = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
+                charDirection.x *= m_translationHorizontalDistance;
+                charDirection.z = -charDirection.y * m_translationForwardDistance;
+                charDirection.y = 0;
+
+                _currentDirecitionTranslation += charDirection * m_translationSpeed * Time.deltaTime;
+
+                _currentDirecitionTranslation.x = Mathf.Clamp(_currentDirecitionTranslation.x, -m_translationHorizontalDistance, m_translationHorizontalDistance);
+                _currentDirecitionTranslation.z = Mathf.Clamp(_currentDirecitionTranslation.z, -m_translationForwardDistance, m_translationForwardDistance);
+
+                _walkingPositionOffset = newPosition + _currentDirecitionTranslation;
+                _walkingRotationOffset = newRotation;
+
+                //Move and rotate
+                //_socket.localPosition = _currentSocketPosition + newPosition + _currentDirecitionTranslation;
+                //_socket.localRotation = _currentSocketRotation * newRotation;
             }
             else
             {
@@ -201,18 +299,19 @@ public class Weapon : MonoBehaviour
                 _currentVerticalBounceTime = 0f;
                 _currentHorizontalBounceTime = 0f;
                 _currentForwardRotationTime = 0f;
-                //_socket.localPosition = Vector3.Slerp(_socket.localPosition, _socketOriginalPosition, Time.deltaTime * m_inertiaSpeed);
+                _currentDirecitionTranslation = Vector3.zero;
             }
+
         }
     }
 
     private void Fire(InputAction.CallbackContext context)
     {
-        if (_coroutineFire != null)
-        {
-            StopCoroutine(_coroutineFire);
-        }
-        _coroutineFire = StartCoroutine(FireAnimation());
+        //if (_coroutineFire != null)
+        //{
+        //    StopCoroutine(_coroutineFire);
+        //}
+        //_coroutineFire = StartCoroutine(FireAnimation());
     }
 
     IEnumerator FireAnimation()
@@ -222,7 +321,7 @@ public class Weapon : MonoBehaviour
         float _currentRecoilRecoverySpeedTime = 0;
         Vector3 currentPosition = _currentSocketPosition;
         Quaternion currentRotation = _socket.localRotation;
-        currentRotation.y = _lastRotation.y;
+        currentRotation.y = _currentSocketRotation.y;
         float recoilInertiaReduction = _isAiming ? m_inertiaReductionWhileAiming : 1;
         Vector2 randomRotation = new Vector2(UnityEngine.Random.Range(-1, 1.0f), UnityEngine.Random.Range(-1, 1.0f)) * UnityEngine.Random.Range(m_randomRotationInertia.x, m_randomRotationInertia.y);
         while (_currentRecoilSpeedTime <= m_recoilTime)
@@ -250,20 +349,20 @@ public class Weapon : MonoBehaviour
 
     private void StartAim(InputAction.CallbackContext context)
     {
-        if (_coroutineAim != null)
-        {
-            StopCoroutine(_coroutineAim);
-        }
-        _coroutineAim = StartCoroutine(AimAnimation(true));
+        //if (_coroutineAim != null)
+        //{
+        //    StopCoroutine(_coroutineAim);
+        //}
+        //_coroutineAim = StartCoroutine(AimAnimation(true));
     }
 
     private void EndAim(InputAction.CallbackContext context)
     {
-        if (_coroutineAim != null)
-        {
-            StopCoroutine(_coroutineAim);
-        }
-        _coroutineAim = StartCoroutine(AimAnimation(false));
+        //if (_coroutineAim != null)
+        //{
+        //    StopCoroutine(_coroutineAim);
+        //}
+        //_coroutineAim = StartCoroutine(AimAnimation(false));
     }
 
     IEnumerator AimAnimation(bool isStarting)
@@ -273,7 +372,7 @@ public class Weapon : MonoBehaviour
         {
             _isAiming = true;
             _currentSocketPosition = m_aimPosition;
-            _lastRotation = m_aimRotation;
+            _currentSocketRotation = m_aimRotation;
 
             while (_currentTime <= m_startAimTime)
             {
@@ -288,7 +387,7 @@ public class Weapon : MonoBehaviour
         else
         {
             _currentSocketPosition = _socketOriginalPosition;
-            _lastRotation = _socketOriginalRotation;
+            _currentSocketRotation = _socketOriginalRotation;
             while (_currentTime <= m_endAimTime)
             {
                 _socket.localPosition = Vector3.Slerp(m_aimPosition, _socketOriginalPosition, _currentTime / m_startAimTime);
@@ -304,11 +403,11 @@ public class Weapon : MonoBehaviour
 
     private void StartDamping()
     {
-        if (_coroutineDamping != null)
-        {
-            StopCoroutine(_coroutineDamping);
-        }
-        _coroutineDamping = StartCoroutine(DampingAnimation());
+        //if (_coroutineDamping != null)
+        //{
+        //    StopCoroutine(_coroutineDamping);
+        //}
+        //_coroutineDamping = StartCoroutine(DampingAnimation());
     }
     IEnumerator DampingAnimation()
     {

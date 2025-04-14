@@ -8,7 +8,7 @@ public class CharacterLook : MonoBehaviour
 
 
     private float xRotation = 0;
-
+    private Vector2 _lookVelocity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,14 +24,24 @@ public class CharacterLook : MonoBehaviour
         transform.parent.Rotate(Vector3.up, GetLookInput().x * m_lookSpeed * Time.deltaTime);
         xRotation -= GetLookInput().y * m_lookSpeed * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
+        _lookVelocity = new Vector2(GetLookInput().x * m_lookSpeed * Time.deltaTime, GetLookInput().y * m_lookSpeed * Time.deltaTime);
         transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+
+        print(GetLookInput().magnitude);
     }
 
     Vector2 GetLookInput()
     {
         //Temp - Read "Look" input value
         //Screen size dependent - CHANGE!!
-        return GameManager.GetInstance().m_inputManager.m_look.ReadValue<Vector2>();
+        Vector2 rawInput = GameManager.GetInstance().m_inputManager.m_look.ReadValue<Vector2>();
+        //return new Vector2(rawInput.x / Screen.width,rawInput.y / Screen.height);
+        return rawInput;
+    }
+
+    public Vector2 GetLookVelocity()
+    {
+        return _lookVelocity;
     }
 }
  
