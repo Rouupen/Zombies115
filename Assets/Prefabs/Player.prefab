@@ -866,11 +866,200 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4735084701a2a94ba7c5c02bb9a2211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxAngleInertia: 10
-  m_maxTranslationInertia: 10
+  m_maxAngleInertia: {x: 30, y: 15}
+  m_maxTranslationInertia: 0.06
   m_lookInertiaRotationSpeed: 5
-  m_lookInertiaTraslationSpeed: 5
-  m_returnToOriginalPositionInertiaSpeed: 7
+  m_lookInertiaTraslationSpeed: 3
+  m_returnToOriginalPositionInertiaTime: 0.5
+  m_returnToOriginalPositionInertiaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_localPositionWeaponIdle: {x: 0.191, y: -0.2623, z: 0.7947}
+  m_localRotationWeaponIdle: {x: 0, y: 0, z: 0, w: 0}
+  m_localPositionWeaponWalking: {x: 0.191, y: -0.28, z: 0.7947}
+  m_localRotationWeaponWalking: {x: 0, y: 0, z: 0, w: 0}
+  m_localPositionWalkingTranslationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_localPositionWeaponWalkingTime: 0.25
+  m_translationSpeed: 1
+  m_translationHorizontalDistance: 0.05
+  m_translationForwardDistance: 0.02
+  m_translationTime: 0.25
+  m_bounceVerticalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.027346091
+      outSlope: 0.027346091
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8762103
+    - serializedVersion: 3
+      time: 0.30106258
+      value: 0.9540008
+      inSlope: 0.6804603
+      outSlope: 0.6804603
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.263689
+    - serializedVersion: 3
+      time: 0.49999997
+      value: 0.99834085
+      inSlope: 0.009718
+      outSlope: 0.009718
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: -0.014673417
+      outSlope: -0.014673417
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9666667
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_bounceHorizontalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.027346091
+      outSlope: 0.027346091
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8762103
+    - serializedVersion: 3
+      time: 0.30106258
+      value: 0.9540008
+      inSlope: 0.6804603
+      outSlope: 0.6804603
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.263689
+    - serializedVersion: 3
+      time: 0.49999997
+      value: 0.99834085
+      inSlope: 0.009718
+      outSlope: 0.009718
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: -0.014673417
+      outSlope: -0.014673417
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9666667
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_rotationLoopForwardCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.999991
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75
+      value: -0.99860954
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_bounceVerticalTime: 0.5
+  m_bounceHorizontalTime: 1
+  m_rotationLoopForwardTime: 1
+  m_bounceHorizontalAmplitude: 0.03
+  m_bounceVerticalAmplitude: 0.02
+  m_rotationForwardAmplitude: 2
   m_recoilUpPositionSpeed: 0.05
   m_recoilRightRotationSpeed: -20
   m_recoilTime: 0.05
@@ -905,45 +1094,6 @@ MonoBehaviour:
   m_startAimTime: 0.1
   m_endAimTime: 0.1
   m_inertiaReductionWhileAiming: 0.3
-  m_localPositionWeaponIdle: {x: 0, y: 0, z: 0}
-  m_localRotationWeaponIdle: {x: 0, y: 0, z: 0, w: 0}
-  m_localPositionWeaponWalking: {x: 0, y: 0, z: 0}
-  m_localRotationWeaponWalking: {x: 0, y: 0, z: 0, w: 0}
-  m_localPositionWalkingTranslationCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_localPositionWeaponWalkingTime: 0.15
-  m_translationSpeed: 1
-  m_translationHorizontalDistance: 0.5
-  m_translationForwardDistance: 0.1
-  m_translationTime: 0.25
-  m_bounceVerticalCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_bounceHorizontalCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_rotationLoopForwardCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_bounceVerticalTime: 2
-  m_bounceHorizontalTime: 1
-  m_rotationLoopForwardTime: 2
-  m_bounceHorizontalAmplitude: 0.03
-  m_bounceVerticalAmplitude: 0.02
-  m_rotationForwardAmplitude: 2
   m_dampingCurve:
     serializedVersion: 2
     m_Curve:
