@@ -73,10 +73,11 @@ public class Weapon : MonoBehaviour
 
     [Header("Aim")]
     public Vector3 m_aimPosition;
-    public Quaternion m_aimRotation;
+    public Vector3 m_aimRotation;
     public float m_startAimTime = 0.2f;
     public float m_endAimTime = 0.2f;
     public float m_inertiaReductionWhileAiming = 0.1f;
+    public float m_recoilReductionWhileAiming = 0.5f;
 
 
     [Header("Damping")]
@@ -88,8 +89,7 @@ public class Weapon : MonoBehaviour
     private Transform _socket;
     private Quaternion _socketOriginalRotation;
     private Vector3 _socketOriginalPosition;
-    private Vector3 _currentSocketPosition;
-    private Quaternion _currentSocketRotation;
+
     private Coroutine _coroutineFire;
     private Coroutine _coroutineAim;
     private Coroutine _coroutineDamping;
@@ -108,14 +108,21 @@ public class Weapon : MonoBehaviour
     private Quaternion _inertiaRotationOffset = Quaternion.identity;
     private Vector3 _recoilPositionOffset;
     private Quaternion _recoilRotationOffset = Quaternion.identity;
+    private Vector3 _aimPositionOffset;
+    private Quaternion _aimRotationOffset = Quaternion.identity;
+    private Vector3 _dampingPositionOffset;
+    private Quaternion _dampingRotationOffset = Quaternion.identity;
+
+    private Vector3 _currentSocketPosition;
+    private Quaternion _currentSocketRotation;
 
     private void Start()
     {
         _socket = transform.parent;
         _socketOriginalRotation = _socket.localRotation;
         _socketOriginalPosition = _socket.localPosition;
-        _currentSocketPosition = _socketOriginalPosition;
-        _currentSocketRotation = _socketOriginalRotation;
+        _currentSocketPosition = m_localPositionWeaponIdle;
+        _currentSocketRotation = m_localRotationWeaponIdle;
         _walkingRotationOffset = Quaternion.identity;
         GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
@@ -124,22 +131,18 @@ public class Weapon : MonoBehaviour
 
     private void LateUpdate()
     {
-        //Ground damping
+        //Ground damping - Temp
         if (!_wasGrounded && GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
         {
             StartDamping();
         }
         _wasGrounded = GameManager.GetInstance().m_playerController.m_characterController.isGrounded;
 
-        //if (_isRecoiling /*|| _isAiming*/)
-        //{
-        //    return;
-        //}
         UpdateInertia();
         WalkingLoop();
 
-        _socket.localPosition = _currentSocketPosition + _inertiaPositionOffset + _walkingPositionOffset + _recoilPositionOffset;
-        _socket.localRotation = _currentSocketRotation * _inertiaRotationOffset * _walkingRotationOffset * _recoilRotationOffset;
+        _socket.localPosition = _currentSocketPosition + _inertiaPositionOffset + _walkingPositionOffset + _recoilPositionOffset + _aimPositionOffset + _dampingPositionOffset;
+        _socket.localRotation = _currentSocketRotation * _inertiaRotationOffset * _walkingRotationOffset * _recoilRotationOffset * _aimRotationOffset * _dampingRotationOffset;
     }
     private Vector2 _lookVelocitySmooth = Vector2.zero;
     private Vector2 _lookVelocityRef = Vector2.zero;
@@ -159,7 +162,6 @@ public class Weapon : MonoBehaviour
 
         Vector3 originalPositionOffset = _inertiaPositionOffset;
         Quaternion originalRotaitonOffset = _inertiaRotationOffset;
-
 
         while (currentTime <= m_returnToOriginalPositionInertiaTime)
         {
@@ -208,6 +210,11 @@ public class Weapon : MonoBehaviour
                 0f,
                 0f);
 
+            if (_isAiming)
+            {
+                targetPos = Vector3.zero;
+            }
+
             _inertiaPositionOffset = Vector3.Slerp(_inertiaPositionOffset, targetPos, Time.deltaTime * m_lookInertiaTraslationSpeed);
             _inertiaRotationOffset = Quaternion.Slerp(_inertiaRotationOffset, targetRot, Time.deltaTime * m_lookInertiaRotationSpeed);
         }
@@ -246,18 +253,20 @@ public class Weapon : MonoBehaviour
         }
         _startEndWalkingPositionOffset = endPosition;
         _startEndWalkingRotationOffset = endRotation;
+
         _startEndWalking = null;
     }
     private void WalkingLoop()
     {
         //WALKING
-        if (!_isAiming && GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
+        if (GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
         {
+            float recoilInertiaReduction = _isAiming ? m_inertiaReductionWhileAiming : 1;
 
             Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterController.velocity;
             characterVelocity.y = 0f; //Ingore the Y-axies
 
-            if (characterVelocity.magnitude > 0.1f)
+            if (characterVelocity.magnitude > 0.1f && !_isAiming)
             {
                 //Temp - Need state machine
                 if (!_isWalking)
@@ -271,22 +280,22 @@ public class Weapon : MonoBehaviour
                 _currentForwardRotationTime += Time.deltaTime / m_rotationLoopForwardTime;
 
                 Vector3 newPosition = new Vector3(
-                    m_bounceHorizontalCurve.Evaluate(_currentHorizontalBounceTime % 1) * m_bounceHorizontalAmplitude,
-                    m_bounceVerticalCurve.Evaluate(_currentVerticalBounceTime % 1) * m_bounceVerticalAmplitude,
+                    m_bounceHorizontalCurve.Evaluate(_currentHorizontalBounceTime % 1) * m_bounceHorizontalAmplitude * recoilInertiaReduction,
+                    m_bounceVerticalCurve.Evaluate(_currentVerticalBounceTime % 1) * m_bounceVerticalAmplitude * recoilInertiaReduction,
                     0.0f
                     );
 
                 Quaternion newRotation = Quaternion.Euler(
                     0.0f,
                     0.0f,
-                    m_rotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_rotationForwardAmplitude
+                    m_rotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_rotationForwardAmplitude * recoilInertiaReduction
                     );
 
 
                 //Dir translation
                 Vector3 charDirection = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
-                charDirection.x *= m_translationHorizontalDistance;
-                charDirection.z = -charDirection.y * m_translationForwardDistance;
+                charDirection.x *= m_translationHorizontalDistance * recoilInertiaReduction;
+                charDirection.z = -charDirection.y * m_translationForwardDistance * recoilInertiaReduction;
                 charDirection.y = 0;
 
                 _currentDirectionTranslation += charDirection * m_translationSpeed * Time.deltaTime;
@@ -325,30 +334,32 @@ public class Weapon : MonoBehaviour
 
     IEnumerator FireAnimation()
     {
+        float recoilInertiaReduction = _isAiming ? m_inertiaReductionWhileAiming : 1;
+        float recoilReductionWhileAiming = _isAiming ? m_recoilReductionWhileAiming : 1;
         _isRecoiling = true;
         float _currentRecoilSpeedTime = 0;
         float _currentRecoilRecoverySpeedTime = 0;
 
         Vector3 startPosition = _recoilPositionOffset;
-        Vector3 endPosition = _recoilPositionOffset + m_recoilAdditivePosition;
-        endPosition.x = Mathf.Clamp(endPosition.x, -m_maxRecoilPosition.x, m_maxRecoilPosition.x);
-        endPosition.y = Mathf.Clamp(endPosition.y, -m_maxRecoilPosition.y, m_maxRecoilPosition.y);
-        endPosition.z = Mathf.Clamp(endPosition.z, -m_maxRecoilPosition.z, m_maxRecoilPosition.z);
+        Vector3 endPosition = _recoilPositionOffset + m_recoilAdditivePosition * recoilInertiaReduction;
+        endPosition.x = Mathf.Clamp(endPosition.x, -m_maxRecoilPosition.x * recoilInertiaReduction, m_maxRecoilPosition.x * recoilInertiaReduction);
+        endPosition.y = Mathf.Clamp(endPosition.y, -m_maxRecoilPosition.y * recoilInertiaReduction, m_maxRecoilPosition.y * recoilInertiaReduction);
+        endPosition.z = Mathf.Clamp(endPosition.z, -m_maxRecoilPosition.z * recoilInertiaReduction, m_maxRecoilPosition.z * recoilInertiaReduction);
 
         Vector3 randomRotation = new Vector3(UnityEngine.Random.Range(-1, 1.0f), UnityEngine.Random.Range(-1, 1.0f), 0) * UnityEngine.Random.Range(m_randomRotationRecoilInertiaY.x, m_randomRotationRecoilInertiaY.y);
         Quaternion startRotation = _recoilRotationOffset;
-        Vector3 endRotationClamped = _recoilRotationOffset.eulerAngles + m_recoilAdditiveRotation + randomRotation;
+        Vector3 endRotationClamped = (_recoilRotationOffset.eulerAngles + (m_recoilAdditiveRotation + randomRotation) * recoilReductionWhileAiming);
 
-        endRotationClamped.x = Mathf.Clamp(endRotationClamped.x > 180 ? endRotationClamped.x - 360 : endRotationClamped.x, -m_maxRecoilRotation.x, m_maxRecoilRotation.x);
-        endRotationClamped.y = Mathf.Clamp(endRotationClamped.y > 180 ? endRotationClamped.y - 360 : endRotationClamped.y, -m_maxRecoilRotation.y, m_maxRecoilRotation.y);
-        endRotationClamped.z = Mathf.Clamp(endRotationClamped.z > 180 ? endRotationClamped.z - 360 : endRotationClamped.z, -m_maxRecoilRotation.z, m_maxRecoilRotation.z);
+        endRotationClamped.x = Mathf.Clamp(endRotationClamped.x > 180 ? endRotationClamped.x - 360 : endRotationClamped.x, -m_maxRecoilRotation.x * recoilInertiaReduction, m_maxRecoilRotation.x * recoilInertiaReduction);
+        endRotationClamped.y = Mathf.Clamp(endRotationClamped.y > 180 ? endRotationClamped.y - 360 : endRotationClamped.y, -m_maxRecoilRotation.y * recoilInertiaReduction, m_maxRecoilRotation.y * recoilInertiaReduction);
+        endRotationClamped.z = Mathf.Clamp(endRotationClamped.z > 180 ? endRotationClamped.z - 360 : endRotationClamped.z, -m_maxRecoilRotation.z * recoilInertiaReduction, m_maxRecoilRotation.z * recoilInertiaReduction);
         Quaternion endRotation = Quaternion.Euler(endRotationClamped);
 
         while (_currentRecoilSpeedTime <= m_recoilStartTime)
         {
             float curveRotationT = m_recoilRotationCurve.Evaluate(_currentRecoilSpeedTime / m_recoilStartTime);
             float curvePositionT = m_recoilPositionCurve.Evaluate(_currentRecoilSpeedTime / m_recoilStartTime);
-           
+
             _recoilPositionOffset = Vector3.Slerp(startPosition, endPosition, curvePositionT);
             _recoilRotationOffset = Quaternion.Slerp(startRotation, endRotation, curveRotationT);
 
@@ -375,79 +386,72 @@ public class Weapon : MonoBehaviour
 
     private void StartAim(InputAction.CallbackContext context)
     {
-        //if (_coroutineAim != null)
-        //{
-        //    StopCoroutine(_coroutineAim);
-        //}
-        //_coroutineAim = StartCoroutine(AimAnimation(true));
+        if (_coroutineAim != null)
+        {
+            StopCoroutine(_coroutineAim);
+        }
+        _coroutineAim = StartCoroutine(AimAnimation(true));
     }
 
     private void EndAim(InputAction.CallbackContext context)
     {
-        //if (_coroutineAim != null)
-        //{
-        //    StopCoroutine(_coroutineAim);
-        //}
-        //_coroutineAim = StartCoroutine(AimAnimation(false));
+        if (_coroutineAim != null)
+        {
+            StopCoroutine(_coroutineAim);
+        }
+        _coroutineAim = StartCoroutine(AimAnimation(false));
     }
 
     IEnumerator AimAnimation(bool isStarting)
     {
-        float _currentTime = 0;
-        if (isStarting)
-        {
-            _isAiming = true;
-            _currentSocketPosition = m_aimPosition;
-            _currentSocketRotation = m_aimRotation;
+        _isAiming = isStarting;
 
-            while (_currentTime <= m_startAimTime)
-            {
-                _socket.localPosition = Vector3.Slerp(_socketOriginalPosition, m_aimPosition, _currentTime / m_startAimTime);
-                _socket.localRotation = Quaternion.Slerp(_socketOriginalRotation, m_aimRotation, _currentTime / m_startAimTime);
-                _currentTime += Time.deltaTime;
-                yield return null;
-            }
-            _socket.localPosition = m_aimPosition;
-            _socket.localRotation = m_aimRotation;
-        }
-        else
+        float _currentTime = 0;
+        Vector3 startPosition = _aimPositionOffset;
+        Quaternion startRotation = _aimRotationOffset;
+
+        Vector3 endPosition = isStarting ? m_aimPosition - _currentSocketPosition : Vector3.zero;
+        Quaternion endRotation = isStarting ? Quaternion.Euler(m_aimRotation - _currentSocketRotation.eulerAngles) : Quaternion.identity;
+
+        while (_currentTime <= m_startAimTime)
         {
-            _currentSocketPosition = _socketOriginalPosition;
-            _currentSocketRotation = _socketOriginalRotation;
-            while (_currentTime <= m_endAimTime)
-            {
-                _socket.localPosition = Vector3.Slerp(m_aimPosition, _socketOriginalPosition, _currentTime / m_startAimTime);
-                _socket.localRotation = Quaternion.Slerp(m_aimRotation, _socketOriginalRotation, _currentTime / m_startAimTime);
-                _currentTime += Time.deltaTime;
-                yield return null;
-            }
-            _isAiming = false;
-            _socket.localPosition = _socketOriginalPosition;
-            _socket.localRotation = _socketOriginalRotation;
+            _aimPositionOffset = Vector3.Slerp(startPosition, endPosition, _currentTime / m_startAimTime);
+            _aimRotationOffset = Quaternion.Slerp(startRotation, endRotation, _currentTime / m_startAimTime);
+            _currentTime += Time.deltaTime;
+            yield return null;
         }
+
+        _aimPositionOffset = endPosition;
+        _aimRotationOffset = endRotation;
     }
 
     private void StartDamping()
     {
-        //if (_coroutineDamping != null)
-        //{
-        //    StopCoroutine(_coroutineDamping);
-        //}
-        //_coroutineDamping = StartCoroutine(DampingAnimation());
+        if (_coroutineDamping != null)
+        {
+            StopCoroutine(_coroutineDamping);
+        }
+        _coroutineDamping = StartCoroutine(DampingAnimation());
     }
+
     IEnumerator DampingAnimation()
     {
         float _currentTime = 0;
-        Vector3 _startPosition = _socket.localPosition;
+        Vector3 startPosition = Vector3.zero;
+
+        Vector3 endPosition = GameManager.GetInstance().m_playerController.m_characterController.velocity;
+        endPosition.x /= 2;
+        endPosition.z = 0;
+        endPosition = endPosition.normalized * m_dampingAmplitude;
+
         while (_currentTime <= m_dampingTime)
         {
-            float t = _currentTime / m_dampingTime;
-            float offsetY = m_dampingCurve.Evaluate(t);
-            _socket.localPosition = _startPosition + new Vector3(0, -offsetY * m_dampingAmplitude, 0);
+            float valueT = m_dampingCurve.Evaluate(_currentTime / m_dampingTime);
+            _dampingPositionOffset = Vector3.Slerp(startPosition, endPosition, valueT);
             _currentTime += Time.deltaTime;
             yield return null;
         }
-        _socket.localPosition = _startPosition;
+        _dampingPositionOffset = Vector3.zero;
         _coroutineDamping = null;
     }
 }

@@ -1193,6 +1193,10 @@ PrefabInstance:
       value: 0.03205621
       objectReference: {fileID: 0}
     - target: {fileID: 9217041105989018646, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
+      propertyPath: m_recoilReductionWhileAiming
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9217041105989018646, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
       propertyPath: m_forwardWalkingRotationSpeed
       value: 1
       objectReference: {fileID: 0}
