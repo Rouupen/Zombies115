@@ -12,7 +12,6 @@ public struct AllowedStates
 [CreateAssetMenu(fileName = "CharacterStatesFilter", menuName = "ScriptableObjects/CharacterStatesFilter", order = 2)]
 public class SO_CharacterStatesFilter : SO_StatesFilter
 {
-    [SerializeField]
     [Header("---Character states info---")]
     public List<AllowedStates> m_statesInfo;
 
