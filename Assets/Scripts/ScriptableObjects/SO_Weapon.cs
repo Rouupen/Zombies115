@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class SO_Weapon : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+[CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObjects/WeaponData", order = 4)]
+public class SO_Weapon : ScriptableObject
+{
+    public int m_weaponID = -1;
+    public GameObject m_weaponPrefab;
+    public WeaponStatsData m_weaponStats;
+    public WeaponMovementData m_weaponData;
 }

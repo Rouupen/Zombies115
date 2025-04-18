@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     [Header("Scriptable Objects Data")]
     public SO_InputData m_inputData;
     public SO_CharacterStatesFilter m_characterStatesData;
+    public SO_WeaponsInGame m_weaponsInGame;
+
     #endregion
 
 
@@ -38,6 +40,8 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         InitializeManagers();
+
+        m_playerController.Initizalize();
     }
 
     private void Update()

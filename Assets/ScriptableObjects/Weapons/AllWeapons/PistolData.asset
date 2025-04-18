@@ -1,0 +1,343 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5609041219ee29447be67fe106d27855, type: 3}
+  m_Name: PistolData
+  m_EditorClassIdentifier: 
+  m_weaponID: 0
+  m_weaponPrefab: {fileID: 2654474628102545927, guid: 96e85e01e46ef65428558c959398e7c1, type: 3}
+  m_weaponData:
+    _info: This section controls everything related to weapon movement. Some values,
+      like recoil time, depend on the weapon's stats.All variables have descriptions
+      when you hover over them.
+    m_lookMaxAngleRotation: {x: 30, y: 15}
+    m_lookAngleRotationSpeed: 0.06
+    m_lookMaxHorizontalOffset: 5
+    m_lookHorizontalOffsetSpeed: 3
+    m_lookReturnToOriginalPositionTime: 0.5
+    m_lookReturnToOriginalPositionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_idleLocalPosition: {x: 0.191, y: -0.2623, z: 0.7947}
+    m_idleLocalRotation: {x: 0, y: 0, z: 3.674001}
+    m_walkingLocalPosition: {x: 0.191, y: -0.28, z: 0.7947}
+    m_walkingLocalRotation: {x: 0, y: 0, z: 3.674001}
+    m_walkingPositionAndRotationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_walkingPositionAndRotationTime: 0.25
+    m_walkingOffsetPositionSpeed: 1
+    m_walkingOffsetHorizontalDistance: 0.5
+    m_walkingOffsetForwardDistance: 0.02
+    m_walkingOffsetTime: 0.25
+    m_walkingBounceVerticalTime: 0.5
+    m_walkingBounceVerticalAmplitude: 0.02
+    m_walkingBounceVerticalCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.027346091
+        outSlope: 0.027346091
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.8762103
+      - serializedVersion: 3
+        time: 0.30106258
+        value: 0.9540008
+        inSlope: 0.6804603
+        outSlope: 0.6804603
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.263689
+      - serializedVersion: 3
+        time: 0.49999997
+        value: 0.99834085
+        inSlope: 0.009718
+        outSlope: 0.009718
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: -0.0023584906
+        inSlope: -0.014673417
+        outSlope: -0.014673417
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.9666667
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_walkingBounceHorizontalTime: 1
+    m_walkingBounceHorizontalAmplitude: 0.03
+    m_walkingBounceHorizontalCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.027346091
+        outSlope: 0.027346091
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.8762103
+      - serializedVersion: 3
+        time: 0.30106258
+        value: 0.9540008
+        inSlope: 0.6804603
+        outSlope: 0.6804603
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.263689
+      - serializedVersion: 3
+        time: 0.49999997
+        value: 0.99834085
+        inSlope: 0.009718
+        outSlope: 0.009718
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: -0.0023584906
+        inSlope: -0.014673417
+        outSlope: -0.014673417
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.9666667
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_walkingRotationLoopForwardTime: 1
+    m_walkingRotationForwardAngle: 2
+    m_walkingRotationLoopForwardCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.25
+        value: 0.999991
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.75
+        value: -0.99860954
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: -0.0023584906
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_recoilMaxRotation: {x: 30, y: 15, z: 15}
+    m_recoilAdditiveRotation: {x: -20, y: 0, z: 0}
+    m_recoilRandomRotationY: {x: 1, y: 5}
+    m_recoilRotationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.052859254
+        value: 0.89593697
+        inSlope: 0.38648015
+        outSlope: 0.38648015
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.08523015
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_recoilMaxPosition: {x: 0, y: 0.05, z: 0.05}
+    m_recoilAdditivePosition: {x: 0, y: 0.02, z: -0.025}
+    m_recoilPositionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_recoilStartTime: 0.035
+    m_recoilRecoverySpeedTime: 0.15
+    m_recoveryRecoilCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_aimPosition: {x: -0.05, y: -0.21, z: 0.623}
+    m_aimRotation: {x: 0, y: 0, z: 0}
+    m_aimStartTime: 0.1
+    m_aimEndTime: 0.1
+    m_lookReductionWhileAiming: 0.3
+    m_recoilReductionWhileAiming: 0.45
+    m_dampingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 7.2133503
+        outSlope: 7.2133503
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.07407458
+      - serializedVersion: 3
+        time: 0.28749847
+        value: 0.99518967
+        inSlope: 0.31376237
+        outSlope: 0.31376237
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.22743253
+      - serializedVersion: 3
+        time: 1
+        value: 0.0024108887
+        inSlope: 0.015603028
+        outSlope: 0.015603028
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_dampingTime: 0.45
+    m_dampingAmplitude: 0.1

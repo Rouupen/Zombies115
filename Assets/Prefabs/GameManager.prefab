@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_inputData: {fileID: 11400000, guid: 8e29439b9f3818b4a9d5320d0df676b8, type: 2}
   m_characterStatesData: {fileID: 11400000, guid: 09000ddfd042493478ae9ff7a8e3a55d, type: 2}
+  m_weaponsInGame: {fileID: 11400000, guid: 6c87007e1abd81841821f5fad6db132f, type: 2}
+  m_playerController: {fileID: 0}
 --- !u!114 &4820540058979241229
 MonoBehaviour:
   m_ObjectHideFlags: 0
