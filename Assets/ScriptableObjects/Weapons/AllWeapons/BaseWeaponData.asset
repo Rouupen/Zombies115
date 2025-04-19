@@ -19,8 +19,8 @@ MonoBehaviour:
       like recoil time, depend on the weapon's stats.All variables have descriptions
       when you hover over them.
     m_lookMaxAngleRotation: {x: 30, y: 15}
-    m_lookAngleRotationSpeed: 0.06
-    m_lookMaxHorizontalOffset: 5
+    m_lookAngleRotationSpeed: 5
+    m_lookMaxHorizontalOffset: 0.06
     m_lookHorizontalOffsetSpeed: 3
     m_lookReturnToOriginalPositionTime: 0.5
     m_lookReturnToOriginalPositionCurve:
@@ -77,7 +77,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_walkingPositionAndRotationTime: 0.25
     m_walkingOffsetPositionSpeed: 1
-    m_walkingOffsetHorizontalDistance: 0.5
+    m_walkingOffsetHorizontalDistance: 0.05
     m_walkingOffsetForwardDistance: 0.02
     m_walkingOffsetTime: 0.25
     m_walkingBounceVerticalTime: 0.5
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_aimStartTime: 0.1
     m_aimEndTime: 0.1
     m_lookReductionWhileAiming: 0.3
-    m_recoilReductionWhileAiming: 0.45
+    m_recoilReductionWhileAiming: 0.2
     m_dampingCurve:
       serializedVersion: 2
       m_Curve:
