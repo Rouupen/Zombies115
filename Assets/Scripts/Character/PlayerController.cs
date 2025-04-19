@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
 
         //TEMP - set active weapon id 0
-        SetCurrentWeapon(0);
+        SetCurrentWeapon(1);
     }
 
     void InitializeStateMachine()
