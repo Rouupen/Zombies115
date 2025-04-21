@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponID: 1
   m_weaponPrefab: {fileID: 6303303045485617839, guid: 3400e6bb417226b43bdee4035986ee5e, type: 3}
+  m_weaponStats:
+    m_automatic: 1
+    m_fireRate: 0.1
+    m_minSpamFireRate: 0.1
+    m_shotSounds:
+    - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
+    - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}
+    - {fileID: 8300000, guid: c488b01d5b9d978498c6cc41087c7b8d, type: 3}
   m_weaponData:
     _info: This section controls everything related to weapon movement. Some values,
       like recoil time, depend on the weapon's stats.All variables have descriptions

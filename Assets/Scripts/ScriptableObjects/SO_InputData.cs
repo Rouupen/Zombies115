@@ -12,4 +12,6 @@ public class SO_InputData : ScriptableObject
     public string m_crouch;
     public string m_jump;
     public string m_sprint;
+    public string m_weaponSelection1;
+    public string m_weaponSelection2;
 }

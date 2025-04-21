@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Weapon m_weapon;
     public WeaponSocketMovementController m_weaponSocketMovementController;
     private List<Weapon> _weaponList;
+    private List<int> _weaponsInventoryId;
 
     private StateMachineFilter _stateMachine;
     public void Initizalize()
@@ -18,9 +20,16 @@ public class PlayerController : MonoBehaviour
         InitializeStateMachine();
         InstantiateAllWeapons();
 
+        //Temp
+        _weaponsInventoryId = new List<int>();
+        _weaponsInventoryId.Add(0);
+        _weaponsInventoryId.Add(1);
+        GameManager.GetInstance().m_inputManager.m_weaponSelection1.started += Weapon1;
+        GameManager.GetInstance().m_inputManager.m_weaponSelection2.started += Weapon2;
+
 
         //TEMP - set active weapon id 0
-        SetCurrentWeapon(1);
+        SetCurrentWeapon(0);
     }
 
     void InitializeStateMachine()
@@ -54,6 +63,10 @@ public class PlayerController : MonoBehaviour
 
     public bool SetCurrentWeapon(int id)
     {
+        if (id == -1)
+        {
+            return false;
+        }
         for (int i = 0; i < _weaponList.Count; i++)
         {
             if (_weaponList[i].GetWaponID() == id)
@@ -64,6 +77,16 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void Weapon1(InputAction.CallbackContext context)
+    {
+        SetCurrentWeapon(_weaponsInventoryId[0]);
+    }
+
+    private void Weapon2(InputAction.CallbackContext context)
+    {
+        SetCurrentWeapon(_weaponsInventoryId[1]);
     }
 
     public StateMachineFilter GetStateMachine()

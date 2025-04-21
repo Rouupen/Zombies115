@@ -1108,6 +1108,14 @@ PrefabInstance:
       propertyPath: m_lookSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5583929727938244263, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
+      propertyPath: m_shakeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583929727938244263, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
+      propertyPath: m_shakeMagnitude
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5674520221264693084, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
       propertyPath: m_MinMoveDistance
       value: 0

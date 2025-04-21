@@ -16,6 +16,8 @@ public class InputManager : Manager
     public InputAction m_crouch;
     public InputAction m_jump;
     public InputAction m_sprint;
+    public InputAction m_weaponSelection1;
+    public InputAction m_weaponSelection2;
 
     [HideInInspector]
     public List<InputAction> m_actions = new List<InputAction>();
@@ -45,6 +47,8 @@ public class InputManager : Manager
         m_crouch = _playerInput.actions.FindAction(inputData.m_crouch);
         m_jump = _playerInput.actions.FindAction(inputData.m_jump);
         m_sprint = _playerInput.actions.FindAction(inputData.m_sprint);
+        m_weaponSelection1 = _playerInput.actions.FindAction(inputData.m_weaponSelection1);
+        m_weaponSelection2 = _playerInput.actions.FindAction(inputData.m_weaponSelection2);
     }
 
     public override void Deinitialize()

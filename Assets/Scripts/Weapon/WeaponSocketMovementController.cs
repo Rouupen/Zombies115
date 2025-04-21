@@ -190,7 +190,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         _currentSocketRotation = Quaternion.Euler(m_weaponMovementData.m_idleLocalRotation);
         _walkingRotationOffset = Quaternion.identity;
 
-        GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
+        
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
     }
@@ -200,13 +200,13 @@ public class WeaponSocketMovementController : MonoBehaviour
     {
         _lookPosition = Vector3.zero;
         _lookRotation = Quaternion.identity;
-        StopCoroutine(_lookReturnToPositionCoroutine);
+        //StopCoroutine(_lookReturnToPositionCoroutine);
 
         _currentVerticalBounceTime = 0f;
         _currentHorizontalBounceTime = 0f;
         _currentForwardRotationTime = 0f;
         _currentDirectionTranslation = Vector3.zero;
-        StopCoroutine(_startEndWalking);
+        //StopCoroutine(_startEndWalking);
         _isWalking = false;
 
         _wasGrounded = true;
@@ -232,9 +232,9 @@ public class WeaponSocketMovementController : MonoBehaviour
         _socketOriginalRotation = Quaternion.identity;
         _socketOriginalPosition = Vector3.zero;
 
-        StopCoroutine(_coroutineFire);
-        StopCoroutine(_coroutineAim);
-        StopCoroutine(_coroutineDamping);
+        //StopCoroutine(_coroutineFire);
+        //StopCoroutine(_coroutineAim);
+        //StopCoroutine(_coroutineDamping);
         _isRecoiling = false;
         _isAiming = false;
     }
@@ -432,7 +432,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         }
     }
 
-    private void Fire(InputAction.CallbackContext context)
+    public void Fire()
     {
         if (_coroutineFire != null)
         {

@@ -20,3 +20,5 @@ MonoBehaviour:
   m_crouch: Crouch
   m_jump: Jump
   m_sprint: Sprint
+  m_weaponSelection1: WeaponSelection1
+  m_weaponSelection2: WeaponSelection2
