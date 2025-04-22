@@ -8,13 +8,6 @@ public class CrosshairController : MonoBehaviour
     public List<RectTransform> m_corrshairObj;
     public Vector2 m_minAndMaxPosition;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

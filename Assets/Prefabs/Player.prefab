@@ -627,7 +627,7 @@ MonoBehaviour:
   - {fileID: 8506478054208252862}
   - {fileID: 8858407391305240650}
   - {fileID: 8720484101183554274}
-  m_minAndMaxPosition: {x: 9.5, y: 450}
+  m_minAndMaxPosition: {x: 9.5, y: 425}
 --- !u!1 &6587167090523887897
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,6 +782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_lookSpeed: 1000
+  m_shakeDuration: 0.2
+  m_shakeMagnitude: 0.1
 --- !u!1 &7427882136687626595
 GameObject:
   m_ObjectHideFlags: 0

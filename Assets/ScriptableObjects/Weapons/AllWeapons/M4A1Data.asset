@@ -15,9 +15,11 @@ MonoBehaviour:
   m_weaponID: 1
   m_weaponPrefab: {fileID: 6303303045485617839, guid: 3400e6bb417226b43bdee4035986ee5e, type: 3}
   m_weaponStats:
-    m_automatic: 1
-    m_fireRate: 0.1
-    m_minSpamFireRate: 0.1
+    m_shootingMode: 0
+    m_fireRate: 1
+    m_damage: 1
+    m_range: 1
+    m_accuracy: 1
     m_shotSounds:
     - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
     - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}

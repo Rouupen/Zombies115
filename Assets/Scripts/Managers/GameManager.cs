@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [Header("Scriptable Objects Data")]
     public SO_InputData m_inputData;
     public SO_CharacterStatesFilter m_characterStatesData;
+    public SO_GameValues m_gameValues;
     public SO_WeaponsInGame m_weaponsInGame;
 
     #endregion
@@ -23,6 +24,10 @@ public class GameManager : MonoBehaviour
     public InputManager m_inputManager { get { return _inputManager; } }
     private InputManager _inputManager;
     #endregion
+
+    //Temp
+    [HideInInspector]
+    public CrosshairController m_crosshairController;
 
     #region StateMachines
     public delegate void UpdateStateMachines();
@@ -42,6 +47,8 @@ public class GameManager : MonoBehaviour
         InitializeManagers();
 
         m_playerController.Initizalize();
+        //Temp
+        m_crosshairController = m_playerController.GetComponent<CrosshairController>();
     }
 
     private void Update()
