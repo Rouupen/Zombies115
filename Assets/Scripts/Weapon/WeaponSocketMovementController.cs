@@ -190,7 +190,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         _currentSocketRotation = Quaternion.Euler(m_weaponMovementData.m_idleLocalRotation);
         _walkingRotationOffset = Quaternion.identity;
 
-        
+
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
     }
@@ -381,6 +381,7 @@ public class WeaponSocketMovementController : MonoBehaviour
                 if (!_isWalking)
                 {
                     StartEndWalking(true);
+                    GameManager.GetInstance().m_crosshairController.SetCurrentPosition(300);
                 }
 
                 //Bounce
@@ -420,6 +421,7 @@ public class WeaponSocketMovementController : MonoBehaviour
                 if (_isWalking)
                 {
                     StartEndWalking(false);
+                    GameManager.GetInstance().m_crosshairController.SetCurrentPosition(95);
                 }
                 _walkingPositionOffset = _startEndWalkingPositionOffset;
                 _walkingRotationOffset = _startEndWalkingRotationOffset;
@@ -521,6 +523,9 @@ public class WeaponSocketMovementController : MonoBehaviour
 
         Vector3 endPosition = isStarting ? m_weaponMovementData.m_aimPosition - _currentSocketPosition : Vector3.zero;
         Quaternion endRotation = isStarting ? Quaternion.Euler(m_weaponMovementData.m_aimRotation - _currentSocketRotation.eulerAngles) : Quaternion.identity;
+
+        //temp
+        GameManager.GetInstance().m_crosshairController.ShowOrHideCrosshair(!isStarting);
 
         while (_currentTime <= m_weaponMovementData.m_aimStartTime)
         {

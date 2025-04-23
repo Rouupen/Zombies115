@@ -1066,7 +1066,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134458933716232803, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 400
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 952654393682489442, guid: 3a6a84be8f8003a4e93c262c38ecbf0f, type: 3}
       propertyPath: m_LocalRotation.w

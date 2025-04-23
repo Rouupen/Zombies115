@@ -85,6 +85,9 @@ public class Weapon : MonoBehaviour
         gameObject.SetActive(true);
         GameManager.GetInstance().m_playerController.m_weapon = this;
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Initialize(_weaponMovementData);
+
+        //temp
+        GameManager.GetInstance().m_crosshairController.RotateCrosshair();
         GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
     }
 

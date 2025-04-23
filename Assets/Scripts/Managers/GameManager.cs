@@ -42,13 +42,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        //Temp
+        m_crosshairController = m_playerController.GetComponentInChildren<CrosshairController>();
 
         _instance = this;
         InitializeManagers();
 
         m_playerController.Initizalize();
-        //Temp
-        m_crosshairController = m_playerController.GetComponent<CrosshairController>();
     }
 
     private void Update()

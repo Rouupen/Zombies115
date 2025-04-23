@@ -580,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1704366052423098538}
   - component: {fileID: 1627227813183719707}
+  - component: {fileID: 8542930567720953610}
   m_Layer: 0
   m_Name: Crosshair
   m_TagString: Untagged
@@ -628,6 +629,19 @@ MonoBehaviour:
   - {fileID: 8858407391305240650}
   - {fileID: 8720484101183554274}
   m_minAndMaxPosition: {x: 9.5, y: 425}
+  m_canvasGroup: {fileID: 8542930567720953610}
+--- !u!225 &8542930567720953610
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5239373618555888827}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6587167090523887897
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,7 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_Actions: {fileID: 0}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -781,9 +795,172 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76158e17e6a864c45b27038316d5bc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lookSpeed: 1000
-  m_shakeDuration: 0.2
-  m_shakeMagnitude: 0.1
+  m_lookSpeed: 7
+  m_shakeDuration: 0.1
+  m_shakeMagnitude: 0.01
+  m_walkingLocalPosition: {x: 0, y: 0, z: 0}
+  m_walkingLocalRotation: {x: 0, y: 0, z: 0}
+  m_walkingPositionAndRotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_walkingPositionAndRotationTime: 0.25
+  m_walkingOffsetPositionSpeed: 1
+  m_walkingOffsetHorizontalDistance: 0.05
+  m_walkingOffsetForwardDistance: 0.02
+  m_walkingOffsetTime: 0.25
+  m_walkingBounceVerticalTime: 0.5
+  m_walkingBounceVerticalAmplitude: 0.05
+  m_walkingBounceVerticalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.027346091
+      outSlope: 0.027346091
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8762103
+    - serializedVersion: 3
+      time: 0.30106258
+      value: 0.9540008
+      inSlope: 0.6804603
+      outSlope: 0.6804603
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.263689
+    - serializedVersion: 3
+      time: 0.49999997
+      value: 0.99834085
+      inSlope: 0.009718
+      outSlope: 0.009718
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: -0.014673417
+      outSlope: -0.014673417
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9666667
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_walkingBounceHorizontalTime: 1
+  m_walkingBounceHorizontalAmplitude: 0.02
+  m_walkingBounceHorizontalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.027346091
+      outSlope: 0.027346091
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8762103
+    - serializedVersion: 3
+      time: 0.30106258
+      value: 0.9540008
+      inSlope: 0.6804603
+      outSlope: 0.6804603
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.263689
+    - serializedVersion: 3
+      time: 0.49999997
+      value: 0.99834085
+      inSlope: 0.009718
+      outSlope: 0.009718
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: -0.014673417
+      outSlope: -0.014673417
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9666667
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_walkingRotationLoopForwardTime: 1
+  m_walkingRotationForwardAngle: 0.3
+  m_walkingRotationLoopForwardCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.999991
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75
+      value: -0.99860954
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0023584906
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7427882136687626595
 GameObject:
   m_ObjectHideFlags: 0
