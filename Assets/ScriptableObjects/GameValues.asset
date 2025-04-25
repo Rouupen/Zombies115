@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd5fc95a90448e4eb287b7ba26ed3f7, type: 3}
   m_Name: GameValues
   m_EditorClassIdentifier: 
-  m_minMaxFireRate: {x: 0.05, y: 3}
+  m_minMaxFireRate: {x: 0.05, y: 0.75}
   m_minMaxDamage: {x: 1, y: 100}
   m_minMaxRange: {x: 5, y: 1000}
   m_minMaxAccuracy: {x: 20, y: 0}

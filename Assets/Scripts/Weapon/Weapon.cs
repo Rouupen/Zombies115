@@ -95,14 +95,14 @@ public class Weapon : MonoBehaviour
     {
         if (_currentMinSpamFireRateTime <= 0)
         {
-            _currentMinSpamFireRateTime = _weaponStatsData.m_fireRate;
+            _currentMinSpamFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
             Fire();
         }
     }
 
     private void Fire()
     {
-        _currentFireRateTime = _weaponStatsData.m_fireRate;
+        _currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
         if (_weaponStatsData.m_shotSounds.Count != 0)
         {
