@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     //Temp
     [HideInInspector]
     public CrosshairController m_crosshairController;
+    [HideInInspector]
+    public AmmoController m_ammoController;
 
     #region StateMachines
     public delegate void UpdateStateMachines();
@@ -42,8 +44,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         //Temp
         m_crosshairController = m_playerController.GetComponentInChildren<CrosshairController>();
+        m_ammoController = m_playerController.GetComponentInChildren<AmmoController>();
 
         _instance = this;
         InitializeManagers();

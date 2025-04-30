@@ -16,6 +16,9 @@ public class WeaponStatsData
 {
     public ShootingMode m_shootingMode;
 
+    public int m_magazineAmmo = 30;
+    public int m_totalAmmo = 150;
+
     [Range(1, 20)]
     public int m_fireRate;
     [Range(1, 20)]
@@ -23,7 +26,9 @@ public class WeaponStatsData
     [Range(1, 20)]
     public int m_range;
     [Range(1, 20)]
-    public int m_accuracy;
+    public int m_accuracyIdle;
+    [Range(1, 20)]
+    public int m_accuracyMoving;
 
 
     public List<AudioClip> m_shotSounds;
@@ -42,6 +47,9 @@ public class Weapon : MonoBehaviour
     private float _fireRate;
     private float _currentFireRateTime;
     private float _currentMinSpamFireRateTime;
+
+    private int m_magazineAmmo;
+    private int m_reserveAmmo;
     private void Start()
     {
     }
@@ -63,8 +71,9 @@ public class Weapon : MonoBehaviour
         _weaponStatsData = weaponStatsData;
         _weaponMovementData = weaponMovementData;
 
+        m_reserveAmmo = _weaponStatsData.m_totalAmmo;
 
-
+        ReloadWeapon();
 
     }
 
@@ -77,7 +86,12 @@ public class Weapon : MonoBehaviour
     {
         if (GameManager.GetInstance().m_playerController.m_weapon != null)
         {
+            if (GameManager.GetInstance().m_playerController.m_weapon == this)
+            {
+                return;
+            }
 
+            GameManager.GetInstance().m_inputManager.m_fire.started -= GameManager.GetInstance().m_playerController.m_weapon.Fire;
             GameManager.GetInstance().m_playerController.m_weapon.gameObject.SetActive(false);
             GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Deinitialize();
         }
@@ -89,6 +103,11 @@ public class Weapon : MonoBehaviour
         //temp
         GameManager.GetInstance().m_crosshairController.RotateCrosshair();
         GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
+
+        //CHANGE BUG
+        SetIdleValues();
+
+        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
     }
 
     private void Fire(InputAction.CallbackContext context)
@@ -102,6 +121,10 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
+        if (m_magazineAmmo <= 0)
+        {
+            return;
+        }
         _currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
         if (_weaponStatsData.m_shotSounds.Count != 0)
@@ -116,14 +139,43 @@ public class Weapon : MonoBehaviour
         Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
         Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
         RaycastHit hitInfo;
+
         if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
         {
             Debug.DrawLine(hitInfo.point, hitInfo.point + Vector3.up * 2, Color.red, 3f);
         }
 
+        m_magazineAmmo--;
+
+        if (m_magazineAmmo <= 0)
+        {
+            ReloadWeapon();
+        }
+        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
     }
 
+    public void SetIdleValues()
+    {
+        GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyIdle);
+
+    }
+
+    public void SetMovingValues()
+    {
+        GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
+
+    }
+    private void ReloadWeapon()
+    {
+        if (m_reserveAmmo > 0)
+        {
+            int ammoReloded = Mathf.Clamp(_weaponStatsData.m_magazineAmmo, 0, m_reserveAmmo);
+            m_reserveAmmo -= ammoReloded;
+            m_magazineAmmo = ammoReloded;
+        }
+        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+    }
     private void OnDrawGizmos()
     {
         Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;

@@ -93,4 +93,21 @@ public class PlayerController : MonoBehaviour
     {
         return _stateMachine;
     }
+    public void SetIdleValues()
+    {
+        if (m_weapon != null)
+        {
+            m_weapon.SetIdleValues();
+        }
+
+    }
+
+    public void SetMovingValues()
+    {
+        if (m_weapon != null)
+        {
+            m_weapon.SetMovingValues();
+        }
+    }
+
 }

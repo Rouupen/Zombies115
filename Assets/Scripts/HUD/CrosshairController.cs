@@ -15,13 +15,11 @@ public class CrosshairController : MonoBehaviour
     private float m_fadeTime = 0.15f;
     private float m_rotateTime = 0.15f;
 
-
-
-    private float m_idleAccuracy = 95f;
-    private float m_walkingAccuracy = 300f;
-
     private float m_currentPostion = 9.5f;
+    private float m_lastPostion = 9.5f;
     private float m_currentCrosshairPostion;
+
+    private bool m_isActive = true;
 
     private Coroutine m_showOrHideCrosshair;
     private Coroutine m_rotateCrosshair;
@@ -29,7 +27,7 @@ public class CrosshairController : MonoBehaviour
     void Update()
     {
         float newValue = Mathf.Lerp(m_currentCrosshairPostion, m_currentPostion, Time.deltaTime * m_speed);
-
+        newValue = Mathf.Clamp(newValue, m_minAndMaxPosition.x, m_minAndMaxPosition.y);
         m_corrshairObj[0].anchoredPosition = new Vector2(0, newValue);
         m_corrshairObj[1].anchoredPosition = new Vector2(newValue, 0);
         m_corrshairObj[2].anchoredPosition = new Vector2(0, -newValue);
@@ -39,9 +37,20 @@ public class CrosshairController : MonoBehaviour
     }
 
 
-    public void SetCurrentPosition(float value)
+    public void SetCurrentAccuracy(float value)
     {
-        m_currentPostion = value;
+        Vector2 minMaxAccuracy = GameManager.GetInstance().m_gameValues.m_minMaxAccuracy;
+        //Starts in 0
+        minMaxAccuracy.y -= minMaxAccuracy.x;
+        value -= minMaxAccuracy.x;
+
+        float lerpValue = Mathf.Lerp(m_minAndMaxPosition.y, m_minAndMaxPosition.x, value / minMaxAccuracy.y);
+
+        if (m_isActive)
+        {
+            m_currentPostion = lerpValue;
+        }
+        m_lastPostion = lerpValue;
     }
 
     public void ShowOrHideCrosshair(bool show = true, bool instantly = false)
@@ -56,7 +65,8 @@ public class CrosshairController : MonoBehaviour
 
     private IEnumerator ShowOrHideCrosshairAnim(bool show = true, bool instantly = false)
     {
-        m_currentPostion = show ? m_idleAccuracy : 0;
+        m_currentPostion = show ? m_lastPostion : 0;
+        m_isActive = show;
 
         if (instantly)
         {
@@ -75,7 +85,6 @@ public class CrosshairController : MonoBehaviour
             yield return null;
         }
         m_canvasGroup.alpha = end;
-
     }
 
 
@@ -101,7 +110,7 @@ public class CrosshairController : MonoBehaviour
 
         while (currentTime <= m_rotateTime)
         {
-            rotation.z = Mathf.Lerp(start, end, currentTime/ m_rotateTime);
+            rotation.z = Mathf.Lerp(start, end, currentTime / m_rotateTime);
             rectTransform.localRotation = Quaternion.Euler(rotation);
 
             currentTime += Time.deltaTime;

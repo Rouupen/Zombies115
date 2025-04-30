@@ -180,7 +180,6 @@ public class CharacterLook : MonoBehaviour
                 if (!_isWalking)
                 {
                     StartEndWalking(true);
-                    GameManager.GetInstance().m_crosshairController.SetCurrentPosition(300);
                 }
 
                 //Bounce
@@ -220,7 +219,6 @@ public class CharacterLook : MonoBehaviour
                 if (_isWalking)
                 {
                     StartEndWalking(false);
-                    GameManager.GetInstance().m_crosshairController.SetCurrentPosition(95);
                 }
                 _walkingPositionOffset = _startEndWalkingPositionOffset;
                 _walkingRotationOffset = _startEndWalkingRotationOffset;

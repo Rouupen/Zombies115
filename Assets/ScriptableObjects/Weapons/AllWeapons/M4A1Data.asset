@@ -19,7 +19,8 @@ MonoBehaviour:
     m_fireRate: 18
     m_damage: 1
     m_range: 1
-    m_accuracy: 1
+    m_accuracyIdle: 17
+    m_accuracyMoving: 12
     m_shotSounds:
     - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
     - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}

@@ -3,6 +3,7 @@ using UnityEngine;
 public enum CharacterStates
 {
     Idle,
+    Walking,
     Running,
     Crouching,
     Crawling,
@@ -37,17 +38,41 @@ public class Idle : CharacterState
     public override void OnEnter()
     {
         base.OnEnter();
+        _playerController.SetIdleValues();
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        _playerController.m_characterMovement.EvaluateMoving();
+
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+}
+
+public class Walking : CharacterState
+{
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        _playerController.SetMovingValues();
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
         _playerController.m_characterMovement.UpdateMove();
+        _playerController.m_characterMovement.EvaluateMoving();
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterWalkngSpeed);
     }
 }
 
@@ -57,12 +82,16 @@ public class Running : CharacterState
     {
         base.OnEnter();
         _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterRunningSpeed);
+        _playerController.SetMovingValues();
+
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
         _playerController.m_characterMovement.UpdateMove();
+        _playerController.m_characterMovement.EvaluateMoving();
+
     }
 
     public override void OnExit()
@@ -118,6 +147,7 @@ public class Jumping : CharacterState
     {
         base.OnEnter();
         _playerController.m_characterMovement.Jump();
+        _playerController.SetMovingValues();
         _playerController.GetStateMachine().SetCurrentState<OnAir>();
     }
 
@@ -137,6 +167,7 @@ public class OnAir : CharacterState
     public override void OnEnter()
     {
         base.OnEnter();
+        _playerController.SetMovingValues();
     }
 
     public override void OnUpdate()

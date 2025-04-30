@@ -15,4 +15,4 @@ MonoBehaviour:
   m_minMaxFireRate: {x: 0.05, y: 0.75}
   m_minMaxDamage: {x: 1, y: 100}
   m_minMaxRange: {x: 5, y: 1000}
-  m_minMaxAccuracy: {x: 20, y: 0}
+  m_minMaxAccuracy: {x: 1, y: 20}

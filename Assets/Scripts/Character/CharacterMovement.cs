@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +39,30 @@ public class CharacterMovement : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
 
         InitializeInputBinding();
+    }
+
+    public void EvaluateMoving()
+    {
+        //Evaluate moving temp
+        Vector3 moveValue = transform.right * GetMovementInput().x + transform.forward * GetMovementInput().z;
+        moveValue.x = moveValue.x * _currentPlayerSpeed;
+        moveValue.z = moveValue.z * _currentPlayerSpeed;
+        if (moveValue.magnitude < 1)
+        {
+            _playerController.GetStateMachine().SetCurrentState<Idle>();
+
+
+        }
+        else if (moveValue.magnitude < m_characterRunningSpeed)
+        {
+            _playerController.GetStateMachine().SetCurrentState<Walking>();
+
+        }
+        else
+        {
+            _playerController.GetStateMachine().SetCurrentState<Running>();
+
+        }
     }
 
     private void OnDestroy()
@@ -129,12 +154,14 @@ public class CharacterMovement : MonoBehaviour
 
     void StartRunning(InputAction.CallbackContext context)
     {
-        _playerController.GetStateMachine().SetCurrentState<Running>();
+        SetCurrentPlayerSpeed(m_characterRunningSpeed);
+        //_playerController.GetStateMachine().SetCurrentState<Running>();
     }
 
     void EndRunning(InputAction.CallbackContext context)
     {
-        _playerController.GetStateMachine().SetCurrentState<Idle>();
+        SetCurrentPlayerSpeed(m_characterWalkngSpeed);
+        //_playerController.GetStateMachine().SetCurrentState<Idle>();
     }
 
     void StartJumping(InputAction.CallbackContext context)
