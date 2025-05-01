@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,6 +54,13 @@ public class Weapon : MonoBehaviour
 
     private int m_magazineAmmo;
     private int m_reserveAmmo;
+
+    private Animator _animatorController;
+    private Coroutine _reloadAnimation;
+    private Coroutine _changeWeaponAnimation;
+
+    //temp
+    private bool _canShoot;
     private void Start()
     {
     }
@@ -73,6 +84,9 @@ public class Weapon : MonoBehaviour
 
         m_reserveAmmo = _weaponStatsData.m_totalAmmo;
 
+        //Temp 
+        _animatorController = GetComponent<Animator>();
+
         ReloadWeapon();
 
     }
@@ -84,31 +98,141 @@ public class Weapon : MonoBehaviour
 
     public void SetActiveWeapon()
     {
+
+        if (_changeWeaponAnimation != null)
+        {
+            StopCoroutine(_changeWeaponAnimation);
+        }
+        _changeWeaponAnimation = GameManager.GetInstance().StartCoroutine(ChangeWeaponAnimation());
+        
+    }
+
+    private IEnumerator ChangeWeaponAnimation()
+    {
+
         if (GameManager.GetInstance().m_playerController.m_weapon != null)
         {
             if (GameManager.GetInstance().m_playerController.m_weapon == this)
             {
-                return;
+                yield break;
             }
+        }
 
+        if (GameManager.GetInstance().m_playerController.m_weapon == null)
+        {
+            gameObject.SetActive(true);
+            GameManager.GetInstance().m_playerController.m_weapon = this;
+            GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Initialize(_weaponMovementData);
+
+            //temp
+            //GameManager.GetInstance().m_crosshairController.RotateCrosshair();
+            GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
+            GameManager.GetInstance().m_inputManager.m_reload.started += StartReloadWeapon;
+            _canShoot = true;
+
+            //CHANGE BUG
+            SetIdleValues();
+            yield break;
+
+        }
+
+        _canShoot = false;
+        float timeChange = 0;
+        float timeSelect = 0;
+
+        RuntimeAnimatorController rac = GameManager.GetInstance().m_playerController.m_weapon.GetAnimator().runtimeAnimatorController;
+        GameManager.GetInstance().m_playerController.m_weapon.GetAnimator().SetTrigger("ChangeWeapon");
+        foreach (AnimationClip clip in rac.animationClips)
+        {
+            if (clip.name.Contains("ChangeWeapon"))
+            {
+                timeChange += clip.length;
+                break;
+            }
+        }
+
+        RuntimeAnimatorController thisRac =_animatorController.runtimeAnimatorController;
+
+        foreach (AnimationClip clip in thisRac.animationClips)
+        {
+            if (clip.name.Contains("SelectWeapon"))
+            {
+                timeSelect += clip.length;
+                break;
+            }
+        }
+
+        GameManager.GetInstance().m_crosshairController.RotateCrosshair(timeChange + timeSelect);
+
+        if (GameManager.GetInstance().m_playerController.m_weapon != null)
+        {
             GameManager.GetInstance().m_inputManager.m_fire.started -= GameManager.GetInstance().m_playerController.m_weapon.Fire;
+            GameManager.GetInstance().m_inputManager.m_reload.started -= GameManager.GetInstance().m_playerController.m_weapon.StartReloadWeapon;
+            GameManager.GetInstance().m_playerController.m_weapon._canShoot = false;
+            GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.EndAim();
+            GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(false);
+        }
+
+        float currentTime = 0;
+        while (currentTime <= timeChange)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (GameManager.GetInstance().m_playerController.m_weapon != null)
+        {
             GameManager.GetInstance().m_playerController.m_weapon.gameObject.SetActive(false);
             GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Deinitialize();
         }
 
+
+
+        _animatorController.SetTrigger("SelectWeapon");
+
         gameObject.SetActive(true);
         GameManager.GetInstance().m_playerController.m_weapon = this;
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Initialize(_weaponMovementData);
+        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(false);
 
         //temp
-        GameManager.GetInstance().m_crosshairController.RotateCrosshair();
         GameManager.GetInstance().m_inputManager.m_fire.started += Fire;
+        GameManager.GetInstance().m_inputManager.m_reload.started += StartReloadWeapon;
+
 
         //CHANGE BUG
         SetIdleValues();
 
         GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+
+
+        if (_reloadAnimation != null)
+        {
+            StopCoroutine(_reloadAnimation);
+            _reloadAnimation = null;
+        }
+
+        currentTime = 0;
+        while (currentTime <= timeSelect)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+
+
+
+
+        _canShoot = true;
+        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(true);
+
+        if (GameManager.GetInstance().m_inputManager.m_fire.IsPressed())
+        {
+            Fire();
+        }
     }
+
 
     private void Fire(InputAction.CallbackContext context)
     {
@@ -121,10 +245,20 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
-        if (m_magazineAmmo <= 0)
+        if (!_canShoot)
         {
             return;
         }
+
+        if (m_magazineAmmo <= 0)
+        {
+            if (m_reserveAmmo > 0)
+            {
+                StartReloadWeapon();
+            }
+            return;
+        }
+
         _currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
         if (_weaponStatsData.m_shotSounds.Count != 0)
@@ -147,9 +281,9 @@ public class Weapon : MonoBehaviour
 
         m_magazineAmmo--;
 
-        if (m_magazineAmmo <= 0)
+        if (m_magazineAmmo <= 0 && m_reserveAmmo > 0)
         {
-            ReloadWeapon();
+            StartReloadWeapon();
         }
         GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
@@ -166,18 +300,90 @@ public class Weapon : MonoBehaviour
         GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
 
     }
+
+    public void StartReloadWeapon(InputAction.CallbackContext context)
+    {
+        StartReloadWeapon();
+    }
+    public void StartReloadWeapon()
+    {
+        if (m_magazineAmmo >= _weaponStatsData.m_magazineAmmo || m_reserveAmmo <= 0)
+        {
+            return;
+        }
+
+
+        if (_reloadAnimation != null)
+        {
+            return;
+            //StopCoroutine(_reloadAnimation);
+        }
+        _reloadAnimation = StartCoroutine(ReloadWeaponAnimation());
+    }
+
+    IEnumerator ReloadWeaponAnimation()
+    {
+        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.EndAim();
+        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(false);
+        _canShoot = false;
+        _animatorController.SetTrigger("Reload");
+
+        RuntimeAnimatorController rac = _animatorController.runtimeAnimatorController;
+        float time = 0;
+
+        foreach (AnimationClip clip in rac.animationClips)
+        {
+            if (clip.name.Contains("Reloading"))
+            {
+                time = clip.length;
+                break;
+            }
+        }
+
+        float currentTime = 0;
+        while (currentTime <= time)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        _reloadAnimation = null;
+        ReloadWeapon();
+        _canShoot = true;
+        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(true);
+
+        if (GameManager.GetInstance().m_inputManager.m_aim.IsPressed())
+        {
+            GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.StartAim();
+        }
+    }
+
     private void ReloadWeapon()
     {
         if (m_reserveAmmo > 0)
         {
-            int ammoReloded = Mathf.Clamp(_weaponStatsData.m_magazineAmmo, 0, m_reserveAmmo);
+            int ammoReloded = Mathf.Clamp(_weaponStatsData.m_magazineAmmo - m_magazineAmmo, 0, m_reserveAmmo);
             m_reserveAmmo -= ammoReloded;
-            m_magazineAmmo = ammoReloded;
+            m_magazineAmmo += ammoReloded;
         }
         GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+
+    }
+
+    public void Aiming(bool aiming)
+    {
+        _animatorController.SetBool("Idle", !aiming);
+    }
+
+    public Animator GetAnimator()
+    {
+        return _animatorController;
     }
     private void OnDrawGizmos()
     {
+        if (!GameManager.GetInstance())
+        {
+            return;
+        }
         Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
         Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
         Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;

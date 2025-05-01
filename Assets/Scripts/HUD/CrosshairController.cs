@@ -88,17 +88,17 @@ public class CrosshairController : MonoBehaviour
     }
 
 
-    public void RotateCrosshair()
+    public void RotateCrosshair(float time)
     {
         if (m_rotateCrosshair != null)
         {
             StopCoroutine(m_rotateCrosshair);
         }
-        m_rotateCrosshair = StartCoroutine(RotateCrosshairAnim());
+        m_rotateCrosshair = StartCoroutine(RotateCrosshairAnim(time));
     }
 
 
-    private IEnumerator RotateCrosshairAnim()
+    private IEnumerator RotateCrosshairAnim(float time)
     {
 
         RectTransform rectTransform = GetComponent<RectTransform>();
@@ -108,7 +108,7 @@ public class CrosshairController : MonoBehaviour
         float start = rectTransform.localRotation.z;
         float end = 90f;
 
-        while (currentTime <= m_rotateTime)
+        while (currentTime <= time)
         {
             rotation.z = Mathf.Lerp(start, end, currentTime / m_rotateTime);
             rectTransform.localRotation = Quaternion.Euler(rotation);

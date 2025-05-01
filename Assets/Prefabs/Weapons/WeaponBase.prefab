@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358345856282994130}
   - component: {fileID: 2138578699426622968}
+  - component: {fileID: 8777386603916641840}
   m_Layer: 0
   m_Name: WeaponBase
   m_TagString: Untagged
@@ -44,164 +45,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4735084701a2a94ba7c5c02bb9a2211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxAngleInertia: {x: 30, y: 15}
-  m_maxTranslationInertia: 10
-  m_lookInertiaRotationSpeed: 5
-  m_lookInertiaTraslationSpeed: 5
-  m_returnToOriginalPositionInertiaTime: 0.25
-  m_returnToOriginalPositionInertiaCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_localPositionWeaponIdle: {x: 0, y: 0, z: 0}
-  m_localRotationWeaponIdle: {x: 0, y: 0, z: 0}
-  m_localPositionWeaponWalking: {x: 0, y: 0, z: 0}
-  m_localRotationWeaponWalking: {x: 0, y: 0, z: 0}
-  m_localPositionWalkingTranslationCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_localPositionWeaponWalkingTime: 0.15
-  m_translationSpeed: 1
-  m_translationHorizontalDistance: 0.5
-  m_translationForwardDistance: 0.1
-  m_translationTime: 0.25
-  m_bounceVerticalCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_bounceHorizontalCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_rotationLoopForwardCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_bounceVerticalTime: 0.5
-  m_bounceHorizontalTime: 1
-  m_rotationLoopForwardTime: 1
-  m_bounceHorizontalAmplitude: 0.03
-  m_bounceVerticalAmplitude: 0.02
-  m_rotationForwardAmplitude: 2
-  m_maxRecoilRotation: {x: 60, y: 0, z: 0}
-  m_maxRecoilPosition: {x: 0, y: 0.5, z: 0}
-  m_recoilAdditivePosition: {x: 0, y: 0.05, z: 0}
-  m_recoilAdditiveRotation: {x: 20, y: 0, z: 0}
-  m_recoilStartTime: 0.05
-  m_recoilRecoverySpeedTime: 0.15
-  m_randomRotationRecoilInertiaY: {x: 1, y: 5}
-  m_recoilRotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_recoilPositionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_recoveryRecoilCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_aimPosition: {x: 0, y: 0, z: 0}
-  m_aimRotation: {x: 0, y: 0, z: 0}
-  m_startAimTime: 0.2
-  m_endAimTime: 0.2
-  m_inertiaReductionWhileAiming: 0.1
-  m_recoilReductionWhileAiming: 0.5
-  m_dampingCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_dampingTime: 0.35
-  m_dampingAmplitude: 0.1
+  m_particles: {fileID: 0}
+  _weaponStatsData:
+    m_shootingMode: 0
+    m_magazineAmmo: 30
+    m_totalAmmo: 150
+    m_fireRate: 0
+    m_damage: 0
+    m_range: 0
+    m_accuracyIdle: 0
+    m_accuracyMoving: 0
+    m_shotSounds: []
+--- !u!95 &8777386603916641840
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8945200612794438304}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -22,3 +22,4 @@ MonoBehaviour:
   m_sprint: Sprint
   m_weaponSelection1: WeaponSelection1
   m_weaponSelection2: WeaponSelection2
+  m_reload: Reload

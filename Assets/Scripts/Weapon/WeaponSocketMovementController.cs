@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Claims;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -177,8 +178,9 @@ public class WeaponSocketMovementController : MonoBehaviour
     private Coroutine _coroutineFire;
     private Coroutine _coroutineAim;
     private Coroutine _coroutineDamping;
-    private bool _isRecoiling = false;
+    
     private bool _isAiming = false;
+    private bool _canAim = true;
 
     public void Initialize(WeaponMovementData weaponMovementData)
     {
@@ -235,7 +237,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         //StopCoroutine(_coroutineFire);
         //StopCoroutine(_coroutineAim);
         //StopCoroutine(_coroutineDamping);
-        _isRecoiling = false;
+        //_isRecoiling = false;
         _isAiming = false;
     }
 
@@ -445,7 +447,7 @@ public class WeaponSocketMovementController : MonoBehaviour
     {
         float recoilInertiaReduction = _isAiming ? m_weaponMovementData.m_lookReductionWhileAiming : 1;
         float recoilReductionWhileAiming = _isAiming ? m_weaponMovementData.m_recoilReductionWhileAiming : 1;
-        _isRecoiling = true;
+        //_isRecoiling = true;
         float _currentRecoilSpeedTime = 0;
         float _currentRecoilRecoverySpeedTime = 0;
 
@@ -489,12 +491,21 @@ public class WeaponSocketMovementController : MonoBehaviour
 
         _recoilPositionOffset = Vector3.zero;
         _recoilRotationOffset = Quaternion.identity;
-        _isRecoiling = false;
+        //_isRecoiling = false;
         _coroutineFire = null;
     }
 
-    private void StartAim(InputAction.CallbackContext context)
+    public void CanAim(bool canAim)
     {
+        _canAim = canAim;
+    }
+
+    public void StartAim()
+    {
+        if (_isAiming || !_canAim)
+        {
+            return;
+        }
         if (_coroutineAim != null)
         {
             StopCoroutine(_coroutineAim);
@@ -502,8 +513,17 @@ public class WeaponSocketMovementController : MonoBehaviour
         _coroutineAim = StartCoroutine(AimAnimation(true));
     }
 
-    private void EndAim(InputAction.CallbackContext context)
+    private void StartAim(InputAction.CallbackContext context)
     {
+        StartAim();
+    }
+
+    public void EndAim()
+    {
+        if (!_isAiming)
+        {
+            return;
+        }
         if (_coroutineAim != null)
         {
             StopCoroutine(_coroutineAim);
@@ -511,10 +531,15 @@ public class WeaponSocketMovementController : MonoBehaviour
         _coroutineAim = StartCoroutine(AimAnimation(false));
     }
 
+    private void EndAim(InputAction.CallbackContext context)
+    {
+        EndAim();
+    }
+
     IEnumerator AimAnimation(bool isStarting)
     {
         _isAiming = isStarting;
-
+        GameManager.GetInstance().m_playerController.m_weapon.Aiming(isStarting);
         float _currentTime = 0;
         Vector3 startPosition = _aimPositionOffset;
         Quaternion startRotation = _aimRotationOffset;
