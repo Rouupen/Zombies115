@@ -7,6 +7,7 @@ using UnityEditor.Animations;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.Image;
 
 public enum ShootingMode
 {
@@ -274,10 +275,20 @@ public class Weapon : MonoBehaviour
         Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
+        if (Physics.Raycast(position, direction, out RaycastHit hit, 10))
         {
-            Debug.DrawLine(hitInfo.point, hitInfo.point + Vector3.up * 2, Color.red, 3f);
+            IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(50);
+            }
         }
+
+
+        //if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
+        //{
+        //    Debug.DrawLine(hitInfo.point, hitInfo.point + Vector3.up * 2, Color.red, 3f);
+        //}
 
         m_magazineAmmo--;
 
