@@ -197,18 +197,17 @@ public class WeaponSocketMovementController : MonoBehaviour
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
     }
 
-    //Tempo for reset local variables
+    //Temp - for reset local variables
     public void Deinitialize()
     {
         _lookPosition = Vector3.zero;
         _lookRotation = Quaternion.identity;
-        //StopCoroutine(_lookReturnToPositionCoroutine);
 
         _currentVerticalBounceTime = 0f;
         _currentHorizontalBounceTime = 0f;
         _currentForwardRotationTime = 0f;
         _currentDirectionTranslation = Vector3.zero;
-        //StopCoroutine(_startEndWalking);
+
         _isWalking = false;
 
         _wasGrounded = true;
@@ -234,10 +233,6 @@ public class WeaponSocketMovementController : MonoBehaviour
         _socketOriginalRotation = Quaternion.identity;
         _socketOriginalPosition = Vector3.zero;
 
-        //StopCoroutine(_coroutineFire);
-        //StopCoroutine(_coroutineAim);
-        //StopCoroutine(_coroutineDamping);
-        //_isRecoiling = false;
         _isAiming = false;
     }
 

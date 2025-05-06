@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        GetComponent<CapsuleCollider>().enabled = false;
         m_animationController.SetTrigger("Die");
     }
 }

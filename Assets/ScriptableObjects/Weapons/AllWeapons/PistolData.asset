@@ -19,8 +19,8 @@ MonoBehaviour:
     m_magazineAmmo: 8
     m_totalAmmo: 32
     m_fireRate: 15
-    m_damage: 10
-    m_range: 10
+    m_damage: 4
+    m_range: 4
     m_accuracyIdle: 18
     m_accuracyMoving: 14
     m_shotSounds:
