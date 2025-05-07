@@ -534,7 +534,7 @@ public class WeaponSocketMovementController : MonoBehaviour
     IEnumerator AimAnimation(bool isStarting)
     {
         _isAiming = isStarting;
-        GameManager.GetInstance().m_playerController.m_weapon.Aiming(isStarting);
+        GameManager.GetInstance().m_playerController.GetCurrentWeapon().Aiming(isStarting);
         float _currentTime = 0;
         Vector3 startPosition = _aimPositionOffset;
         Quaternion startRotation = _aimRotationOffset;

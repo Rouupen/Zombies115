@@ -1,22 +1,33 @@
 using UnityEngine;
 
+/// <summary>
+/// Base class for all enemy entities. Handles health, damage reception, and death behavior
+/// </summary>
 public class Enemy : MonoBehaviour, IDamageable
 {
-    public Animator m_animationController;
-    public float health = 100f;
+    [SerializeField] private float m_health = 100f;
+    [SerializeField] private Animator m_animatorController;
 
-    public void TakeDamage(float damage)
+    /// <summary>
+    /// Applies damage to the enemy. Triggers death if health reaches zero or below
+    /// </summary>
+    public virtual void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0)
+        m_health -= damage;
+
+        if (m_health <= 0)
         {
             Die();
         }
     }
 
-    private void Die()
+    /// <summary>
+    /// Handles the enemy's death logic
+    /// </summary>
+    public virtual void Die()
     {
+        //TEMP
         GetComponent<CapsuleCollider>().enabled = false;
-        m_animationController.SetTrigger("Die");
+        m_animatorController.SetTrigger("Die");
     }
 }

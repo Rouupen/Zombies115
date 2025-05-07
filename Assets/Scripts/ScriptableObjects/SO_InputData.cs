@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+/// <summary>
+/// Contains configurable input action names used to bind PlayerInput actions dynamically
+/// </summary>
 [CreateAssetMenu(fileName = "InputData", menuName = "ScriptableObjects/InputData", order = 1)]
 public class SO_InputData : ScriptableObject
 {

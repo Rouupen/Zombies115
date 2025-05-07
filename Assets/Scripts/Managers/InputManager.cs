@@ -1,11 +1,14 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.DefaultInputActions;
 
+/// <summary>
+/// Manages all input actions using Unity's Input System. Initializes actions based on mappings stored in SO_InputData
+/// </summary>
 public class InputManager : Manager
 {
+    [HideInInspector]
+    public List<InputAction> m_actions = new List<InputAction>();
     private PlayerInput _playerInput;
 
     public InputAction m_move;
@@ -20,12 +23,13 @@ public class InputManager : Manager
     public InputAction m_weaponSelection2;
     public InputAction m_reload;
 
-    [HideInInspector]
-    public List<InputAction> m_actions = new List<InputAction>();
-
+    /// <summary>
+    /// Initializes the input actions by retrieving them from the PlayerInput component
+    /// and mapping them based on the input data defined in SO_InputData
+    /// </summary>
     public override void Initialize()
     {
-        _playerInput = GameManager.GetInstance().GetComponent<PlayerInput>();
+        _playerInput = GameManager.GetInstance().m_playerInput;
         
         if (_playerInput == null)
         {
@@ -34,12 +38,14 @@ public class InputManager : Manager
         }
         
         SO_InputData inputData = GameManager.GetInstance().m_inputData;
+
         if (inputData == null)
         {
             Debug.LogError("There is no input data in the GameManager");
             return;
         }
 
+        // I don't know if there is a better way to map it
         m_move = _playerInput.actions.FindAction(inputData.m_move);
         m_look = _playerInput.actions.FindAction(inputData.m_look);
         m_fire = _playerInput.actions.FindAction(inputData.m_fire);
@@ -53,6 +59,9 @@ public class InputManager : Manager
         m_reload = _playerInput.actions.FindAction(inputData.m_reload);
     }
 
+    /// <summary>
+    /// Cleans up the InputManager
+    /// </summary>
     public override void Deinitialize()
     {
 

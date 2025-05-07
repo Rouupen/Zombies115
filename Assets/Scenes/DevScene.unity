@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 895523395}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 895523395}
 --- !u!136 &318566982
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -602,8 +602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 1769667307}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 1769667307}
 --- !u!136 &653156094
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -864,8 +864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 698256144}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 698256144}
 --- !u!136 &886087951
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1082,8 +1082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 2013896229}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 2013896229}
 --- !u!136 &983123426
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1624,8 +1624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 1295557670}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 1295557670}
 --- !u!136 &1400458456
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1750,8 +1750,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 1563858917}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 1563858917}
 --- !u!136 &1453893518
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2184,8 +2184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 1797406907}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 1797406907}
 --- !u!136 &1605854997
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2310,8 +2310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 211403435}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 211403435}
 --- !u!136 &1642811994
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2724,8 +2724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9aa41340ea53c41871601c1228a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationController: {fileID: 527997482}
-  health: 100
+  m_health: 100
+  m_animatorController: {fileID: 527997482}
 --- !u!136 &1835684333
 CapsuleCollider:
   m_ObjectHideFlags: 0

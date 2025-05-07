@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Temporary ScriptableObject used for prototyping
+// This will be removed
+
 [CreateAssetMenu(fileName = "CurvesAnimationWeapons", menuName = "ScriptableObjects/CurvesAnimationWeapons", order = 3)]
 public class SO_AnimationCurvesWeapons : ScriptableObject
 {
