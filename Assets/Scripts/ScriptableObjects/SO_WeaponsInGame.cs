@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds a list of all weapons available in the game
+/// </summary>
 [CreateAssetMenu(fileName = "WeaponsInGame", menuName = "ScriptableObjects/WeaponsInGame", order = 5)]
 public class SO_WeaponsInGame : ScriptableObject
 {

@@ -11,7 +11,9 @@ public enum CharacterStates
     OnAir,
     Interacting
 }
-
+/// <summary>
+/// All character states
+/// </summary>
 public class CharacterState : State
 {
     protected PlayerController _playerController;

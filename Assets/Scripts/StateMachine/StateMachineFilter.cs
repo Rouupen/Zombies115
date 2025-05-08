@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Defines allowed transitions between states
+/// </summary>
 public struct AllowedStatesFilter
 {
     public System.Type m_mainState;
     public List<System.Type> m_allowedStates;
 }
 
+/// <summary>
+/// Base class for all states used in the state machine
+/// </summary>
 public abstract class State
 {
     protected GameManager _gameManagerInstance;
@@ -26,6 +32,9 @@ public abstract class State
     }
 }
 
+/// <summary>
+/// Handles state transitions and updates for a given set of allowed states
+/// </summary>
 public class StateMachineFilter
 {
     private State _currentState;
@@ -59,9 +68,15 @@ public class StateMachineFilter
         {
             _currentState.OnExit();
             _currentState = null;
+            GameManager.GetInstance().m_updateStateMachines -= UpdateStateMachine;
         }
     }
 
+    /// <summary>
+    /// Attempts to switch to a new state, if the transition is allowed
+    /// </summary>
+    /// /// <typeparam name="T">The target state type</typeparam>
+    /// <returns>True if the transition was successful; false otherwise</returns>
     public bool SetCurrentState<T>() where T : State, new()
     {
         if (!IsStateMachineInitialized())
@@ -81,15 +96,17 @@ public class StateMachineFilter
         return true;
     }
 
+    /// <summary>
+    /// Checks if the current state matches the specified type
+    /// </summary>
     public bool CurrentStateIs<T>() where T : State, new()
     {
-        if (typeof(T) == _currentState.GetType())
-        {
-            return true;
-        }
-        return false;
+        return _currentState.GetType() == typeof(T);
     }
 
+    /// <summary>
+    /// Determines if transitioning to the specified state type is allowed from the current state
+    /// </summary>
     public bool IsStateAvailable<T>() where T : State, new()
     {
         if (_statesData == null || _statesData.Count == 0 || _currentState.GetType() == typeof(T))
@@ -115,7 +132,7 @@ public class StateMachineFilter
         return false;
     }
 
-    public void UpdateStateMachine()
+    private void UpdateStateMachine()
     {
         if (IsStateMachineInitialized())
         {
