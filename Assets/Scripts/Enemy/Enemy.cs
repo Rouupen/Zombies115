@@ -1,3 +1,4 @@
+using Unity.Behavior;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,15 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private float m_health = 100f;
     [SerializeField] private Animator m_animatorController;
+    private BehaviorGraphAgent m_behaviourAgent;
+
+
+    private void Awake()
+    {
+        m_behaviourAgent = GetComponent<BehaviorGraphAgent>();
+
+
+    }
 
     /// <summary>
     /// Applies damage to the enemy. Triggers death if health reaches zero or below
@@ -28,6 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         //TEMP
         GetComponent<CapsuleCollider>().enabled = false;
+        m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", false);
         m_animatorController.SetTrigger("Die");
     }
 }
