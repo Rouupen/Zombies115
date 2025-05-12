@@ -290,10 +290,10 @@ public class Weapon : MonoBehaviour
 
             float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage);
 
-            IDamageable damageable = hit.collider.GetComponent<IDamageable>();
-            if (damageable != null)
+            EntityHealth entityHealth = hit.collider.GetComponent<EntityHealth>();
+            if (entityHealth != null)
             {
-                damageable.TakeDamage(damage);
+                entityHealth.TakeDamage(damage);
             }
         }
 

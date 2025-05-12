@@ -357,7 +357,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0025024414, y: 0.00030517578}
+  m_AnchoredPosition: {x: -0.0024414062, y: 0.00024414062}
   m_SizeDelta: {x: 0.0048828, y: 0.00048828}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5741155672139745115
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_walkingOffsetForwardDistance: 0.02
   m_walkingOffsetTime: 0.25
   m_walkingBounceVerticalTime: 0.5
-  m_walkingBounceVerticalAmplitude: 0.05
+  m_walkingBounceVerticalAmplitude: 0.1
   m_walkingBounceVerticalCurve:
     serializedVersion: 2
     m_Curve:
@@ -1578,6 +1578,7 @@ GameObject:
   - component: {fileID: 4963101101500284952}
   - component: {fileID: 5674520221264693084}
   - component: {fileID: 989893051426445648}
+  - component: {fileID: 5203840679959781961}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1670,7 +1671,7 @@ MonoBehaviour:
   m_characterController: {fileID: 5674520221264693084}
   m_characterMovement: {fileID: 989893051426445648}
   m_characterLook: {fileID: 5583929727938244263}
-  m_weapon: {fileID: 0}
+  m_characterHealth: {fileID: 5203840679959781961}
   m_weaponSocketMovementController: {fileID: 198656532505447480}
 --- !u!143 &5674520221264693084
 CharacterController:
@@ -1716,6 +1717,19 @@ MonoBehaviour:
   m_jumpHeight: 1.5
   m_standHeight: 2
   m_crouchHeight: 1
+--- !u!114 &5203840679959781961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587146505438519886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ab1bc388ce7154e9dd72b78c8104fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 100
 --- !u!1 &8695329622717324888
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController m_characterController;
     public CharacterMovement m_characterMovement;
     public CharacterLook m_characterLook;
+    public EntityHealth m_characterHealth;
 
     [Header("Weapons")]
     public WeaponSocketMovementController m_weaponSocketMovementController;
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
         //TEMP - set active weapon id 0
         SetCurrentWeapon(0);
+
+        //TEMP
+        m_characterHealth.m_onDeath += Die;
     }
 
     /// <summary>
@@ -59,7 +63,7 @@ public class PlayerController : MonoBehaviour
         SO_WeaponsInGame weaponsInGame = GameManager.GetInstance().m_weaponsInGame;
         _weaponList = new List<Weapon>();
         _weaponsInventoryId = new List<int>();
-    
+
         for (int i = 0; i < weaponsInGame.m_weaponsInGame.Count; i++)
         {
             GameObject weaponObject = Instantiate(weaponsInGame.m_weaponsInGame[i].m_weaponPrefab, m_weaponSocketMovementController.transform, false);
@@ -159,5 +163,11 @@ public class PlayerController : MonoBehaviour
         {
             _activeWeapon.SetMovingValues();
         }
+    }
+
+    //TEMP
+    public void Die()
+    {
+        Debug.Log("DEAD");
     }
 }

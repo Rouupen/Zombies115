@@ -1,39 +1,61 @@
+using Unity.AppUI.UI;
 using Unity.Behavior;
 using UnityEngine;
 
 /// <summary>
-/// Base class for all enemy entities. Handles health, damage reception, and death behavior
+/// Base class for all enemy entities. Manages enemy behavior and animations
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float m_health = 100f;
     [SerializeField] private Animator m_animatorController;
-    private BehaviorGraphAgent m_behaviourAgent;
+    [SerializeField] private BehaviorGraphAgent m_behaviourAgent;
 
-
+    private EntityHealth m_enemyHealth;
     private void Awake()
     {
         m_behaviourAgent = GetComponent<BehaviorGraphAgent>();
+        m_enemyHealth = GetComponent<EntityHealth>();
 
+        if (m_enemyHealth == null)
+        {
+            m_enemyHealth = gameObject.AddComponent<EntityHealth>();
+            m_enemyHealth.InitializeEntityHealth(100);
+            Debug.LogWarning($"{gameObject.name} dosen't have an EntityHealth component attached");
+        }
 
+        m_enemyHealth.m_onDeath += Die;
     }
 
-    /// <summary>
-    /// Applies damage to the enemy. Triggers death if health reaches zero or below
-    /// </summary>
-    public virtual void TakeDamage(float damage)
+    //TEMP
+    public virtual void Attack(GameObject entityGo)
     {
-        m_health -= damage;
-
-        if (m_health <= 0)
+        if (entityGo != null)
         {
-            Die();
+            Vector3 origin = transform.position + Vector3.up;
+            Vector3 direction = transform.forward;
+
+            Ray ray = new Ray(origin, direction);
+            float radius = 0.5f;
+            float maxDistance = 2f;
+
+            RaycastHit[] hits = Physics.SphereCastAll(ray, radius, maxDistance);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.gameObject != entityGo) continue;
+
+                EntityHealth health = hit.collider.GetComponent<EntityHealth>();
+                if (health != null)
+                {
+                    m_animatorController.SetTrigger("Attack");
+                    health.TakeDamage(10);
+                    break;
+                }
+            }
         }
     }
 
-    /// <summary>
-    /// Handles the enemy's death logic
-    /// </summary>
+
     public virtual void Die()
     {
         //TEMP
