@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private BehaviorGraphAgent m_behaviourAgent;
 
     private EntityHealth m_enemyHealth;
+    private GameObject m_target;
+    private Rigidbody[] m_rigidbodies;
     private void Awake()
     {
         m_behaviourAgent = GetComponent<BehaviorGraphAgent>();
@@ -24,12 +26,19 @@ public class Enemy : MonoBehaviour
         }
 
         m_enemyHealth.m_onDeath += Die;
+
+        m_rigidbodies = transform.GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rigidbody in m_rigidbodies)
+        {
+            rigidbody.isKinematic = true;
+        }
     }
 
     //TEMP
-    public virtual void Attack(GameObject entityGo)
+    public virtual void Attack()
     {
-        if (entityGo != null)
+        if (m_target != null)
         {
             Vector3 origin = transform.position + Vector3.up;
             Vector3 direction = transform.forward;
@@ -42,12 +51,11 @@ public class Enemy : MonoBehaviour
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.collider.gameObject != entityGo) continue;
+                if (hit.collider.gameObject != m_target) continue;
 
                 EntityHealth health = hit.collider.GetComponent<EntityHealth>();
                 if (health != null)
                 {
-                    m_animatorController.SetTrigger("Attack");
                     health.TakeDamage(10);
                     break;
                 }
@@ -61,6 +69,25 @@ public class Enemy : MonoBehaviour
         //TEMP
         GetComponent<CapsuleCollider>().enabled = false;
         m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", false);
+        m_animatorController.SetFloat("DeathAnim",Random.Range(0,4));
         m_animatorController.SetTrigger("Die");
+    }
+
+    public void DisableAnimator()
+    {
+        foreach (Rigidbody rigidbody in m_rigidbodies)
+        {
+            rigidbody.isKinematic = false;
+        }
+        m_animatorController.enabled = false;
+    }
+
+    public void PlayTriggerAnimation(string animation)
+    {
+        m_animatorController.SetTrigger(animation);
+    }
+    public void UpdateTarget(GameObject target)
+    {
+        m_target = target;
     }
 }

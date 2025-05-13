@@ -13,7 +13,8 @@ public partial class AttackAction : Action
     protected override Status OnStart()
     {
         //TEMP
-        Agent.Value.GetComponent<Enemy>().Attack(Target);
+        Agent.Value.GetComponent<Enemy>().UpdateTarget(Target);
+        Agent.Value.GetComponent<Enemy>().PlayTriggerAnimation("Attack");
         return Status.Running;
     }
 
