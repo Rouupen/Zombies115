@@ -27,6 +27,8 @@ public class Enemy : MonoBehaviour
 
         m_enemyHealth.m_onDeath += Die;
 
+        m_enemyHealth.m_onDamageTaked += DamageTaked;
+
         m_rigidbodies = transform.GetComponentsInChildren<Rigidbody>();
 
         foreach (Rigidbody rigidbody in m_rigidbodies)
@@ -71,6 +73,13 @@ public class Enemy : MonoBehaviour
         m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", false);
         m_animatorController.SetFloat("DeathAnim",Random.Range(0,4));
         m_animatorController.SetTrigger("Die");
+        GameManager.GetInstance().m_pointsController.AddPoints(100);
+
+    }
+
+    public virtual void DamageTaked()
+    {
+        GameManager.GetInstance().m_pointsController.AddPoints(10);
     }
 
     public void DisableAnimator()

@@ -149,7 +149,6 @@ public class CharacterLook : MonoBehaviour
         while (currentTime <= m_walkingPositionAndRotationTime)
         {
             float valueCurve = m_walkingPositionAndRotationCurve.Evaluate((currentTime / m_walkingPositionAndRotationTime) % 1);
-            print(valueCurve);
             Vector3 currentPosition = Vector3.Slerp(startPosition, endPosition, valueCurve);
             Quaternion currentRotation = Quaternion.Slerp(startRotation, endRotation, valueCurve);
 

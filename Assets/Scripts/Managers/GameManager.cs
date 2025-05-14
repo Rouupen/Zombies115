@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
     //TEMP - UI Manager
     [HideInInspector] public CrosshairController m_crosshairController;
     [HideInInspector] public AmmoController m_ammoController;
-
+    [HideInInspector] public DamageController m_damageController;
+    [HideInInspector] public PointsController m_pointsController;
+    [HideInInspector] public InteractTextController m_interactTextController;
     #region StateMachines
     /// <summary>Delegate used to update all active state machines each frame.</summary>
     public delegate void UpdateStateMachines();
@@ -55,6 +57,9 @@ public class GameManager : MonoBehaviour
         // TEMP - UI Manager
         m_crosshairController = m_playerController.GetComponentInChildren<CrosshairController>();
         m_ammoController = m_playerController.GetComponentInChildren<AmmoController>();
+        m_damageController = m_playerController.GetComponentInChildren<DamageController>();
+        m_pointsController = m_playerController.GetComponentInChildren<PointsController>();
+        m_interactTextController = m_playerController.GetComponentInChildren<InteractTextController>();
 
         // Initialize managers and the player
         InitializeManagers();
