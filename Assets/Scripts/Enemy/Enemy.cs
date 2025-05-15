@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.AppUI.UI;
 using Unity.Behavior;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
     private EntityHealth m_enemyHealth;
     private GameObject m_target;
     private Rigidbody[] m_rigidbodies;
+    private Coroutine m_deadCoroutine;
     private void Awake()
     {
         m_behaviourAgent = GetComponent<BehaviorGraphAgent>();
@@ -36,6 +38,35 @@ public class Enemy : MonoBehaviour
             rigidbody.isKinematic = true;
         }
     }
+
+    public void InitializeEnemy(SpawnType spawnType)
+    {
+
+        switch (spawnType)
+        {
+            case SpawnType.Instant:
+                m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("InstantSpawn", true);
+                m_animatorController.SetBool("InstantSpawn", true);
+                break;
+            case SpawnType.Ground:
+                m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("InstantSpawn", false);
+                m_animatorController.SetBool("InstantSpawn", false);
+
+                break;
+            default:
+                break;
+        }
+        m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", true);
+
+        m_enemyHealth.InitializeEntityHealth(m_enemyHealth.GetTotalHealth());
+        m_animatorController.enabled = true;
+        GetComponent<CapsuleCollider>().enabled = true;
+        foreach (Rigidbody rigidbody in m_rigidbodies)
+        {
+            rigidbody.isKinematic = true;
+        }
+    }
+
 
     //TEMP
     public virtual void Attack()
@@ -74,7 +105,7 @@ public class Enemy : MonoBehaviour
         m_animatorController.SetFloat("DeathAnim",Random.Range(0,4));
         m_animatorController.SetTrigger("Die");
         GameManager.GetInstance().m_pointsController.AddPoints(100);
-
+        DieDespawn();
     }
 
     public virtual void DamageTaked()
@@ -98,5 +129,27 @@ public class Enemy : MonoBehaviour
     public void UpdateTarget(GameObject target)
     {
         m_target = target;
+    }
+
+    public void SetTarget(GameObject target)
+    {
+        m_behaviourAgent.BlackboardReference.SetVariableValue<Transform>("Target", target.transform);
+    }
+
+    void DieDespawn()
+    {
+        if (m_deadCoroutine != null)
+        {
+            StopCoroutine(m_deadCoroutine);
+        }
+
+        m_deadCoroutine = StartCoroutine(DieDespawnAnimation());
+    }
+
+    IEnumerator DieDespawnAnimation()
+    {
+        yield return new WaitForSeconds(15);
+        gameObject.SetActive(false);
+        m_deadCoroutine = null;
     }
 }

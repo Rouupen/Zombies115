@@ -1,6 +1,8 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,6 +12,8 @@ public class CrosshairController : MonoBehaviour
     public List<RectTransform> m_corrshairObj;
     public Vector2 m_minAndMaxPosition;
     public CanvasGroup m_canvasGroup;
+
+    private Color _currentColor = Color.white;
 
     private float m_speed = 10;
     private float m_fadeTime = 0.15f;
@@ -118,5 +122,21 @@ public class CrosshairController : MonoBehaviour
         }
         rotation.z = end;
         rectTransform.localRotation = Quaternion.Euler(rotation);
+    }
+
+
+    public void SetColor(Color color)
+    {
+        if (_currentColor == color)
+        {
+            return;
+        }
+
+        foreach (RectTransform rect in m_corrshairObj)
+        {
+            rect.GetComponent<UnityEngine.UI.Image>().color = color;
+        }
+
+        _currentColor = color;
     }
 }

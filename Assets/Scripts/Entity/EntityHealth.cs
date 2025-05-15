@@ -26,11 +26,6 @@ public class EntityHealth : MonoBehaviour
     {
         m_health = health;
         _currentHealth = m_health;
-
-        if (m_onDeath != null)
-        {
-            m_onDeath = null;
-        }
     }
 
     /// <summary>

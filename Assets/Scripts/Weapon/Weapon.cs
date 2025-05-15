@@ -7,6 +7,7 @@ using UnityEditor.Animations;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.UI.Image;
 
@@ -76,6 +77,27 @@ public class Weapon : MonoBehaviour
 
         _currentFireRateTime -= Time.deltaTime;
         _currentMinSpamFireRateTime -= Time.deltaTime;
+
+        Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
+        Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+
+        Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
+
+        float t = _weaponStatsData.m_range / 20.0f;
+
+        float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
+
+        int enemyLayer = LayerMask.NameToLayer("EnemyRagdoll");
+        int layerMask = 1 << enemyLayer;
+
+        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask) && hit.collider.GetComponentInParent<EntityHealth>().GetCurrentHealth() > 0)
+        {
+            GameManager.GetInstance().m_crosshairController.SetColor(Color.red);
+        }
+        else
+        {
+            GameManager.GetInstance().m_crosshairController.SetColor(Color.white);
+        }
     }
 
     public void InitializeWeapon(int id, WeaponStatsData weaponStatsData, WeaponMovementData weaponMovementData)
@@ -283,7 +305,11 @@ public class Weapon : MonoBehaviour
         float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
 
         Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
-        if (Physics.Raycast(position, direction, out RaycastHit hit, distance))
+
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        int layerMask = ~(1 << enemyLayer);
+
+        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask))
         {
             Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
             float tDamage = _weaponStatsData.m_damage / 20.0f;

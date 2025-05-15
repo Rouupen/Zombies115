@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3337743501546278939}
   - component: {fileID: 3359514921806356101}
   - component: {fileID: 2731516505810788196}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Glasses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 8858407391305240650}
   - component: {fileID: 7058322729432045505}
   - component: {fileID: 3793992683734949152}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crosshair_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 7301926754420856129}
   - component: {fileID: 6596450908149249556}
   - component: {fileID: 6254043881212124976}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InteractText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 6512072470091189309}
   - component: {fileID: 2748602418633540840}
   - component: {fileID: 7038052726139393158}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Magazine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889085046809643049}
   - component: {fileID: 5741155672139745115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 7931320718893192485}
   - component: {fileID: 6371598283243259538}
   - component: {fileID: 538036042642795288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 8361882490481718561}
   - component: {fileID: 2517092784156207577}
   - component: {fileID: 4363796236742032003}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050070258734663659}
   - component: {fileID: 198656532505447480}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GunSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ GameObject:
   - component: {fileID: 635237875050317658}
   - component: {fileID: 1555905359619387482}
   - component: {fileID: 6262300565716558335}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InteractText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -971,7 +971,7 @@ GameObject:
   - component: {fileID: 1704366052423098538}
   - component: {fileID: 1627227813183719707}
   - component: {fileID: 8542930567720953610}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1045,7 +1045,7 @@ GameObject:
   - component: {fileID: 1521412373378787196}
   - component: {fileID: 6697063226957799625}
   - component: {fileID: 3227128919720687672}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1145,7 +1145,7 @@ GameObject:
   - component: {fileID: 1642086416571482441}
   - component: {fileID: 4205902754226599362}
   - component: {fileID: 3599962575567788829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: /
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1281,7 +1281,7 @@ GameObject:
   - component: {fileID: 6397732339067753419}
   - component: {fileID: 8070585320227434046}
   - component: {fileID: 6270661322955865055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1419,7 +1419,7 @@ GameObject:
   - component: {fileID: 134458933716232803}
   - component: {fileID: 2046771177182628878}
   - component: {fileID: 8378663985235167705}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crosshair_T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1494,7 +1494,7 @@ GameObject:
   - component: {fileID: 1658383469326037546}
   - component: {fileID: 6529829765566895332}
   - component: {fileID: 5583929727938244263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1739,7 +1739,7 @@ GameObject:
   - component: {fileID: 8911955912313670120}
   - component: {fileID: 1235887039112077890}
   - component: {fileID: 6518551084421148739}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1875,7 +1875,7 @@ GameObject:
   - component: {fileID: 6400528573410343428}
   - component: {fileID: 8887322130186238953}
   - component: {fileID: 3446209580114392830}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Reserve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2013,7 +2013,7 @@ GameObject:
   - component: {fileID: 6825967903389788430}
   - component: {fileID: 7574583117530167939}
   - component: {fileID: 1047347980876192351}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2073,7 +2073,7 @@ GameObject:
   - component: {fileID: 5458056184231518727}
   - component: {fileID: 869235755299309921}
   - component: {fileID: 6405362506914595842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2153,7 +2153,7 @@ GameObject:
   - component: {fileID: 989893051426445648}
   - component: {fileID: 1982028458619702725}
   - component: {fileID: 2400307047867124646}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2328,7 +2328,7 @@ GameObject:
   - component: {fileID: 8720484101183554274}
   - component: {fileID: 6370767261028322266}
   - component: {fileID: 2778671043244617590}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crosshair_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2403,7 +2403,7 @@ GameObject:
   - component: {fileID: 8506478054208252862}
   - component: {fileID: 8339258513980430945}
   - component: {fileID: 8737804556565339838}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crosshair_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
