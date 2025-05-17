@@ -130,13 +130,13 @@ public class PlayerController : MonoBehaviour
     //TEMP
     private void Weapon1(InputAction.CallbackContext context)
     {
-        SetCurrentWeapon(_weaponsInventoryId[0]);
+        SetCurrentWeapon(_weaponsInventoryId[5]);
     }
 
     //TEMP
     private void Weapon2(InputAction.CallbackContext context)
     {
-        SetCurrentWeapon(_weaponsInventoryId[1]);
+        SetCurrentWeapon(_weaponsInventoryId[6]);
     }
 
     /// <summary>

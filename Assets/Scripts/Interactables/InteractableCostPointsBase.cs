@@ -4,7 +4,9 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 {
     public string m_text;
     public int m_costPoints = 500;
+    public bool m_needToLook;
     public Collider m_collider;
+    public Collider m_trigger;
 
 
     public virtual bool Interact(PlayerController interactor)
@@ -27,5 +29,21 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
     {
         GameManager.GetInstance().m_interactTextController.RemoveText();
         return true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (m_needToLook)
+        {
+            return;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (m_needToLook)
+        {
+            return;
+        }
     }
 }

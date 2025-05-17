@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5609041219ee29447be67fe106d27855, type: 3}
-  m_Name: BaseWeaponData
+  m_Name: EBRData
   m_EditorClassIdentifier: 
-  m_weaponID: -1
-  m_weaponPrefab: {fileID: 0}
+  m_weaponID: 3
+  m_weaponPrefab: {fileID: 2068676633479724104, guid: 56e7693e584b92947875049eed1dba4f, type: 3}
   m_weaponStats:
     m_shootingMode: 0
-    m_magazineAmmo: 30
-    m_totalAmmo: 150
-    m_fireRate: 1
-    m_damage: 1
-    m_range: 1
-    m_accuracyIdle: 1
-    m_accuracyMoving: 1
-    m_shotSounds: []
+    m_magazineAmmo: 5
+    m_totalAmmo: 40
+    m_fireRate: 10
+    m_damage: 20
+    m_range: 20
+    m_accuracyIdle: 15
+    m_accuracyMoving: 8
+    m_shotSounds:
+    - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
+    - {fileID: 8300000, guid: c488b01d5b9d978498c6cc41087c7b8d, type: 3}
+    - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}
   m_weaponData:
     _info: This section controls everything related to weapon movement. Some values,
       like recoil time, depend on the weapon's stats.All variables have descriptions
@@ -310,8 +313,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_aimPosition: {x: -0.05, y: -0.21, z: 0.623}
-    m_aimRotation: {x: 0, y: 0, z: 0}
+    m_aimPosition: {x: -0.104, y: -0.189, z: 0.417}
+    m_aimRotation: {x: 0, y: -0.002, z: 3.674}
     m_aimStartTime: 0.1
     m_aimEndTime: 0.1
     m_lookReductionWhileAiming: 0.3
