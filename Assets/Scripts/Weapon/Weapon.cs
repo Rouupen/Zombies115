@@ -90,7 +90,7 @@ public class Weapon : MonoBehaviour
         int enemyLayer = LayerMask.NameToLayer("EnemyRagdoll");
         int layerMask = 1 << enemyLayer;
 
-        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask) && hit.collider.GetComponentInParent<EntityHealth>().GetCurrentHealth() > 0)
+        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<EntityHealth>().GetCurrentHealth() > 0)
         {
             GameManager.GetInstance().m_crosshairController.SetColor(Color.red);
         }
@@ -309,7 +309,7 @@ public class Weapon : MonoBehaviour
         int enemyLayer = LayerMask.NameToLayer("Enemy");
         int layerMask = ~(1 << enemyLayer);
 
-        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask))
+        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
         {
             Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
             float tDamage = _weaponStatsData.m_damage / 20.0f;

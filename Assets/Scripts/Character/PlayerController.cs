@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement m_characterMovement;
     public CharacterLook m_characterLook;
     public EntityHealth m_characterHealth;
+    public CharacterInteraction m_characterInteraction;
 
     [Header("Weapons")]
     public WeaponSocketMovementController m_weaponSocketMovementController;
@@ -23,6 +24,9 @@ public class PlayerController : MonoBehaviour
     private Weapon _activeWeapon;
     private List<Weapon> _weaponList;
     private List<int> _weaponsInventoryId;
+    private List<int> _weaponsInSlots;
+
+
 
     /// <summary>
     /// Initialize character and weapons
@@ -42,6 +46,12 @@ public class PlayerController : MonoBehaviour
 
         //TEMP
         m_characterHealth.m_onDeath += Die;
+
+        //TEMP
+        _weaponsInSlots = new List<int>();
+        _weaponsInSlots.Add(0);
+        //Empty temp
+        _weaponsInSlots.Add(-1);
     }
 
     /// <summary>
@@ -127,16 +137,67 @@ public class PlayerController : MonoBehaviour
         _activeWeapon = weapon;
     }
 
+    public void ChangeSlotWeapon(int id)
+    {
+        for (int i = 0; i < _weaponsInventoryId.Count; i++)
+        {
+            if (id == _weaponsInventoryId[i])
+            {
+                //Checks empty slots
+                for (int j = 0; j < _weaponsInSlots.Count; j++)
+                {
+                    if (_weaponsInSlots[j] == -1)
+                    {
+                        _weaponsInSlots[j] = id;
+                        SetCurrentWeapon(id);
+                        return;
+                    }
+                }
+
+                //Change current weapon
+                for (int j = 0; j < _weaponsInSlots.Count; j++)
+                {
+                    if (_weaponsInSlots[j] == GetCurrentWeapon().GetWeaponID())
+                    {
+                        _weaponsInSlots[j] = id;
+                        SetCurrentWeapon(id);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     //TEMP
     private void Weapon1(InputAction.CallbackContext context)
     {
-        SetCurrentWeapon(_weaponsInventoryId[5]);
+        if (_weaponsInSlots[1] == -1)
+        {
+            return;
+        }
+        SetCurrentWeapon(_weaponsInSlots[0]);
     }
 
     //TEMP
     private void Weapon2(InputAction.CallbackContext context)
     {
-        SetCurrentWeapon(_weaponsInventoryId[6]);
+        if (_weaponsInSlots[1] == -1)
+        {
+            return;
+        }
+        SetCurrentWeapon(_weaponsInSlots[1]);
+    }
+
+    public bool HaveWeaponOnInventory(int id)
+    {
+        for (int i = 0; i < _weaponsInSlots.Count; i++)
+        {
+            if (_weaponsInSlots[i] == id)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// <summary>

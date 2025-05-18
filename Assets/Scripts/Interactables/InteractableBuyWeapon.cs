@@ -1,21 +1,32 @@
 using UnityEngine;
 
-public class InteractableDoor : InteractableCostPointsBase
+public class InteractableBuyWeapon : InteractableCostPointsBase
 {
-    public Animation m_openDoor;
-
+    public int m_weaponID;
     public override bool Interact(PlayerController interactor)
     {
+        if (interactor.HaveWeaponOnInventory(m_weaponID))
+        {
+            return false;
+        }
         if (!base.Interact(interactor))
         {
             return false;
         }
-        m_openDoor.Play();
-
+        interactor.ChangeSlotWeapon(m_weaponID);
+        SetActive(true);
         return true;
     }
     public override bool ShowInteract(PlayerController interactor, bool look)
     {
+        if (interactor.HaveWeaponOnInventory(m_weaponID))
+        {
+            return false;
+        }
+        if (interactor.HaveWeaponOnInventory(m_weaponID))
+        {
+            return false;
+        }
         base.ShowInteract(interactor, look);
 
         return true;

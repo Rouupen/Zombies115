@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Need refactor
 public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 {
     public string m_text;
@@ -7,43 +8,75 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
     public bool m_needToLook;
     public Collider m_collider;
     public Collider m_trigger;
-
+    private bool _isActive = true;
 
     public virtual bool Interact(PlayerController interactor)
     {
         //TEMP
-        bool pointsRemoved = GameManager.GetInstance().m_pointsController.RemovePoints(m_costPoints);
+        if (_isActive)
+        {
+            bool pointsRemoved = GameManager.GetInstance().m_pointsController.RemovePoints(m_costPoints);
 
-        m_collider.enabled = !pointsRemoved;
+            m_collider.enabled = !pointsRemoved;
+            _isActive = !pointsRemoved;
+            GameManager.GetInstance().m_interactTextController.RemoveText();
 
-        return pointsRemoved;
+            return pointsRemoved;
+        }
+
+        return false;
     }
-    public virtual bool ShowInteract(PlayerController interactor)
+    public virtual bool ShowInteract(PlayerController interactor, bool look)
     {
+        if (m_needToLook != look || !_isActive)
+        {
+            return false;
+        }
         string text = m_text + $"\n Cost: {m_costPoints}";
         GameManager.GetInstance().m_interactTextController.SetText(text);
         return true;
     }
 
-    public virtual bool HideInteract(PlayerController interactor)
+    public virtual bool HideInteract(PlayerController interactor, bool look)
     {
+        if (m_needToLook != look || !_isActive)
+        {
+            return false;
+        }
         GameManager.GetInstance().m_interactTextController.RemoveText();
         return true;
     }
-
+    //TEMP
     private void OnTriggerEnter(Collider other)
     {
         if (m_needToLook)
         {
             return;
         }
-    }
 
+        if (other.TryGetComponent<PlayerController>(out PlayerController player))
+        {
+            ShowInteract(player, false);
+            player.m_characterInteraction.AddInteract(this);
+        }
+    }
+    //TEMP
     private void OnTriggerExit(Collider other)
     {
         if (m_needToLook)
         {
             return;
         }
+
+        if (other.TryGetComponent<PlayerController>(out PlayerController player))
+        {
+            HideInteract(player, false);
+            player.m_characterInteraction.RemoveInteract(this);
+        }
+    }
+    public void SetActive(bool active)
+    {
+        m_collider.enabled = active;
+        _isActive = active;
     }
 }

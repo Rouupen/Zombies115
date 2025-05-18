@@ -6,6 +6,7 @@ public class CharacterInteraction : MonoBehaviour
     public float m_interactionDistance = 2f;
 
     private IInteractable _currentInteracting;
+    private IInteractable _triggerInteracting;
 
     private void Start()
     {
@@ -14,14 +15,15 @@ public class CharacterInteraction : MonoBehaviour
 
     void Update()
     {
-        Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, m_interactionDistance))
+        Ray ray = new Ray(GameManager.GetInstance().m_playerController.m_characterLook.transform.position, GameManager.GetInstance().m_playerController.m_characterLook.transform.forward);
+        int mask = ~0;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, m_interactionDistance, mask, QueryTriggerInteraction.Ignore) && hit.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null && _currentInteracting != interactable)
             {
                 //TEMP
-                interactable.ShowInteract(GameManager.GetInstance().m_playerController);
+                interactable.ShowInteract(GameManager.GetInstance().m_playerController, true);
                 _currentInteracting = interactable;
             }
 
@@ -30,7 +32,7 @@ public class CharacterInteraction : MonoBehaviour
         {
             if (_currentInteracting != null)
             {
-                _currentInteracting.HideInteract(GameManager.GetInstance().m_playerController);
+                _currentInteracting.HideInteract(GameManager.GetInstance().m_playerController, true);
                 _currentInteracting = null;
             }
         }
@@ -38,8 +40,14 @@ public class CharacterInteraction : MonoBehaviour
 
     void TryInteract(InputAction.CallbackContext context)
     {
-        Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, m_interactionDistance))
+        if (_triggerInteracting != null)
+        {
+            _triggerInteracting.Interact(GameManager.GetInstance().m_playerController);
+            return;
+        }
+        Ray ray = new Ray(GameManager.GetInstance().m_playerController.m_characterLook.transform.position, GameManager.GetInstance().m_playerController.m_characterLook.transform.forward);
+        int mask = ~0;
+        if (Physics.Raycast(ray, out RaycastHit hit, m_interactionDistance, mask, QueryTriggerInteraction.Ignore))
         {
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
@@ -48,5 +56,15 @@ public class CharacterInteraction : MonoBehaviour
                 interactable.Interact(GameManager.GetInstance().m_playerController);
             }
         }
+    }
+
+
+    public void AddInteract(IInteractable interact)
+    {
+        _triggerInteracting = interact;
+    }
+    public void RemoveInteract(IInteractable interact)
+    {
+        _triggerInteracting = null;
     }
 }

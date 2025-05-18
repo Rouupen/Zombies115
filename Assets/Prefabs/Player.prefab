@@ -2246,6 +2246,7 @@ MonoBehaviour:
   m_characterMovement: {fileID: 989893051426445648}
   m_characterLook: {fileID: 5583929727938244263}
   m_characterHealth: {fileID: 1982028458619702725}
+  m_characterInteraction: {fileID: 2400307047867124646}
   m_weaponSocketMovementController: {fileID: 198656532505447480}
 --- !u!143 &5674520221264693084
 CharacterController:
