@@ -1113,21 +1113,53 @@ PrefabInstance:
       objectReference: {fileID: 22100000, guid: c790d8b5912c4e34eb06086d2d6a4064, type: 2}
     - target: {fileID: 8945200612794438304, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
       propertyPath: m_Name
-      value: WeaponBase Variant
+      value: 870 Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4358345856282994130, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
       insertIndex: -1
       addedObject: {fileID: 981597976695706303}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8945200612794438304, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6403782541441748975}
   m_SourcePrefab: {fileID: 100100000, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
 --- !u!4 &1721798385777282464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4358345856282994130, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
   m_PrefabInstance: {fileID: 3143225518431905906}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6322286850718022354 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8945200612794438304, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+  m_PrefabInstance: {fileID: 3143225518431905906}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6403782541441748975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322286850718022354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5e9d49368325b4996e2ce7d44c5eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_particles: {fileID: 8147291045363854105}
+  _weaponStatsData:
+    m_shootingMode: 0
+    m_magazineAmmo: 30
+    m_totalAmmo: 150
+    m_fireRate: 0
+    m_damage: 0
+    m_range: 0
+    m_accuracyIdle: 0
+    m_accuracyMoving: 0
+    m_shotSounds: []
 --- !u!1001 &4036560732795161496
 PrefabInstance:
   m_ObjectHideFlags: 0

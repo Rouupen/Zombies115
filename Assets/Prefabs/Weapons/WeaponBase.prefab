@@ -50,11 +50,11 @@ MonoBehaviour:
     m_shootingMode: 0
     m_magazineAmmo: 30
     m_totalAmmo: 150
-    m_fireRate: 0
-    m_damage: 0
-    m_range: 0
-    m_accuracyIdle: 0
-    m_accuracyMoving: 0
+    m_fireRate: 1
+    m_damage: 1
+    m_range: 1
+    m_accuracyIdle: 1
+    m_accuracyMoving: 1
     m_shotSounds: []
 --- !u!95 &8777386603916641840
 Animator:

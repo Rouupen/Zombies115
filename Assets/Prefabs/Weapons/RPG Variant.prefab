@@ -81,6 +81,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f7956692f0f66b14d83752a249fc222e, type: 3}
   m_PrefabInstance: {fileID: 2145685047331198707}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2240748563278270761 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -9016279172504352806, guid: f7956692f0f66b14d83752a249fc222e, type: 3}
+  m_PrefabInstance: {fileID: 2145685047331198707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3640912663041396523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1158,6 +1163,26 @@ PrefabInstance:
       propertyPath: m_particles
       value: 
       objectReference: {fileID: 8904564609065955242}
+    - target: {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      propertyPath: _weaponStatsData.m_range
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      propertyPath: _weaponStatsData.m_damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      propertyPath: _weaponStatsData.m_fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      propertyPath: _weaponStatsData.m_accuracyIdle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      propertyPath: _weaponStatsData.m_accuracyMoving
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4358345856282994130, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1206,14 +1231,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: RPG Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2138578699426622968, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4358345856282994130, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5418319690738764475}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8945200612794438304, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6249549738506405486}
   m_SourcePrefab: {fileID: 100100000, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+--- !u!1 &3302929766794346918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8945200612794438304, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}
+  m_PrefabInstance: {fileID: 5905874493916533510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6249549738506405486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302929766794346918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3d05b57c10697429bd6a708100a241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_particles: {fileID: 8904564609065955242}
+  _weaponStatsData:
+    m_shootingMode: 0
+    m_magazineAmmo: 30
+    m_totalAmmo: 150
+    m_fireRate: 1
+    m_damage: 1
+    m_range: 1
+    m_accuracyIdle: 1
+    m_accuracyMoving: 1
+    m_shotSounds: []
+  m_rocketProjectile: {fileID: 8472299634787496880, guid: 5d685762ec6e6da41889a4d6e803ecaa, type: 3}
+  m_rocketReference: {fileID: 2240748563278270761}
 --- !u!4 &7894271357056480980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4358345856282994130, guid: 9b45c2664450a5545ad558799c2eb848, type: 3}

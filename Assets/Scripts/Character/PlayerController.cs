@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour
     private StateMachineFilter _characterStateMachine;
 
     //Weapon variables
-    private Weapon _activeWeapon;
-    private List<Weapon> _weaponList;
+    private WeaponBase _activeWeapon;
+    private List<WeaponBase> _weaponList;
     private List<int> _weaponsInventoryId;
     private List<int> _weaponsInSlots;
 
@@ -71,21 +71,21 @@ public class PlayerController : MonoBehaviour
     private void InstantiateAllWeapons()
     {
         SO_WeaponsInGame weaponsInGame = GameManager.GetInstance().m_weaponsInGame;
-        _weaponList = new List<Weapon>();
+        _weaponList = new List<WeaponBase>();
         _weaponsInventoryId = new List<int>();
 
         for (int i = 0; i < weaponsInGame.m_weaponsInGame.Count; i++)
         {
             GameObject weaponObject = Instantiate(weaponsInGame.m_weaponsInGame[i].m_weaponPrefab, m_weaponSocketMovementController.transform, false);
 
-            if (weaponObject.TryGetComponent<Weapon>(out Weapon weaponComponent))
+            if (weaponObject.TryGetComponent<WeaponBase>(out WeaponBase weaponComponent))
             {
                 _weaponList.Add(weaponComponent);
             }
             else
             {
                 Debug.LogWarning(weaponObject.name + " dosen´t have a weapon component attached");
-                _weaponList.Add(weaponObject.AddComponent<Weapon>());
+                _weaponList.Add(weaponObject.AddComponent<WeaponBase>());
             }
 
             // Initialize weapon values
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Returns the current weapon
     /// </summary>
-    public Weapon GetCurrentWeapon()
+    public WeaponBase GetCurrentWeapon()
     {
         return _activeWeapon;
     }
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Sets the specified weapon as the currently equipped weapon instance
     /// </summary>
-    public void SetCurrentWeapon(Weapon weapon)
+    public void SetCurrentWeapon(WeaponBase weapon)
     {
         _activeWeapon = weapon;
     }

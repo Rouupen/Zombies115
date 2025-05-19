@@ -41,7 +41,7 @@ public class WeaponStatsData
     public List<AudioClip> m_shotSounds;
 }
 
-public class Weapon : MonoBehaviour
+public class WeaponBase : MonoBehaviour
 {
     public ParticleSystem m_particles;
 
@@ -51,12 +51,12 @@ public class Weapon : MonoBehaviour
 
 
 
-    private float _fireRate;
-    private float _currentFireRateTime;
-    private float _currentMinSpamFireRateTime;
+    protected float _fireRate;
+    protected float _currentFireRateTime;
+    protected float _currentMinSpamFireRateTime;
 
-    private int m_magazineAmmo;
-    private int m_reserveAmmo;
+    protected int m_magazineAmmo;
+    protected int m_reserveAmmo;
 
     private Animator _animatorController;
     private Coroutine _reloadAnimation;
@@ -64,9 +64,6 @@ public class Weapon : MonoBehaviour
 
     //temp
     private bool _canShoot;
-    private void Start()
-    {
-    }
 
     private void Update()
     {
@@ -78,6 +75,11 @@ public class Weapon : MonoBehaviour
         _currentFireRateTime -= Time.deltaTime;
         _currentMinSpamFireRateTime -= Time.deltaTime;
 
+        EnemyDetection();
+    }
+
+    private void EnemyDetection()
+    {
         Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
         Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
 
@@ -243,11 +245,6 @@ public class Weapon : MonoBehaviour
             yield return null;
         }
 
-
-
-
-
-
         _canShoot = true;
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(true);
 
@@ -267,11 +264,11 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void Fire()
+    public virtual bool Fire()
     {
         if (!_canShoot)
         {
-            return;
+            return false;
         }
 
         if (m_magazineAmmo <= 0)
@@ -280,76 +277,80 @@ public class Weapon : MonoBehaviour
             {
                 StartReloadWeapon();
             }
-            return;
+            return false;
         }
 
-        _currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
-        GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
-        if (_weaponStatsData.m_shotSounds.Count != 0)
-        {
-            AudioSource.PlayClipAtPoint(_weaponStatsData.m_shotSounds[UnityEngine.Random.Range(0, _weaponStatsData.m_shotSounds.Count)], transform.position, 0.5f);
-        }
-        GameManager.GetInstance().m_playerController.m_characterLook.ShakeCamera();
-        m_particles.Play();
+        return true;
 
-
-        Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
-        Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
-        Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
-        RaycastHit hitInfo;
-
-        Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
-
-        float t = _weaponStatsData.m_range / 20.0f;
-
-        float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
-
-        Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
-
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
-        int layerMask = ~(1 << enemyLayer);
-
-        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
-        {
-            Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
-            float tDamage = _weaponStatsData.m_damage / 20.0f;
-
-            float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage);
-
-            EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
-            if (entityHealth != null)
-            {
-                entityHealth.TakeDamage(damage);
-            }
-        }
-
-
-        //if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
+        //_currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
+        //GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
+        //if (_weaponStatsData.m_shotSounds.Count != 0)
         //{
-        //    Debug.DrawLine(hitInfo.point, hitInfo.point + Vector3.up * 2, Color.red, 3f);
+        //    AudioSource.PlayClipAtPoint(_weaponStatsData.m_shotSounds[UnityEngine.Random.Range(0, _weaponStatsData.m_shotSounds.Count)], transform.position, 0.5f);
+        //}
+        //GameManager.GetInstance().m_playerController.m_characterLook.ShakeCamera();
+        //m_particles.Play();
+
+
+        //Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
+        //Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+        //Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
+        //RaycastHit hitInfo;
+
+        //Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
+
+        //float t = _weaponStatsData.m_range / 20.0f;
+
+        //float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
+
+        //Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
+
+        //int enemyLayer = LayerMask.NameToLayer("Enemy");
+        //int layerMask = ~(1 << enemyLayer);
+
+        //if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+        //{
+        //    Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
+        //    float tDamage = _weaponStatsData.m_damage / 20.0f;
+
+        //    float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage);
+
+        //    EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
+        //    if (entityHealth != null)
+        //    {
+        //        entityHealth.TakeDamage(damage);
+        //    }
         //}
 
-        m_magazineAmmo--;
 
-        if (m_magazineAmmo <= 0 && m_reserveAmmo > 0)
-        {
-            StartReloadWeapon();
-        }
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        ////if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
+        ////{
+        ////    Debug.DrawLine(hitInfo.point, hitInfo.point + Vector3.up * 2, Color.red, 3f);
+        ////}
 
+        //m_magazineAmmo--;
+
+        //if (m_magazineAmmo <= 0 && m_reserveAmmo > 0)
+        //{
+        //    StartReloadWeapon();
+        //}
+        //GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
     }
+
+
+
 
     public void SetIdleValues()
     {
         GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyIdle);
-
     }
 
     public void SetMovingValues()
     {
         GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
-
     }
+
+
 
     public void StartReloadWeapon(InputAction.CallbackContext context)
     {
@@ -407,7 +408,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void ReloadWeapon()
+    public virtual void ReloadWeapon()
     {
         if (m_reserveAmmo > 0)
         {
@@ -415,9 +416,11 @@ public class Weapon : MonoBehaviour
             m_reserveAmmo -= ammoReloded;
             m_magazineAmmo += ammoReloded;
         }
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
+        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
     }
+
+
 
     public void Aiming(bool aiming)
     {
@@ -428,20 +431,37 @@ public class Weapon : MonoBehaviour
     {
         return _animatorController;
     }
-    private void OnDrawGizmos()
-    {
-        if (!GameManager.GetInstance())
-        {
-            return;
-        }
-        Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
-        Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
-        Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(position + rotatedDirection, 0.01f);
-
-        //Max 425
-        //min 9.5
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//private void OnDrawGizmos()
+//{
+//    if (!GameManager.GetInstance())
+//    {
+//        return;
+//    }
+//    Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
+//    Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+//    Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
+
+//    Gizmos.color = Color.red;
+//    Gizmos.DrawSphere(position + rotatedDirection, 0.01f);
+
+//    //Max 425
+//    //min 9.5
+//}
