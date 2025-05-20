@@ -148,7 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_enemys:
+  - {fileID: 7479659335906087014, guid: ff6397cc86de6614b8806f5904af605c, type: 3}
   - {fileID: 5572328323651282906, guid: 0e1790fdf6cb476428f61503a4e17180, type: 3}
+  - {fileID: 7070716086191296781, guid: 61c2ae14cefa15f47a06c61f16464db2, type: 3}
   m_spawnPointsData:
   - {fileID: 709176349}
   - {fileID: 1234665097}

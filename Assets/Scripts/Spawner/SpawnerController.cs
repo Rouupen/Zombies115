@@ -13,7 +13,9 @@ public class SpawnerController : MonoBehaviour
 
     private int _totalToSpawn;
     private int _currentSpawned;
-    private int _maxSpawned = 24;
+
+    private int _maxSpawnedSameTime = 24;
+    private int _currentSpawnedSameTime = 0;
 
     void Start()
     {
@@ -27,17 +29,19 @@ public class SpawnerController : MonoBehaviour
                 goEnemy.SetActive(false);
                 Enemy enemyClass = goEnemy.GetComponent<Enemy>();
                 enemyClass.SetTarget(GameManager.GetInstance().m_playerController.gameObject);
+                enemyClass.GetComponent<EntityHealth>().m_onDeath += ZombieDead;
                 m_enemyList.Add(enemyClass);
             }
         }
 
-        InitializeNewRound(10);
+        //TEMP
+        InitializeNewRound(100);
     }
 
 
     private void Update()
     {
-        if (_currentSpawned > _totalToSpawn)
+        if (_currentSpawned > _totalToSpawn || _currentSpawnedSameTime >= _maxSpawnedSameTime)
         {
             return;
         }
@@ -52,18 +56,19 @@ public class SpawnerController : MonoBehaviour
 
     public void SpawnZombie()
     {
-        for (int i = 0; i < m_enemyList.Count; i++)
+        int index = Random.Range(0, m_enemyList.Count);
+
+        while (m_enemyList[index].gameObject.activeInHierarchy)
         {
-            if (!m_enemyList[i].gameObject.activeInHierarchy)
-            {
-                _currentSpawned++;
-                m_enemyList[i].gameObject.SetActive(true);
-                SpawnPointData spawnPoint = m_spawnPointsData[Random.Range(0, m_spawnPointsData.Count)];
-                m_enemyList[i].transform.position = spawnPoint.transform.position;
-                m_enemyList[i].InitializeEnemy(spawnPoint.m_spawnType);
-                break;
-            }
+            index = Random.Range(0, m_enemyList.Count);
         }
+
+        _currentSpawned++;
+        _currentSpawnedSameTime++;
+        m_enemyList[index].gameObject.SetActive(true);
+        SpawnPointData spawnPoint = m_spawnPointsData[Random.Range(0, m_spawnPointsData.Count)];
+        m_enemyList[index].transform.position = spawnPoint.transform.position;
+        m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType);
     }
 
 
@@ -76,5 +81,11 @@ public class SpawnerController : MonoBehaviour
     {
         SetTotalToSpawn(totalToSpawn);
         _currentSpawned = 0;
+        _currentSpawnedSameTime = 0;
+    }
+
+    public void ZombieDead()
+    {
+        _currentSpawnedSameTime--;
     }
 }
