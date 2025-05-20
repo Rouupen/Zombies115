@@ -37,7 +37,8 @@ public class WeaponStatsData
     [Range(1, 20)]
     public int m_accuracyMoving;
 
-
+    public int m_numberOfProjectiles = 1;
+    public float m_projectilesSpreadAngle = 0;
     public List<AudioClip> m_shotSounds;
 }
 

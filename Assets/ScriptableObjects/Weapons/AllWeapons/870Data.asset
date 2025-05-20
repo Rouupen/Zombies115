@@ -19,10 +19,12 @@ MonoBehaviour:
     m_magazineAmmo: 5
     m_totalAmmo: 50
     m_fireRate: 12
-    m_damage: 18
+    m_damage: 14
     m_range: 8
     m_accuracyIdle: 17
     m_accuracyMoving: 12
+    m_numberOfProjectiles: 5
+    m_projectilesSpreadAngle: 4
     m_shotSounds:
     - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
     - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}
@@ -313,7 +315,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_aimPosition: {x: -0.097, y: -0.183, z: 0.7947}
+    m_aimPosition: {x: -0.097, y: -0.183, z: 0.53}
     m_aimRotation: {x: 0, y: 0, z: 4.4430256}
     m_aimStartTime: 0.1
     m_aimEndTime: 0.1

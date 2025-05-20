@@ -18,35 +18,44 @@ public class NormalWeapon : WeaponBase
         m_particles.Play();
 
 
-        Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
-        Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
-        Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
-        RaycastHit hitInfo;
-
-        Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
-
-        float t = _weaponStatsData.m_range / 20.0f;
-
-        float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
-
-        Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
-
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
-        int layerMask = ~(1 << enemyLayer);
-
-        if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+        for (int i = 0; i < _weaponStatsData.m_numberOfProjectiles; i++)
         {
-            Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
-            float tDamage = _weaponStatsData.m_damage / 20.0f;
+            Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
+            float angleY = Random.Range(-_weaponStatsData.m_projectilesSpreadAngle, _weaponStatsData.m_projectilesSpreadAngle);
+            float angleX = Random.Range(-_weaponStatsData.m_projectilesSpreadAngle, _weaponStatsData.m_projectilesSpreadAngle);
+            Quaternion spreadRot = Quaternion.Euler(angleX, angleY, 0);
 
-            float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage);
+            Vector3 direction = spreadRot * GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+            Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
+            RaycastHit hitInfo;
 
-            EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
-            if (entityHealth != null)
+            Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
+
+            float t = _weaponStatsData.m_range / 20.0f;
+
+            float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
+
+            Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
+
+            int enemyLayer = LayerMask.NameToLayer("Enemy");
+            int layerMask = ~(1 << enemyLayer);
+
+            if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
             {
-                entityHealth.TakeDamage(damage);
+                Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
+                float tDamage = _weaponStatsData.m_damage / 20.0f;
+
+                float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) /*/ _weaponStatsData.m_numberOfProjectiles*/;
+
+                EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
+                if (entityHealth != null)
+                {
+                    entityHealth.TakeDamage(damage);
+                }
             }
         }
+
+        
 
 
         //if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))
