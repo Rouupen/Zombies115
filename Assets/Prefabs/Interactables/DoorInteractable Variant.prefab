@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 6285608936002141793}
   - component: {fileID: 6714000944643057654}
   - component: {fileID: 8064848358659603952}
+  - component: {fileID: 8085257636582440839}
   m_Layer: 0
   m_Name: DoorL
   m_TagString: Untagged
@@ -705,6 +706,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!208 &8085257636582440839
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2772809429168522840}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.013, y: 2.0110002, z: 0.109000005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -1.013, y: 2.0110002, z: 0.109000005}
+  m_TimeToStationary: 0.5
 --- !u!1 &7299639254928434959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,6 +1795,7 @@ GameObject:
   - component: {fileID: 3789270109464473460}
   - component: {fileID: 5790253861706968082}
   - component: {fileID: 1151552378733327693}
+  - component: {fileID: 5247809772642909425}
   m_Layer: 0
   m_Name: DoorR
   m_TagString: Untagged
@@ -2117,6 +2135,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!208 &5247809772642909425
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714233280840103587}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.013, y: 2.0110002, z: 0.109000005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -1.013, y: 2.0110002, z: 0.109000005}
+  m_TimeToStationary: 0.5
 --- !u!1001 &838415542861295509
 PrefabInstance:
   m_ObjectHideFlags: 0
