@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private List<WeaponBase> _weaponList;
     private List<int> _weaponsInventoryId;
     private List<int> _weaponsInSlots;
-
+    private int _currentWeaponSlot;
 
 
     /// <summary>
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
     //TEMP
     private void Weapon1(InputAction.CallbackContext context)
     {
-        if (_weaponsInSlots[1] == -1)
+        if (_weaponsInSlots[0] == -1)
         {
             return;
         }
