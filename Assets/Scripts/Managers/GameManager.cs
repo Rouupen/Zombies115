@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
 
     public InputManager m_inputManager { get { return _inputManager; } }
     private InputManager _inputManager;
+    
+    public ZoneManager m_zoneManager { get { return _zoneManager; } }
+    private ZoneManager _zoneManager;
+    
+    public SpawnManager m_spawnManager { get { return _spawnManager; } }
+    private SpawnManager _spawnManager;
     #endregion
 
     //TEMP - UI Manager
@@ -32,11 +38,16 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public DamageController m_damageController;
     [HideInInspector] public PointsController m_pointsController;
     [HideInInspector] public InteractTextController m_interactTextController;
+    
     #region StateMachines
     /// <summary>Delegate used to update all active state machines each frame.</summary>
     public delegate void UpdateStateMachines();
     /// <summary>Called every frame to update registered state machines</summary>
     public UpdateStateMachines m_updateStateMachines;
+
+    public delegate void UpdateManagers();
+    /// <summary>Called every frame to update registered state machines</summary>
+    public UpdateManagers m_updateManagers;
     #endregion
 
     [HideInInspector] public PlayerInput m_playerInput;
@@ -68,10 +79,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (m_updateManagers != null)
+        {
+            m_updateManagers();
+        }
+
         if (m_updateStateMachines != null) 
         {
             m_updateStateMachines();
-        }
+        }       
     }
 
     /// <summary>
@@ -89,6 +105,12 @@ public class GameManager : MonoBehaviour
     {
         _inputManager = new InputManager();
         _inputManager.Initialize();
+
+        _zoneManager = new ZoneManager();
+        _zoneManager.Initialize();
+        
+        _spawnManager = new SpawnManager();
+        _spawnManager.Initialize();
     }
 
     /// <summary>
@@ -97,5 +119,7 @@ public class GameManager : MonoBehaviour
     private void DeinitializeManagers()
     {
         _inputManager.Deinitialize();
+        _zoneManager.Deinitialize();
+        _spawnManager.Deinitialize();
     }
 }

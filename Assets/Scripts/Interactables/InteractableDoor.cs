@@ -10,10 +10,26 @@ public class InteractableDoor : InteractableCostPointsBase
         {
             return false;
         }
+        if (_areaController != null)
+        {
+            _areaController.UnlockArea();
+        }
         m_openDoor.Play();
 
         return true;
     }
+    public override bool Unlock()
+    {
+        if (!base.Unlock())
+        {
+            return false;
+        }
+
+        m_openDoor.Play();
+
+        return true;
+    }
+
     public override bool ShowInteract(PlayerController interactor, bool look)
     {
         base.ShowInteract(interactor, look);

@@ -6,5 +6,6 @@ using UnityEngine;
 public abstract class Manager
 {
     public abstract void Initialize();
+    public abstract void UpdateManager();
     public abstract void Deinitialize();
 }

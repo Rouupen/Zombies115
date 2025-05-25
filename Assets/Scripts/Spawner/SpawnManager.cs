@@ -1,10 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SpawnerController : MonoBehaviour
+//Manager
+public class SpawnManager : Manager
 {
-    public List<GameObject> m_enemys;
     public List<SpawnPointData> m_spawnPointsData;
 
     private List<Enemy> m_enemyList;
@@ -17,15 +16,20 @@ public class SpawnerController : MonoBehaviour
     private int _maxSpawnedSameTime = 24;
     private int _currentSpawnedSameTime = 0;
 
-    void Start()
-    {
-        m_enemyList = new List<Enemy>();
+    private GameObject _enemysObject;
 
-        foreach (GameObject enemy in m_enemys)
+    public override void Initialize()
+    {
+        GameManager.GetInstance().m_updateManagers += UpdateManager;
+        m_spawnPointsData = new List<SpawnPointData>();
+        m_enemyList = new List<Enemy>();
+        _enemysObject = GameManager.Instantiate(new GameObject(), GameManager.GetInstance().transform.position, Quaternion.identity);
+        _enemysObject.name = "EnemysObject";
+        foreach (GameObject enemy in GameManager.GetInstance().m_gameValues.m_enemys)
         {
             for (int i = 0; i < 25; i++)
             {
-                GameObject goEnemy = Instantiate(enemy, transform);
+                GameObject goEnemy = GameManager.Instantiate(enemy, _enemysObject.transform, true);
                 goEnemy.SetActive(false);
                 Enemy enemyClass = goEnemy.GetComponent<Enemy>();
                 enemyClass.SetTarget(GameManager.GetInstance().m_playerController.gameObject);
@@ -38,14 +42,18 @@ public class SpawnerController : MonoBehaviour
         InitializeNewRound(100);
     }
 
+    public override void Deinitialize()
+    {
+        GameManager.GetInstance().m_updateManagers -= UpdateManager;
+    }
 
-    private void Update()
+    public override void UpdateManager()
     {
         if (_currentSpawned > _totalToSpawn || _currentSpawnedSameTime >= _maxSpawnedSameTime)
         {
             return;
         }
-        if (currentTime >= timeSpawn)
+        if (currentTime >= timeSpawn && m_spawnPointsData.Count > 0)
         {
             SpawnZombie();
 
@@ -65,9 +73,9 @@ public class SpawnerController : MonoBehaviour
 
         _currentSpawned++;
         _currentSpawnedSameTime++;
-        m_enemyList[index].gameObject.SetActive(true);
         SpawnPointData spawnPoint = m_spawnPointsData[Random.Range(0, m_spawnPointsData.Count)];
         m_enemyList[index].transform.position = spawnPoint.transform.position;
+        m_enemyList[index].gameObject.SetActive(true);
         m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType);
     }
 
@@ -87,5 +95,21 @@ public class SpawnerController : MonoBehaviour
     public void ZombieDead()
     {
         _currentSpawnedSameTime--;
+    }
+
+    public void AddSpawnPoint(SpawnPointData spawnPoint)
+    {
+        if (!m_spawnPointsData.Contains(spawnPoint))
+        {
+            m_spawnPointsData.Add(spawnPoint);
+        }
+    }
+
+    public void RemoveSpawnPoint(SpawnPointData spawnPoint)
+    {
+        if (m_spawnPointsData.Contains(spawnPoint))
+        {
+            m_spawnPointsData.Remove(spawnPoint);
+        }
     }
 }

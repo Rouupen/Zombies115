@@ -9,6 +9,7 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
     public Collider m_collider;
     public Collider m_trigger;
     private bool _isActive = true;
+    protected AreaController _areaController;
 
     public virtual bool Interact(PlayerController interactor)
     {
@@ -26,6 +27,23 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 
         return false;
     }
+
+    public virtual bool Unlock()
+    {
+        //TEMP
+        if (_isActive)
+        {
+
+            m_collider.enabled = false;
+            _isActive = false;
+            GameManager.GetInstance().m_interactTextController.RemoveText();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public virtual bool ShowInteract(PlayerController interactor, bool look)
     {
         if (m_needToLook != look || !_isActive)
@@ -78,5 +96,10 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
     {
         m_collider.enabled = active;
         _isActive = active;
+    }
+
+    public void AddArea(AreaController area)
+    {
+        _areaController = area;
     }
 }

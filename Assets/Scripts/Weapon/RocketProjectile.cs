@@ -18,7 +18,7 @@ public class RocketProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.GetComponent<PlayerController>() != null || other.isTrigger)
         {
             return;
         }

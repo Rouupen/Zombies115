@@ -9,4 +9,10 @@ public enum SpawnType
 public class SpawnPointData : MonoBehaviour
 {
     public SpawnType m_spawnType;
+
+    
+    private void Start()
+    {
+        
+    }
 }

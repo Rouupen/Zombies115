@@ -68,4 +68,9 @@ public class InputManager : Manager
     {
 
     }
+
+    public override void UpdateManager()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +8,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameValues", menuName = "ScriptableObjects/GameValues", order = 4)]
 public class SO_GameValues : ScriptableObject
 {
+    [Header("Enemys")]
+    public List<GameObject> m_enemys;
+    
     [Header("Weapon values")]
     [Tooltip("Minimum and maximum fire rate for any weapon in the game")]
     public Vector2 m_minMaxFireRate;
