@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     
     public SpawnManager m_spawnManager { get { return _spawnManager; } }
     private SpawnManager _spawnManager;
+    
+    public GameModeManager m_gameModeManager { get { return _gameModeManager; } }
+    private GameModeManager _gameModeManager;
     #endregion
 
     //TEMP - UI Manager
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public DamageController m_damageController;
     [HideInInspector] public PointsController m_pointsController;
     [HideInInspector] public InteractTextController m_interactTextController;
+    [HideInInspector] public RoundsController m_roundsController;
     
     #region StateMachines
     /// <summary>Delegate used to update all active state machines each frame.</summary>
@@ -71,6 +75,7 @@ public class GameManager : MonoBehaviour
         m_damageController = m_playerController.GetComponentInChildren<DamageController>();
         m_pointsController = m_playerController.GetComponentInChildren<PointsController>();
         m_interactTextController = m_playerController.GetComponentInChildren<InteractTextController>();
+        m_roundsController = m_playerController.GetComponentInChildren<RoundsController>();
 
         // Initialize managers and the player
         InitializeManagers();
@@ -111,6 +116,9 @@ public class GameManager : MonoBehaviour
         
         _spawnManager = new SpawnManager();
         _spawnManager.Initialize();
+
+        _gameModeManager = new GameModeManager();
+        _gameModeManager.Initialize();
     }
 
     /// <summary>
@@ -121,5 +129,6 @@ public class GameManager : MonoBehaviour
         _inputManager.Deinitialize();
         _zoneManager.Deinitialize();
         _spawnManager.Deinitialize();
+        _gameModeManager.Deinitialize();
     }
 }

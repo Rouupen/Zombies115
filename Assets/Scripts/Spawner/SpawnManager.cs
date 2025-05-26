@@ -37,9 +37,6 @@ public class SpawnManager : Manager
                 m_enemyList.Add(enemyClass);
             }
         }
-
-        //TEMP
-        InitializeNewRound(100);
     }
 
     public override void Deinitialize()
@@ -49,7 +46,14 @@ public class SpawnManager : Manager
 
     public override void UpdateManager()
     {
-        if (_currentSpawned > _totalToSpawn || _currentSpawnedSameTime >= _maxSpawnedSameTime)
+        if (_currentSpawned > _totalToSpawn && _currentSpawnedSameTime == 0)
+        {
+            GameManager.GetInstance().m_gameModeManager.StartNextRound();
+            currentTime = -8; //wait to start new round
+            return;
+        }
+
+        if (_currentSpawnedSameTime >= _maxSpawnedSameTime || _currentSpawned > _totalToSpawn)
         {
             return;
         }
@@ -76,7 +80,7 @@ public class SpawnManager : Manager
         SpawnPointData spawnPoint = m_spawnPointsData[Random.Range(0, m_spawnPointsData.Count)];
         m_enemyList[index].transform.position = spawnPoint.transform.position;
         m_enemyList[index].gameObject.SetActive(true);
-        m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType);
+        m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType, GameManager.GetInstance().m_gameModeManager.GetCurrentEnemyHealth());
     }
 
 

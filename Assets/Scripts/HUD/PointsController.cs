@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PointsController : MonoBehaviour
 {
-    private int m_totalPoints;
+    private int _totalPoints;
     [SerializeField] private TextMeshProUGUI m_pointsText;
 
     private void Awake()
@@ -15,13 +15,13 @@ public class PointsController : MonoBehaviour
 
     public void AddPoints(int points)
     {
-        m_totalPoints += points;
+        _totalPoints += points;
         UpdateText();
     }
 
     public bool CanRemovePoints(int points)
     {
-        return m_totalPoints >= points;
+        return _totalPoints >= points;
     }
 
     public bool RemovePoints(int points)
@@ -31,11 +31,11 @@ public class PointsController : MonoBehaviour
             return false;
         }
 
-        m_totalPoints -= points;
+        _totalPoints -= points;
 
-        if (m_totalPoints < 0)
+        if (_totalPoints < 0)
         {
-            m_totalPoints = 0;
+            _totalPoints = 0;
         }
 
         UpdateText();
@@ -44,6 +44,6 @@ public class PointsController : MonoBehaviour
 
     public void UpdateText()
     {
-        m_pointsText.text = m_totalPoints.ToString();
+        m_pointsText.text = _totalPoints.ToString();
     }
 }

@@ -10,7 +10,9 @@ public class SO_GameValues : ScriptableObject
 {
     [Header("Enemys")]
     public List<GameObject> m_enemys;
-    
+    public int m_enemyStartHealth;
+    public int[] m_enemyHealthAddNextRound;
+    public float m_enemyExponentialHealth;
     [Header("Weapon values")]
     [Tooltip("Minimum and maximum fire rate for any weapon in the game")]
     public Vector2 m_minMaxFireRate;
