@@ -7,7 +7,7 @@ public class GameModeManager : Manager
 {
     private int _currentRound;
     private float _currentEnemyHealth;
-
+    private Vector2 _currentEnemySpeed;
     public override void Deinitialize()
     {
         throw new System.NotImplementedException();
@@ -29,11 +29,16 @@ public class GameModeManager : Manager
         return _currentEnemyHealth;
     }
 
+    public float GetRandomSpeed()
+    {
+        return UnityEngine.Random.Range(_currentEnemySpeed.x, _currentEnemySpeed.y);
+    }
+
     public void StartNextRound()
     {
         SO_GameValues gameValues = GameManager.GetInstance().m_gameValues;
 
-        if (gameValues.m_enemyHealthAddNextRound.Length < _currentRound) 
+        if (gameValues.m_enemyHealthAddNextRound.Length > _currentRound) 
         {
             _currentEnemyHealth += gameValues.m_enemyHealthAddNextRound[_currentRound];
         }
@@ -41,6 +46,16 @@ public class GameModeManager : Manager
         {
             _currentEnemyHealth *= gameValues.m_enemyExponentialHealth;
         }
+        if (gameValues.m_enemyMinMaxSpeed.Length > _currentRound)
+        {
+            _currentEnemySpeed = gameValues.m_enemyMinMaxSpeed[_currentRound];
+        }
+        else
+        {
+            _currentEnemySpeed = gameValues.m_enemyMinMaxSpeedDefault;
+        }
+
+        
 
         _currentRound++;
         int enemysToSpawn = Mathf.RoundToInt(0.0842f * Mathf.Pow(_currentRound, 2) + 0.1954f * _currentRound + 22.05f);

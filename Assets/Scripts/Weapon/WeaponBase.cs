@@ -55,6 +55,7 @@ public class WeaponBase : MonoBehaviour
     protected float _fireRate;
     protected float _currentFireRateTime;
     protected float _currentMinSpamFireRateTime;
+    protected float _currentAcuraccy;
 
     protected int m_magazineAmmo;
     protected int m_reserveAmmo;
@@ -65,6 +66,7 @@ public class WeaponBase : MonoBehaviour
 
     //temp
     private bool _canShoot;
+    protected bool _aiming;
 
     private void Update()
     {
@@ -344,11 +346,13 @@ public class WeaponBase : MonoBehaviour
     public void SetIdleValues()
     {
         GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyIdle);
+        _currentAcuraccy = 20 - _weaponStatsData.m_accuracyIdle;
     }
 
     public void SetMovingValues()
     {
         GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
+        _currentAcuraccy = 20 - _weaponStatsData.m_accuracyMoving;
     }
 
 
@@ -426,12 +430,31 @@ public class WeaponBase : MonoBehaviour
     public void Aiming(bool aiming)
     {
         _animatorController.SetBool("Idle", !aiming);
+        _aiming = aiming;
     }
 
     public Animator GetAnimator()
     {
         return _animatorController;
     }
+
+
+    //private void OnDrawGizmos()
+    //{
+    //    if (!GameManager.GetInstance())
+    //    {
+    //        return;
+    //    }
+    //    Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
+    //    Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+    //    Vector3 rotatedDirection = Quaternion.AngleAxis(UnityEngine.Random.Range(-20,20.0f), GameManager.GetInstance().m_playerController.m_characterLook.transform.up) * Quaternion.AngleAxis(UnityEngine.Random.Range(-20, 20.0f), GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
+
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawSphere(position + rotatedDirection, 0.01f);
+
+    //    //Max 425
+    //    //min 9.5
+    //}
 }
 
 
@@ -450,19 +473,3 @@ public class WeaponBase : MonoBehaviour
 
 
 
-//private void OnDrawGizmos()
-//{
-//    if (!GameManager.GetInstance())
-//    {
-//        return;
-//    }
-//    Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
-//    Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
-//    Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
-
-//    Gizmos.color = Color.red;
-//    Gizmos.DrawSphere(position + rotatedDirection, 0.01f);
-
-//    //Max 425
-//    //min 9.5
-//}

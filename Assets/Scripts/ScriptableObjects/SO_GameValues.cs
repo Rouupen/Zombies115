@@ -13,6 +13,8 @@ public class SO_GameValues : ScriptableObject
     public int m_enemyStartHealth;
     public int[] m_enemyHealthAddNextRound;
     public float m_enemyExponentialHealth;
+    public Vector2[] m_enemyMinMaxSpeed;
+    public Vector2 m_enemyMinMaxSpeedDefault;
     [Header("Weapon values")]
     [Tooltip("Minimum and maximum fire rate for any weapon in the game")]
     public Vector2 m_minMaxFireRate;

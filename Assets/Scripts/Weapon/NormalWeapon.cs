@@ -26,7 +26,14 @@ public class NormalWeapon : WeaponBase
             Quaternion spreadRot = Quaternion.Euler(angleX, angleY, 0);
 
             Vector3 direction = spreadRot * GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
-            Vector3 rotatedDirection = Quaternion.AngleAxis(-20, GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
+
+            float acuraccy = _currentAcuraccy;
+            if (_aiming)
+            {
+                acuraccy = 0;
+            }
+
+            Vector3 rotatedDirection = Quaternion.AngleAxis(UnityEngine.Random.Range(-acuraccy, acuraccy), GameManager.GetInstance().m_playerController.m_characterLook.transform.up) * Quaternion.AngleAxis(UnityEngine.Random.Range(-acuraccy, acuraccy), GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
             RaycastHit hitInfo;
 
             Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
@@ -35,12 +42,12 @@ public class NormalWeapon : WeaponBase
 
             float distance = Mathf.Lerp(minMaxRange.x, minMaxRange.y, t);
 
-            Debug.DrawLine(position, position + direction * distance, Color.red, 3f);
+            Debug.DrawLine(position, position + rotatedDirection * distance, Color.red, 3f);
 
             int enemyLayer = LayerMask.NameToLayer("Enemy");
             int layerMask = ~(1 << enemyLayer);
 
-            if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(position, rotatedDirection, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
             {
                 Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
                 float tDamage = _weaponStatsData.m_damage / 20.0f;

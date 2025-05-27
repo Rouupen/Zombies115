@@ -34,7 +34,7 @@ public class RocketProjectile : MonoBehaviour
             }
             else if (c.TryGetComponent<EntityHealth>(out EntityHealth entityHealth))
             {
-                entityHealth.TakeDamage(200);
+                entityHealth.TakeDamage(500);
             }
         }
 

@@ -80,7 +80,7 @@ public class SpawnManager : Manager
         SpawnPointData spawnPoint = m_spawnPointsData[Random.Range(0, m_spawnPointsData.Count)];
         m_enemyList[index].transform.position = spawnPoint.transform.position;
         m_enemyList[index].gameObject.SetActive(true);
-        m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType, GameManager.GetInstance().m_gameModeManager.GetCurrentEnemyHealth());
+        m_enemyList[index].InitializeEnemy(spawnPoint.m_spawnType, GameManager.GetInstance().m_gameModeManager.GetCurrentEnemyHealth(), GameManager.GetInstance().m_gameModeManager.GetRandomSpeed());
     }
 
 
@@ -116,4 +116,5 @@ public class SpawnManager : Manager
             m_spawnPointsData.Remove(spawnPoint);
         }
     }
+
 }

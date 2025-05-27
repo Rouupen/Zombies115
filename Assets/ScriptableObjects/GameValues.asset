@@ -19,6 +19,17 @@ MonoBehaviour:
   m_enemyStartHealth: 50
   m_enemyHealthAddNextRound: 640000006400000064000000640000006400000064000000640000006400000064000000
   m_enemyExponentialHealth: 1.1
+  m_enemyMinMaxSpeed:
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 2}
+  - {x: 2, y: 4}
+  - {x: 2, y: 4}
+  - {x: 3, y: 4}
+  - {x: 3, y: 4}
+  - {x: 4, y: 4}
+  - {x: 4, y: 4}
+  m_enemyMinMaxSpeedDefault: {x: 4, y: 4}
   m_minMaxFireRate: {x: 0.05, y: 0.75}
   m_minMaxDamage: {x: 1, y: 100}
   m_minMaxRange: {x: 5, y: 100}

@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void InitializeEnemy(SpawnType spawnType, float health)
+    public void InitializeEnemy(SpawnType spawnType, float health, float speed)
     {
 
         switch (spawnType)
@@ -59,6 +59,8 @@ public class Enemy : MonoBehaviour
         m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", true);
 
         m_enemyHealth.InitializeEntityHealth(health);
+        m_behaviourAgent.BlackboardReference.SetVariableValue<float>("Speed", speed);
+        m_animatorController.SetFloat("Speed", speed);
         m_animatorController.enabled = true;
         GetComponent<CapsuleCollider>().enabled = true;
         foreach (Rigidbody rigidbody in m_rigidbodies)
