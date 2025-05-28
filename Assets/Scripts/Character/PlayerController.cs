@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public CharacterLook m_characterLook;
     public EntityHealth m_characterHealth;
     public CharacterInteraction m_characterInteraction;
+    public CharacterPerks m_characterPerks;
 
     [Header("Weapons")]
     public WeaponSocketMovementController m_weaponSocketMovementController;
