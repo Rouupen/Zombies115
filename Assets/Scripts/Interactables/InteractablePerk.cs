@@ -18,27 +18,7 @@ public class InteractablePerk : InteractableCostPointsBase
         {
             return false;
         }
-
-        switch (m_perkType)
-        {
-            case Perks.ExtraHealth:
-            
-                break;
-            case Perks.FastHands:
-
-                break;
-            case Perks.Stamina:
-
-                break;
-            case Perks.DoubleDamage:
-
-                break;
-            case Perks.Revive:
-
-                break;
-            default:
-                break;
-        }
+        interactor.m_characterPerks.SetPerk(m_perkType);
 
         return true;
     }

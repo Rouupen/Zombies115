@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField] private float m_health = 100f;
+    [SerializeField] private float m_extraHealth = 0f;
 
     public delegate void OnDeath();
     public event OnDeath m_onDeath;
@@ -16,7 +17,7 @@ public class EntityHealth : MonoBehaviour
 
     private void Awake()
     {
-        _currentHealth = m_health;
+        _currentHealth = GetTotalHealth();
     }
 
     /// <summary>
@@ -25,7 +26,7 @@ public class EntityHealth : MonoBehaviour
     public void InitializeEntityHealth(float health)
     {
         m_health = health;
-        _currentHealth = m_health;
+        _currentHealth = GetTotalHealth();
     }
 
     /// <summary>
@@ -68,7 +69,12 @@ public class EntityHealth : MonoBehaviour
 
     public float GetTotalHealth()
     {
-        return m_health;
+        return m_health + m_extraHealth;
+    }
+
+    public void SetExtraHealth(float extraHealth)
+    {
+        m_extraHealth = extraHealth;
     }
 
     /// <summary>

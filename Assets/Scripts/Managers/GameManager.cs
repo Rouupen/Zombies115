@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PointsController m_pointsController;
     [HideInInspector] public InteractTextController m_interactTextController;
     [HideInInspector] public RoundsController m_roundsController;
+    [HideInInspector] public PerksController m_perksController;
     
     #region StateMachines
     /// <summary>Delegate used to update all active state machines each frame.</summary>

@@ -34,3 +34,9 @@ MonoBehaviour:
   m_minMaxDamage: {x: 1, y: 100}
   m_minMaxRange: {x: 5, y: 100}
   m_minMaxAccuracy: {x: 1, y: 20}
+  m_perksData:
+    m_extraHealth: 100
+    m_fastHandsDivider: 2
+    m_extraStamina: 100
+    m_doubleDamageMulti: 2
+    m_revive: 1

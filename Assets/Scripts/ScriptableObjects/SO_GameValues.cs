@@ -24,4 +24,8 @@ public class SO_GameValues : ScriptableObject
     public Vector2 m_minMaxRange;
     [Tooltip("Minimum and maximum accuracy values")]
     public Vector2 m_minMaxAccuracy;
+
+    //TEMP
+    [Header("Perks")]
+    public PerksData m_perksData;
 }
