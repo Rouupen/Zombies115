@@ -9,7 +9,7 @@ public class PointsController : MonoBehaviour
     private void Awake()
     {
         //TEMP
-        AddPoints(500);
+        AddPoints(5000);
     }
 
 

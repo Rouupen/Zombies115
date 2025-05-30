@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
         m_pointsController = m_playerController.GetComponentInChildren<PointsController>();
         m_interactTextController = m_playerController.GetComponentInChildren<InteractTextController>();
         m_roundsController = m_playerController.GetComponentInChildren<RoundsController>();
+        m_perksController = m_playerController.GetComponentInChildren<PerksController>();
 
         // Initialize managers and the player
         InitializeManagers();

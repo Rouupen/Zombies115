@@ -169,6 +169,10 @@ public class WeaponBase : MonoBehaviour
         float timeChange = 0;
         float timeSelect = 0;
 
+        float speed = GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_fastHandsDivider;
+
+        _animatorController.speed = speed;
+
         RuntimeAnimatorController rac = GameManager.GetInstance().m_playerController.GetCurrentWeapon().GetAnimator().runtimeAnimatorController;
         GameManager.GetInstance().m_playerController.GetCurrentWeapon().GetAnimator().SetTrigger("ChangeWeapon");
         foreach (AnimationClip clip in rac.animationClips)
@@ -191,7 +195,7 @@ public class WeaponBase : MonoBehaviour
             }
         }
 
-        GameManager.GetInstance().m_crosshairController.RotateCrosshair(timeChange + timeSelect);
+        GameManager.GetInstance().m_crosshairController.RotateCrosshair(timeChange / speed + timeSelect / speed);
 
         if (GameManager.GetInstance().m_playerController.GetCurrentWeapon() != null)
         {
@@ -203,7 +207,7 @@ public class WeaponBase : MonoBehaviour
         }
 
         float currentTime = 0;
-        while (currentTime <= timeChange)
+        while (currentTime <= timeChange/ speed)
         {
             currentTime += Time.deltaTime;
             yield return null;
@@ -242,11 +246,12 @@ public class WeaponBase : MonoBehaviour
         }
 
         currentTime = 0;
-        while (currentTime <= timeSelect)
+        while (currentTime <= timeSelect / speed)
         {
             currentTime += Time.deltaTime;
             yield return null;
         }
+        _animatorController.speed = 1;
 
         _canShoot = true;
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(true);
@@ -384,6 +389,10 @@ public class WeaponBase : MonoBehaviour
         _canShoot = false;
         _animatorController.SetTrigger("Reload");
 
+        float speed = GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_fastHandsDivider;
+
+        _animatorController.speed = speed;
+
         RuntimeAnimatorController rac = _animatorController.runtimeAnimatorController;
         float time = 0;
 
@@ -397,7 +406,7 @@ public class WeaponBase : MonoBehaviour
         }
 
         float currentTime = 0;
-        while (currentTime <= time)
+        while (currentTime <= time / speed)
         {
             currentTime += Time.deltaTime;
             yield return null;
@@ -406,7 +415,7 @@ public class WeaponBase : MonoBehaviour
         ReloadWeapon();
         _canShoot = true;
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.CanAim(true);
-
+        _animatorController.speed = 1;
         if (GameManager.GetInstance().m_inputManager.m_aim.IsPressed())
         {
             GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.StartAim();

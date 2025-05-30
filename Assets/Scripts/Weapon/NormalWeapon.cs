@@ -52,7 +52,7 @@ public class NormalWeapon : WeaponBase
                 Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
                 float tDamage = _weaponStatsData.m_damage / 20.0f;
 
-                float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) /*/ _weaponStatsData.m_numberOfProjectiles*/;
+                float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) * GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_doubleDamageMulti/*/ _weaponStatsData.m_numberOfProjectiles*/;
 
                 EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
                 if (entityHealth != null)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Controls everything related to the player and the equipped weapons
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapons")]
     public WeaponSocketMovementController m_weaponSocketMovementController;
+    public Volume m_volumeDeath;
 
     //Character variables
     private StateMachineFilter _characterStateMachine;
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private void InitializeStateMachine()
     {
         _characterStateMachine = new StateMachineFilter();
-        _characterStateMachine.InitializeStateMachine<Idle>(GameManager.GetInstance().m_characterStatesData.GetStatesData());
+        _characterStateMachine.InitializeStateMachine<IdleOrMoving>(GameManager.GetInstance().m_characterStatesData.GetStatesData());
     }
 
 
@@ -230,6 +232,7 @@ public class PlayerController : MonoBehaviour
     //TEMP
     public void Die()
     {
+        GetStateMachine().SetCurrentState<Downed>();
         Debug.Log("DEAD");
     }
 }

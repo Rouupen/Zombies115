@@ -75,6 +75,7 @@ public class EntityHealth : MonoBehaviour
     public void SetExtraHealth(float extraHealth)
     {
         m_extraHealth = extraHealth;
+        _currentHealth = GetTotalHealth();
     }
 
     /// <summary>

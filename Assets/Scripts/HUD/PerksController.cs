@@ -7,7 +7,12 @@ public class PerksController : MonoBehaviour
     public List<Image> m_images;
 
     private Dictionary<Perks, Image> m_perksImg;
-    
+
+    private void Awake()
+    {
+        m_perksImg = new Dictionary<Perks, Image>();
+    }
+
     public void AddPerk(Perks perk)
     {
         if (m_perksImg.ContainsKey(perk))
@@ -29,7 +34,7 @@ public class PerksController : MonoBehaviour
         if (image != null)
         {
             m_perksImg.Add(perk, image);
-            image.sprite = null; //CHANGE
+            image.sprite = GameManager.GetInstance().m_gameValues.m_spritesPerksDictionary.GetValueOrDefault(perk);
             image.gameObject.SetActive(true);
         }
     }

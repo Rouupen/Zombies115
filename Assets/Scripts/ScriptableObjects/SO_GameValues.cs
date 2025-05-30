@@ -1,6 +1,15 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class PerksSpritesPair
+{
+    public Perks key;
+    public Sprite value;
+}
+
 
 /// <summary>
 /// Stores global game configuration values
@@ -28,4 +37,22 @@ public class SO_GameValues : ScriptableObject
     //TEMP
     [Header("Perks")]
     public PerksData m_perksData;
+
+    [SerializeField]
+    private List<PerksSpritesPair> m_spritesPerks;
+
+    
+    public Dictionary<Perks, Sprite> m_spritesPerksDictionary
+    {
+        get
+        {
+            var dict = new Dictionary<Perks, Sprite>();
+            foreach (var pair in m_spritesPerks)
+            {
+                if (!dict.ContainsKey(pair.key))
+                    dict.Add(pair.key, pair.value);
+            }
+            return dict;
+        }
+    }
 }

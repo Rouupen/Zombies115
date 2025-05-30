@@ -37,6 +37,17 @@ MonoBehaviour:
   m_perksData:
     m_extraHealth: 100
     m_fastHandsDivider: 2
-    m_extraStamina: 100
+    m_extraStamina: 7
     m_doubleDamageMulti: 2
     m_revive: 1
+  m_spritesPerks:
+  - key: 0
+    value: {fileID: 21300000, guid: d99888ccc73f5814fb0e8b4d6e242530, type: 3}
+  - key: 1
+    value: {fileID: 21300000, guid: 99850a6ca10e0bd4d9773d59c57c27e5, type: 3}
+  - key: 2
+    value: {fileID: 21300000, guid: 60cde3698fa49434bbcc879ba636fd38, type: 3}
+  - key: 3
+    value: {fileID: 21300000, guid: 514181d245b325c4b84f632597ff79cc, type: 3}
+  - key: 4
+    value: {fileID: 21300000, guid: ac28933a0bc07e14d8198b3b0a60cfb7, type: 3}

@@ -15,16 +15,19 @@ public class CharacterMovement : MonoBehaviour
     public float m_gravity = -9.8f;
     public float m_characterWalkngSpeed = 6.0f;
     public float m_characterRunningSpeed = 9.0f;
+    public float m_characterDownedSpeed = 1.0f;
     public float m_jumpHeight = 1.5f;
     public float m_standHeight = 2f;
     public float m_crouchHeight = 1f;
+    public float m_downedHeight = 0.5f;
+    public float m_stamina = 3f;
 
     //Private
     private float _currentPlayerSpeed;
     private Vector3 _velocity;
     private CharacterController _characterController;
     private PlayerController _playerController;
-
+    private float m_currentStamina;
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -37,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
 
         _currentPlayerSpeed = m_characterWalkngSpeed;
         _playerController = GetComponent<PlayerController>();
-
+        m_currentStamina = GetStamina();
         InitializeInputBinding();
     }
 
@@ -49,19 +52,27 @@ public class CharacterMovement : MonoBehaviour
         moveValue.z = moveValue.z * _currentPlayerSpeed;
         if (moveValue.magnitude < 1)
         {
-            _playerController.GetStateMachine().SetCurrentState<Idle>();
-
-
-        }
-        else if (moveValue.magnitude < m_characterRunningSpeed)
-        {
-            _playerController.GetStateMachine().SetCurrentState<Walking>();
-
+            _playerController.SetIdleValues();
+            
         }
         else
         {
-            _playerController.GetStateMachine().SetCurrentState<Running>();
+            _playerController.SetMovingValues();
+            if (_currentPlayerSpeed.Equals(m_characterRunningSpeed))
+            {
+                m_currentStamina -= Time.deltaTime;
+            }
+        }
 
+        if (_currentPlayerSpeed.Equals(m_characterWalkngSpeed))
+        {
+            m_currentStamina += Time.deltaTime;
+        }
+        m_currentStamina = Mathf.Clamp(m_currentStamina, 0, GetStamina());
+
+        if (m_currentStamina <= 0)
+        {
+            SetCurrentPlayerSpeed(m_characterWalkngSpeed);
         }
     }
 
@@ -145,6 +156,10 @@ public class CharacterMovement : MonoBehaviour
     {
         _characterController.height = height;
     }
+    public void SetCurrentRadius(float radius)
+    {
+        _characterController.radius = radius;
+    }
 
     Vector3 GetMovementInput()
     {
@@ -154,12 +169,20 @@ public class CharacterMovement : MonoBehaviour
 
     void StartRunning(InputAction.CallbackContext context)
     {
+        if (_playerController.m_characterHealth.GetCurrentHealth() <= 0)
+        {
+            return;
+        }
         SetCurrentPlayerSpeed(m_characterRunningSpeed);
         //_playerController.GetStateMachine().SetCurrentState<Running>();
     }
 
     void EndRunning(InputAction.CallbackContext context)
     {
+        if (_playerController.m_characterHealth.GetCurrentHealth() <= 0)
+        {
+            return;
+        }
         SetCurrentPlayerSpeed(m_characterWalkngSpeed);
         //_playerController.GetStateMachine().SetCurrentState<Idle>();
     }
@@ -180,8 +203,12 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            _playerController.GetStateMachine().SetCurrentState<Idle>();
+            _playerController.GetStateMachine().SetCurrentState<IdleOrMoving>();
         }
     }
 
+    private float GetStamina()
+    {
+        return m_stamina + GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_extraStamina;
+    }
 }

@@ -28,6 +28,7 @@ public class CharacterPerks : MonoBehaviour
 
     private void Awake()
     {
+        m_perksData = new PerksData(0);
         m_activePerks = new List<Perks>();
     }
 
@@ -101,7 +102,7 @@ public class CharacterPerks : MonoBehaviour
     {
         while (m_activePerks.Count != 0)
         {
-            RemovePerk(m_activePerks[m_activePerks.Count]);
+            RemovePerk(m_activePerks[m_activePerks.Count - 1]);
         }
     }
 }
