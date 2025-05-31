@@ -81,6 +81,7 @@ public class WeaponBase : MonoBehaviour
         EnemyDetection();
     }
 
+
     private void EnemyDetection()
     {
         Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
@@ -135,7 +136,22 @@ public class WeaponBase : MonoBehaviour
         _changeWeaponAnimation = GameManager.GetInstance().StartCoroutine(ChangeWeaponAnimation());
         
     }
+    private void OnDestroy()
+    {
+        GameManager.GetInstance().m_inputManager.m_fire.started -= Fire;
+        GameManager.GetInstance().m_inputManager.m_reload.started -= StartReloadWeapon;
+    }
+    public void HideWeapon()
+    {
+        _canShoot = false;
+        _animatorController.SetTrigger("ChangeWeapon");
 
+    }
+    public void ShowWeapon()
+    {
+        _canShoot = true;
+        _animatorController.SetTrigger("SelectWeapon");
+    }
     private IEnumerator ChangeWeaponAnimation()
     {
 

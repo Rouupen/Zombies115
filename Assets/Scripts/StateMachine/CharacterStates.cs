@@ -231,11 +231,11 @@ public class Downed : CharacterState
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (_revive)
-        {
+        //if (_revive)
+        //{
             _playerController.m_characterMovement.UpdateMove();
             _playerController.m_characterMovement.m_stamina = 0;
-        }
+        //}
     }
 
     public override void OnExit()
@@ -247,11 +247,11 @@ public class Downed : CharacterState
     {
         float time = 1;
         float currentTime = 0;
-        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_downedHeight);
         _playerController.m_characterMovement.SetCurrentRadius(0.2f);
-        _playerController.m_characterMovement.UpdateMove();
+        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_downedHeight);
         _playerController.m_characterPerks.RemoveAllPerks();
-
+        _playerController.m_characterMovement.SetCurrentPlayerSpeed(0);
+        _playerController.GetCurrentWeapon().HideWeapon();
         while (currentTime <= time)
         {
             _playerController.m_volumeDeath.weight = Mathf.Lerp(0, 1, currentTime / time);
@@ -274,11 +274,11 @@ public class Downed : CharacterState
     {
         float time = 0.5f;
         float currentTime = 0;
-        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_downedHeight);
         _playerController.m_characterMovement.SetCurrentRadius(0.2f);
+        _playerController.m_characterMovement.SetCurrentHeight(_playerController.m_characterMovement.m_downedHeight);
         _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterDownedSpeed);
         _playerController.m_characterPerks.RemoveAllPerks();
-
+        GameManager.GetInstance().m_spawnManager.EnemysRunAwayTarget();
         while (currentTime <= time)
         {
             _playerController.m_volumeDeath.weight = Mathf.Lerp(0, 1, currentTime / time);
@@ -300,16 +300,17 @@ public class Downed : CharacterState
 
         time = 1.5f;
         currentTime = 0;
+        _playerController.m_characterMovement.SetCurrentRadius(0.5f);
 
+        _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterWalkngSpeed);
         while (currentTime <= time)
         {
             _playerController.m_volumeDeath.weight = 1 - Mathf.Lerp(0, 1, currentTime / time);
             currentTime += Time.deltaTime;
             yield return null;
         }
-        _playerController.m_characterMovement.SetCurrentRadius(0.5f);
+        GameManager.GetInstance().m_spawnManager.SetPlayerAsTargetForEnemys();
 
-        _playerController.m_characterMovement.SetCurrentPlayerSpeed(_playerController.m_characterMovement.m_characterWalkngSpeed);
         _anim = null;
 
         _playerController.GetStateMachine().SetCurrentState<IdleOrMoving>();

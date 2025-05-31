@@ -57,6 +57,12 @@ public class PlayerController : MonoBehaviour
         _weaponsInSlots.Add(-1);
     }
 
+    private void OnDestroy()
+    {
+        GameManager.GetInstance().m_inputManager.m_weaponSelection1.started -= Weapon1;
+        GameManager.GetInstance().m_inputManager.m_weaponSelection2.started -= Weapon2;
+    }
+
     /// <summary>
     /// Creates the player's state machine and sets the initial state to idle
     /// </summary>

@@ -196,7 +196,11 @@ public class WeaponSocketMovementController : MonoBehaviour
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
     }
-
+    private void OnDestroy()
+    {
+        GameManager.GetInstance().m_inputManager.m_aim.started -= StartAim;
+        GameManager.GetInstance().m_inputManager.m_aim.canceled -= EndAim;
+    }
     //Temp - for reset local variables
     public void Deinitialize()
     {

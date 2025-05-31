@@ -117,4 +117,21 @@ public class SpawnManager : Manager
         }
     }
 
+    //TEMP
+    public void EnemysRunAwayTarget()
+    {
+        foreach (Enemy enemy in m_enemyList)
+        {
+            enemy.SetTarget(GameManager.GetInstance().gameObject);
+        }
+    }
+
+    public void SetPlayerAsTargetForEnemys()
+    {
+        foreach (Enemy enemy in m_enemyList)
+        {
+            enemy.SetTarget(GameManager.GetInstance().m_playerController.gameObject);
+        }
+    }
+
 }

@@ -25,5 +25,5 @@ MonoBehaviour:
     m_allowedStates: 000000000300000006000000
   - m_mainState: 5
     m_allowedStates: 0000000006000000
-  - m_mainState: 5
+  - m_mainState: 6
     m_allowedStates: 00000000
