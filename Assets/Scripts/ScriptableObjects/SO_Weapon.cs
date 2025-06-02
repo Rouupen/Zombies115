@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,7 @@ public class SO_Weapon : ScriptableObject
 {
     public int m_weaponID = -1;
     public GameObject m_weaponPrefab;
+    public GameObject m_model;
     public WeaponStatsData m_weaponStats;
     public WeaponMovementData m_weaponData;
 }
