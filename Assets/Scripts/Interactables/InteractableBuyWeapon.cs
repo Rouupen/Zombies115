@@ -23,10 +23,6 @@ public class InteractableBuyWeapon : InteractableCostPointsBase
         {
             return false;
         }
-        if (interactor.HaveWeaponOnInventory(m_weaponID))
-        {
-            return false;
-        }
         base.ShowInteract(interactor, look);
 
         return true;

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponID: 0
   m_weaponPrefab: {fileID: 2654474628102545927, guid: 96e85e01e46ef65428558c959398e7c1, type: 3}
+  m_model: {fileID: 2923857698585369879, guid: a217e2c8fd35310448ab2b3cbb6f85fb, type: 3}
   m_weaponStats:
     m_shootingMode: 0
     m_magazineAmmo: 8

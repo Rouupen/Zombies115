@@ -74,8 +74,7 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 
         if (other.TryGetComponent<PlayerController>(out PlayerController player))
         {
-            ShowInteract(player, false);
-            player.m_characterInteraction.AddInteract(this);
+            AddInteract(player);
         }
     }
     //TEMP
@@ -88,13 +87,24 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 
         if (other.TryGetComponent<PlayerController>(out PlayerController player))
         {
-            HideInteract(player, false);
-            player.m_characterInteraction.RemoveInteract(this);
+            RemoveInteract(player);
         }
+    }
+
+    public void AddInteract(PlayerController player)
+    {
+        ShowInteract(player, false);
+        player.m_characterInteraction.AddInteract(this);
+    }
+    public void RemoveInteract(PlayerController player)
+    {
+        HideInteract(player, false);
+        player.m_characterInteraction.RemoveInteract(this);
     }
     public void SetActive(bool active)
     {
         m_collider.enabled = active;
+        m_trigger.enabled = active;
         _isActive = active;
     }
 

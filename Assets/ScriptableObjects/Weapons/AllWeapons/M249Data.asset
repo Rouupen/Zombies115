@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponID: 4
   m_weaponPrefab: {fileID: 661121800286281080, guid: 712d9303c11c9fc4eb4636a319c89794, type: 3}
+  m_model: {fileID: 1363655124920747354, guid: f251d0ec51a461f4e80a752ce85197c7, type: 3}
   m_weaponStats:
     m_shootingMode: 1
     m_magazineAmmo: 100
@@ -23,6 +24,8 @@ MonoBehaviour:
     m_range: 14
     m_accuracyIdle: 17
     m_accuracyMoving: 12
+    m_numberOfProjectiles: 1
+    m_projectilesSpreadAngle: 0
     m_shotSounds:
     - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
     - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}
