@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public EntityHealth m_characterHealth;
     public CharacterInteraction m_characterInteraction;
     public CharacterPerks m_characterPerks;
+    public UIController m_UIController;
 
     [Header("Weapons")]
     public WeaponSocketMovementController m_weaponSocketMovementController;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         InitializeStateMachine();
         InstantiateAllWeapons();
+
 
         //TEMP - Need a weapon manager
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started += Weapon1;
@@ -98,7 +100,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // Initialize weapon values
-            _weaponList[i].InitializeWeapon(weaponsInGame.m_weaponsInGame[i].m_weaponID, weaponsInGame.m_weaponsInGame[i].m_weaponStats, weaponsInGame.m_weaponsInGame[i].m_weaponData);
+            _weaponList[i].InitializeWeapon(weaponsInGame.m_weaponsInGame[i].m_weaponID, weaponsInGame.m_weaponsInGame[i].m_weaponStats, weaponsInGame.m_weaponsInGame[i].m_weaponData, this);
             weaponObject.SetActive(false);
 
             // Add weapon ID to the inventory

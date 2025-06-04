@@ -20,4 +20,5 @@ public class SO_InputData : ScriptableObject
     public string m_weaponSelection2;
     public string m_reload;
     public string m_mouseWheel;
+    public string m_tab;
 }

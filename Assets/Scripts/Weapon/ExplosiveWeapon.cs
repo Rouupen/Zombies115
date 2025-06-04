@@ -22,7 +22,7 @@ public class ExplosiveWeapon : WeaponBase
         {
             StartReloadWeapon();
         }
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
         return true;
     }
 

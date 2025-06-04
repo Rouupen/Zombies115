@@ -35,14 +35,7 @@ public class GameManager : MonoBehaviour
     private GameModeManager _gameModeManager;
     #endregion
 
-    //TEMP - UI Manager
-    [HideInInspector] public CrosshairController m_crosshairController;
-    [HideInInspector] public AmmoController m_ammoController;
-    [HideInInspector] public DamageController m_damageController;
-    [HideInInspector] public PointsController m_pointsController;
-    [HideInInspector] public InteractTextController m_interactTextController;
-    [HideInInspector] public RoundsController m_roundsController;
-    [HideInInspector] public PerksController m_perksController;
+
     
     #region StateMachines
     /// <summary>Delegate used to update all active state machines each frame.</summary>
@@ -71,13 +64,7 @@ public class GameManager : MonoBehaviour
         m_playerInput = GetComponent<PlayerInput>();
 
         // TEMP - UI Manager
-        m_crosshairController = m_playerController.GetComponentInChildren<CrosshairController>();
-        m_ammoController = m_playerController.GetComponentInChildren<AmmoController>();
-        m_damageController = m_playerController.GetComponentInChildren<DamageController>();
-        m_pointsController = m_playerController.GetComponentInChildren<PointsController>();
-        m_interactTextController = m_playerController.GetComponentInChildren<InteractTextController>();
-        m_roundsController = m_playerController.GetComponentInChildren<RoundsController>();
-        m_perksController = m_playerController.GetComponentInChildren<PerksController>();
+
 
         // Initialize managers and the player
         InitializeManagers();
@@ -110,6 +97,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InitializeManagers()
     {
+
         _inputManager = new InputManager();
         _inputManager.Initialize();
 

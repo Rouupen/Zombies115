@@ -212,30 +212,27 @@ public class Interacting : CharacterState
 public class Downed : CharacterState
 {
     Coroutine _anim;
-    bool _revive;
     public override void OnEnter()
     {
         base.OnEnter();
+        _playerController.m_UIController.m_scoreController.m_downs++;
         if (_playerController.m_characterPerks.m_perksData.m_revive)
         {
             _anim = GameManager.GetInstance().StartCoroutine(ReviveAnim());
-            _revive = true;
         }
         else
         {
             _anim = GameManager.GetInstance().StartCoroutine(EndGameAnim());
-            _revive = false;
         }
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        //if (_revive)
-        //{
-            _playerController.m_characterMovement.UpdateMove();
-            _playerController.m_characterMovement.m_stamina = 0;
-        //}
+
+        _playerController.m_characterMovement.UpdateMove();
+        _playerController.m_characterMovement.m_stamina = 0;
+
     }
 
     public override void OnExit()

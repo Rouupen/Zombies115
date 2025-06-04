@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Security.Claims;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,9 +10,10 @@ public class WeaponMovementData
     [Header("       ---INFO---")]
     [ReadOnlyTextArea]
     [SerializeField]
+#pragma warning disable CS0414
     private string _info = "This section controls everything related to weapon movement. Some values, like recoil time, depend on the weapon's stats." +
        "All variables have descriptions when you hover over them.";
-
+#pragma warning restore CS0414
     [Space(10)]
     [Header("       ---LOOK - MOVEMENT CAUSED BY CAMERA ROTATION---")]
     [Tooltip("Maximum angle the weapon will rotate horizontally and vertically")]
@@ -178,10 +180,10 @@ public class WeaponSocketMovementController : MonoBehaviour
     private Coroutine _coroutineFire;
     private Coroutine _coroutineAim;
     private Coroutine _coroutineDamping;
-    
+
     private bool _isAiming = false;
     private bool _canAim = true;
-
+    private PlayerController _playerController;
     public void Initialize(WeaponMovementData weaponMovementData)
     {
         m_weaponMovementData = weaponMovementData;
@@ -192,7 +194,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         _currentSocketRotation = Quaternion.Euler(m_weaponMovementData.m_idleLocalRotation);
         _walkingRotationOffset = Quaternion.identity;
 
-
+        _playerController = GameManager.GetInstance().m_playerController;
         GameManager.GetInstance().m_inputManager.m_aim.started += StartAim;
         GameManager.GetInstance().m_inputManager.m_aim.canceled += EndAim;
     }
@@ -538,7 +540,7 @@ public class WeaponSocketMovementController : MonoBehaviour
     IEnumerator AimAnimation(bool isStarting)
     {
         _isAiming = isStarting;
-        GameManager.GetInstance().m_playerController.GetCurrentWeapon().Aiming(isStarting);
+        _playerController.GetCurrentWeapon().Aiming(isStarting);
         float _currentTime = 0;
         Vector3 startPosition = _aimPositionOffset;
         Quaternion startRotation = _aimRotationOffset;
@@ -547,7 +549,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         Quaternion endRotation = isStarting ? Quaternion.Euler(m_weaponMovementData.m_aimRotation - _currentSocketRotation.eulerAngles) : Quaternion.identity;
 
         //temp
-        GameManager.GetInstance().m_crosshairController.ShowOrHideCrosshair(!isStarting);
+        _playerController.m_UIController.m_crosshairController.ShowOrHideCrosshair(!isStarting);
 
         while (_currentTime <= m_weaponMovementData.m_aimStartTime)
         {
@@ -575,7 +577,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         float _currentTime = 0;
         Vector3 startPosition = Vector3.zero;
 
-        Vector3 endPosition = GameManager.GetInstance().m_playerController.m_characterController.velocity;
+        Vector3 endPosition = _playerController.m_characterController.velocity;
         endPosition.x /= 2;
         endPosition.z = 0;
         endPosition = endPosition.normalized * m_weaponMovementData.m_dampingAmplitude;

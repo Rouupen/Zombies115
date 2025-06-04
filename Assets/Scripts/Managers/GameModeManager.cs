@@ -67,6 +67,6 @@ public class GameModeManager : Manager
         //https://denkirson.proboards.com/thread/2555/zombie-stats-updated-october-11
 
         GameManager.GetInstance().m_spawnManager.InitializeNewRound(enemysToSpawn);
-        GameManager.GetInstance().m_roundsController.SetCurrentRound(_currentRound);
+        GameManager.GetInstance().m_playerController.m_UIController.m_roundsController.SetCurrentRound(_currentRound);
     }
 }

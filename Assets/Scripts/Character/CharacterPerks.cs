@@ -25,11 +25,13 @@ public class CharacterPerks : MonoBehaviour
 {
     public PerksData m_perksData;
     public List<Perks> m_activePerks;
+    private PlayerController _playerController;
 
-    private void Awake()
+    private void Start()
     {
         m_perksData = new PerksData(0);
         m_activePerks = new List<Perks>();
+        _playerController = GameManager.GetInstance().m_playerController;
     }
 
     public void SetPerk(Perks perk)
@@ -44,7 +46,7 @@ public class CharacterPerks : MonoBehaviour
         switch (perk)
         {
             case Perks.ExtraHealth:
-                GameManager.GetInstance().m_playerController.m_characterHealth.SetExtraHealth(GameManager.GetInstance().m_gameValues.m_perksData.m_extraHealth);
+                _playerController.m_characterHealth.SetExtraHealth(GameManager.GetInstance().m_gameValues.m_perksData.m_extraHealth);
                 break;
             case Perks.FastHands:
                 m_perksData.m_fastHandsDivider = GameManager.GetInstance().m_gameValues.m_perksData.m_fastHandsDivider;
@@ -62,7 +64,7 @@ public class CharacterPerks : MonoBehaviour
                 break;
         }
 
-        GameManager.GetInstance().m_perksController.AddPerk(perk);
+        _playerController.m_UIController.m_perksController.AddPerk(perk);
     }
 
     public void RemovePerk(Perks perk)
@@ -77,7 +79,7 @@ public class CharacterPerks : MonoBehaviour
         switch (perk)
         {
             case Perks.ExtraHealth:
-                GameManager.GetInstance().m_playerController.m_characterHealth.SetExtraHealth(0);
+                _playerController.m_characterHealth.SetExtraHealth(0);
                 break;
             case Perks.FastHands:
                 m_perksData.m_fastHandsDivider = 1;
@@ -95,7 +97,7 @@ public class CharacterPerks : MonoBehaviour
                 break;
         }
 
-        GameManager.GetInstance().m_perksController.RemovePerk(perk);
+        _playerController.m_UIController.m_perksController.RemovePerk(perk);
     }
 
     public void RemoveAllPerks()

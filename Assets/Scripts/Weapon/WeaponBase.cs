@@ -67,7 +67,7 @@ public class WeaponBase : MonoBehaviour
     //temp
     private bool _canShoot;
     protected bool _aiming;
-
+    protected PlayerController _playerController;
     private void Update()
     {
         if (GameManager.GetInstance().m_inputManager.m_fire.IsPressed() && _currentFireRateTime <= 0 && _currentMinSpamFireRateTime <= 0 && _weaponStatsData.m_shootingMode == ShootingMode.Automatic)
@@ -84,8 +84,8 @@ public class WeaponBase : MonoBehaviour
 
     private void EnemyDetection()
     {
-        Vector3 position = GameManager.GetInstance().m_playerController.m_characterLook.transform.position;
-        Vector3 direction = GameManager.GetInstance().m_playerController.m_characterLook.transform.forward;
+        Vector3 position = _playerController.m_characterLook.transform.position;
+        Vector3 direction = _playerController.m_characterLook.transform.forward;
 
         Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
 
@@ -98,22 +98,22 @@ public class WeaponBase : MonoBehaviour
 
         if (Physics.Raycast(position, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<EntityHealth>().GetCurrentHealth() > 0)
         {
-            GameManager.GetInstance().m_crosshairController.SetColor(Color.red);
+            _playerController.m_UIController.m_crosshairController.SetColor(Color.red);
         }
         else
         {
-            GameManager.GetInstance().m_crosshairController.SetColor(Color.white);
+            _playerController.m_UIController.m_crosshairController.SetColor(Color.white);
         }
     }
 
-    public void InitializeWeapon(int id, WeaponStatsData weaponStatsData, WeaponMovementData weaponMovementData)
+    public void InitializeWeapon(int id, WeaponStatsData weaponStatsData, WeaponMovementData weaponMovementData, PlayerController player)
     {
         _weaponID = id;
         _weaponStatsData = weaponStatsData;
         _weaponMovementData = weaponMovementData;
 
         m_reserveAmmo = _weaponStatsData.m_totalAmmo;
-
+        _playerController = player;
         //Temp 
         _animatorController = GetComponent<Animator>();
 
@@ -211,7 +211,7 @@ public class WeaponBase : MonoBehaviour
             }
         }
 
-        GameManager.GetInstance().m_crosshairController.RotateCrosshair(timeChange / speed + timeSelect / speed);
+        _playerController.m_UIController.m_crosshairController.RotateCrosshair(timeChange / speed + timeSelect / speed);
 
         if (GameManager.GetInstance().m_playerController.GetCurrentWeapon() != null)
         {
@@ -252,7 +252,7 @@ public class WeaponBase : MonoBehaviour
         //CHANGE BUG
         SetIdleValues();
 
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
 
         if (_reloadAnimation != null)
@@ -366,13 +366,13 @@ public class WeaponBase : MonoBehaviour
 
     public void SetIdleValues()
     {
-        GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyIdle);
+        _playerController.m_UIController.m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyIdle);
         _currentAcuraccy = 20 - _weaponStatsData.m_accuracyIdle;
     }
 
     public void SetMovingValues()
     {
-        GameManager.GetInstance().m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
+        _playerController.m_UIController.m_crosshairController.SetCurrentAccuracy(_weaponStatsData.m_accuracyMoving);
         _currentAcuraccy = 20 - _weaponStatsData.m_accuracyMoving;
     }
 
@@ -447,7 +447,7 @@ public class WeaponBase : MonoBehaviour
             m_magazineAmmo += ammoReloded;
         }
 
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
     }
 
 

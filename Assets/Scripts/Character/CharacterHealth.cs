@@ -3,14 +3,20 @@ using UnityEngine;
 
 public class CharacterHealth : EntityHealth
 {
+    private PlayerController _playerController;
     private Coroutine _recoveringHealth;
+
+    private void Start()
+    {
+        _playerController = GetComponent<PlayerController>();
+    }
 
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
 
         float blend = 1 - GetCurrentHealth() / GetTotalHealth();
-        GameManager.GetInstance().m_damageController.SetDamageBlend(blend);
+        _playerController.m_UIController.m_damageController.SetDamageBlend(blend);
 
 
         if (_recoveringHealth != null)
@@ -49,11 +55,11 @@ public class CharacterHealth : EntityHealth
             SetHealth(newHealth);
 
             float blend = 1 - GetCurrentHealth() / GetTotalHealth();
-            GameManager.GetInstance().m_damageController.SetDamageBlend(blend);
+            _playerController.m_UIController.m_damageController.SetDamageBlend(blend);
             currentTime += Time.deltaTime;
             yield return null;
         }
-        GameManager.GetInstance().m_damageController.SetDamageBlend(0);
+        _playerController.m_UIController.m_damageController.SetDamageBlend(0);
         _recoveringHealth = null;
     }
 }

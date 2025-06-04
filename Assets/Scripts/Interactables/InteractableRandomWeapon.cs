@@ -65,7 +65,7 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
         if (m_currentWeapon != -1)
         {
             string text = "Pick weapon";
-            GameManager.GetInstance().m_interactTextController.SetText(text);
+            interactor.m_UIController.m_interactTextController.SetText(text);
             return true;
         }
         base.ShowInteract(interactor, look);

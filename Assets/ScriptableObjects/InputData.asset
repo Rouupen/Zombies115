@@ -24,3 +24,4 @@ MonoBehaviour:
   m_weaponSelection2: WeaponSelection2
   m_reload: Reload
   m_mouseWheel: MouseWheel
+  m_tab: Tab

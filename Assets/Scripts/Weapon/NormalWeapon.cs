@@ -34,7 +34,7 @@ public class NormalWeapon : WeaponBase
             }
 
             Vector3 rotatedDirection = Quaternion.AngleAxis(UnityEngine.Random.Range(-acuraccy, acuraccy), GameManager.GetInstance().m_playerController.m_characterLook.transform.up) * Quaternion.AngleAxis(UnityEngine.Random.Range(-acuraccy, acuraccy), GameManager.GetInstance().m_playerController.m_characterLook.transform.right) * direction;
-            RaycastHit hitInfo;
+            //RaycastHit hitInfo;
 
             Vector2 minMaxRange = GameManager.GetInstance().m_gameValues.m_minMaxRange;
 
@@ -76,7 +76,7 @@ public class NormalWeapon : WeaponBase
         {
             StartReloadWeapon();
         }
-        GameManager.GetInstance().m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
         return true;
 

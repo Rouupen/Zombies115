@@ -6,7 +6,7 @@ public class PointsController : MonoBehaviour
     private int _totalPoints;
     [SerializeField] private TextMeshProUGUI m_pointsText;
 
-    private void Awake()
+    private void Start()
     {
         //TEMP
         AddPoints(5000);
@@ -42,8 +42,13 @@ public class PointsController : MonoBehaviour
         return true;
     }
 
+    public int GetPoints()
+    {
+        return _totalPoints;
+    }
     public void UpdateText()
     {
         m_pointsText.text = _totalPoints.ToString();
+        GameManager.GetInstance().m_playerController.m_UIController.m_scoreController.m_score = _totalPoints;
     }
 }

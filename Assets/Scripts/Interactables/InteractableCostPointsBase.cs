@@ -16,11 +16,11 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
         //TEMP
         if (_isActive)
         {
-            bool pointsRemoved = GameManager.GetInstance().m_pointsController.RemovePoints(m_costPoints);
+            bool pointsRemoved = interactor.m_UIController.m_pointsController.RemovePoints(m_costPoints);
 
             m_collider.enabled = !pointsRemoved;
             _isActive = !pointsRemoved;
-            GameManager.GetInstance().m_interactTextController.RemoveText();
+            interactor.m_UIController.m_interactTextController.RemoveText();
 
             return pointsRemoved;
         }
@@ -36,7 +36,7 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
 
             m_collider.enabled = false;
             _isActive = false;
-            GameManager.GetInstance().m_interactTextController.RemoveText();
+            GameManager.GetInstance().m_playerController.m_UIController.m_interactTextController.RemoveText();
 
             return true;
         }
@@ -51,7 +51,7 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
             return false;
         }
         string text = m_text + $"\n Cost: {m_costPoints}";
-        GameManager.GetInstance().m_interactTextController.SetText(text);
+        interactor.m_UIController.m_interactTextController.SetText(text);
         return true;
     }
 
@@ -61,7 +61,7 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
         {
             return false;
         }
-        GameManager.GetInstance().m_interactTextController.RemoveText();
+        interactor.m_UIController.m_interactTextController.RemoveText();
         return true;
     }
     //TEMP
@@ -104,7 +104,10 @@ public class InteractableCostPointsBase : MonoBehaviour, IInteractable
     public void SetActive(bool active)
     {
         m_collider.enabled = active;
-        m_trigger.enabled = active;
+        if (m_trigger != null)
+        {
+            m_trigger.enabled = active;
+        }
         _isActive = active;
     }
 
