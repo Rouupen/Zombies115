@@ -37,6 +37,7 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
         if (m_currentWeapon != -1)
         {
             GameManager.GetInstance().m_playerController.ChangeSlotWeapon(m_currentWeapon);
+            interactor.GetCurrentWeapon().SetTotalAmmo(GameManager.GetInstance().m_weaponsInGame.GetWeaponData(m_currentWeapon).m_weaponStats.m_magazineAmmo, GameManager.GetInstance().m_weaponsInGame.GetWeaponData(m_currentWeapon).m_weaponStats.m_totalAmmo);
             if (_weaponAnim != null)
             {
                 StopCoroutine(_weaponAnim);
@@ -85,6 +86,7 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
         m_animator.SetTrigger("Open");
         _canInteract = false;
         Dictionary<int, GameObject> availableWeapons = new Dictionary<int, GameObject>();
+        SetActive(true);
 
         foreach (var weapon in m_weapons)
         {
@@ -111,7 +113,9 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
             }
             availableWeapons[weaponsIDS[weaponsIDS.Count - 1]].SetActive(false);
         }
+        SetActive(false);
         SetActive(true);
+
         m_currentWeapon = weaponsIDS[Random.Range(0, weaponsIDS.Count)];
         availableWeapons[m_currentWeapon].SetActive(true);
         _canInteract = true;
@@ -127,7 +131,7 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
         m_animator.SetTrigger("Close");
 
         HideInteract(interactor, false);
-        SetActive(false);
+        SetActive(true);
         m_weapons[m_currentWeapon].SetActive(false);
         m_currentWeapon = -1;
         _canInteract = false;

@@ -450,8 +450,23 @@ public class WeaponBase : MonoBehaviour
         _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
     }
 
+    public void SetTotalAmmo(int magazineAmmo, int reserveAmmo)
+    {
+        m_magazineAmmo = magazineAmmo;
+        m_reserveAmmo = reserveAmmo;
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
+    }
+    public void SetReserveAmmo(int ammo)
+    {
+        m_reserveAmmo = ammo;
+        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
+    }
+    public int GetReserveAmmo()
+    {
+        return m_reserveAmmo;
+    }
     public void Aiming(bool aiming)
     {
         _animatorController.SetBool("Idle", !aiming);
