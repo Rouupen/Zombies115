@@ -134,4 +134,22 @@ public class SpawnManager : Manager
         }
     }
 
+    public void KillAllActiveEnemys()
+    {
+        foreach (Enemy enemy in m_enemyList)
+        {
+            if (enemy.m_isDead == false)
+            {
+                enemy.m_enemyHealth.TakeDamage(enemy.m_enemyHealth.GetTotalHealth());
+            }
+        }
+    }
+
+    public void SetInstaKillAllEnemys(bool instaKill)
+    {
+        foreach (Enemy enemy in m_enemyList)
+        {
+            enemy.SetInstaKill(instaKill);
+        }
+    }
 }

@@ -51,3 +51,17 @@ MonoBehaviour:
     value: {fileID: 21300000, guid: 514181d245b325c4b84f632597ff79cc, type: 3}
   - key: 4
     value: {fileID: 21300000, guid: ac28933a0bc07e14d8198b3b0a60cfb7, type: 3}
+  m_powerUpObject: {fileID: 653051540089787624, guid: 820d6a869f1aa0d42881ac66c520a3b5, type: 3}
+  m_powerUpModel:
+  - m_type: 0
+    m_model: {fileID: 2227364396047681923, guid: e5257054ecfe19642b55acb6c6ebf2b9, type: 3}
+    sprite: {fileID: 0}
+  - m_type: 1
+    m_model: {fileID: 8161336222954781729, guid: ff6486412e5daff47a17a22198bb003f, type: 3}
+    sprite: {fileID: 0}
+  - m_type: 2
+    m_model: {fileID: 7363822378607454263, guid: be747d3fefdfa7b42ac7ba4002c29bb6, type: 3}
+    sprite: {fileID: 21300000, guid: d99888ccc73f5814fb0e8b4d6e242530, type: 3}
+  - m_type: 3
+    m_model: {fileID: 8413001181510835767, guid: dd9e5be19cd2a4b4b8096e77641ff71b, type: 3}
+    sprite: {fileID: 21300000, guid: 60cde3698fa49434bbcc879ba636fd38, type: 3}

@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     public RoundsController m_roundsController;
     public PerksController m_perksController;
     public ScoreController m_scoreController;
+    public PowerUpController m_powerUpController;
 
     //private void Awake()
     //{

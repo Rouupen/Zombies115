@@ -211,6 +211,13 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public void FillAmmoAllWeapons()
+    {
+        for (int i = 0; i < _weaponList.Count; i++)
+        {
+            _weaponList[i].SetReserveAmmo(GameManager.GetInstance().m_weaponsInGame.GetWeaponData(_weaponList[i].GetWeaponID()).m_weaponStats.m_totalAmmo);
+        }
+    }
 
     /// <summary>
     /// Returns the character state machine

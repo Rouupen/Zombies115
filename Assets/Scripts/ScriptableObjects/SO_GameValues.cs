@@ -10,6 +10,14 @@ public class PerksSpritesPair
     public Sprite value;
 }
 
+[Serializable]
+public class PowerUpModelPair
+{
+    public PowerUps m_type;
+    public GameObject m_model;
+    public Sprite sprite;
+
+}
 
 /// <summary>
 /// Stores global game configuration values
@@ -41,7 +49,12 @@ public class SO_GameValues : ScriptableObject
     [SerializeField]
     private List<PerksSpritesPair> m_spritesPerks;
 
-    
+    [Header("PowerUps")]
+    public GameObject m_powerUpObject;
+
+    [SerializeField]
+    private List<PowerUpModelPair> m_powerUpModel;
+
     public Dictionary<Perks, Sprite> m_spritesPerksDictionary
     {
         get
@@ -51,6 +64,34 @@ public class SO_GameValues : ScriptableObject
             {
                 if (!dict.ContainsKey(pair.key))
                     dict.Add(pair.key, pair.value);
+            }
+            return dict;
+        }
+    }
+
+    public Dictionary<PowerUps, GameObject> m_powerUpModelDictionary
+    {
+        get
+        {
+            var dict = new Dictionary<PowerUps, GameObject>();
+            foreach (var pair in m_powerUpModel)
+            {
+                if (!dict.ContainsKey(pair.m_type))
+                    dict.Add(pair.m_type, pair.m_model);
+            }
+            return dict;
+        }
+    }
+
+    public Dictionary<PowerUps, Sprite> m_powerUpSpriteDictionary
+    {
+        get
+        {
+            var dict = new Dictionary<PowerUps, Sprite>();
+            foreach (var pair in m_powerUpModel)
+            {
+                if (!dict.ContainsKey(pair.m_type))
+                    dict.Add(pair.m_type, pair.sprite);
             }
             return dict;
         }

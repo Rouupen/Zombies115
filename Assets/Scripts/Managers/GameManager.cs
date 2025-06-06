@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     
     public GameModeManager m_gameModeManager { get { return _gameModeManager; } }
     private GameModeManager _gameModeManager;
+    
+    public PowerUpManager m_powerUpManager { get { return _powerUpManager; } }
+    private PowerUpManager _powerUpManager;
     #endregion
 
 
@@ -109,6 +112,9 @@ public class GameManager : MonoBehaviour
 
         _gameModeManager = new GameModeManager();
         _gameModeManager.Initialize();
+
+        _powerUpManager = new PowerUpManager();
+        _powerUpManager.Initialize();
     }
 
     /// <summary>
@@ -120,5 +126,6 @@ public class GameManager : MonoBehaviour
         _zoneManager.Deinitialize();
         _spawnManager.Deinitialize();
         _gameModeManager.Deinitialize();
+        _powerUpManager.Deinitialize();
     }
 }

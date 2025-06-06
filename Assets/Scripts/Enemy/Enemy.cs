@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator m_animatorController;
     [SerializeField] private BehaviorGraphAgent m_behaviourAgent;
 
-    private EntityHealth m_enemyHealth;
+    [HideInInspector] public EntityHealth m_enemyHealth;
     private GameObject m_target;
     private Rigidbody[] m_rigidbodies;
     private Coroutine m_deadCoroutine;
+    private bool m_instaKill;
+    public bool m_isDead = true;
     private void Awake()
     {
         m_behaviourAgent = GetComponent<BehaviorGraphAgent>();
@@ -26,7 +28,7 @@ public class Enemy : MonoBehaviour
             m_enemyHealth.InitializeEntityHealth(100);
             Debug.LogWarning($"{gameObject.name} dosen't have an EntityHealth component attached");
         }
-
+        m_isDead = true;
         m_enemyHealth.m_onDeath += Die;
 
         m_enemyHealth.m_onDamageTaked += DamageTaked;
@@ -63,6 +65,7 @@ public class Enemy : MonoBehaviour
         m_animatorController.SetFloat("Speed", speed);
         m_animatorController.enabled = true;
         GetComponent<CapsuleCollider>().enabled = true;
+        m_isDead = false;
         foreach (Rigidbody rigidbody in m_rigidbodies)
         {
             rigidbody.isKinematic = true;
@@ -104,17 +107,24 @@ public class Enemy : MonoBehaviour
         //TEMP
         GetComponent<CapsuleCollider>().enabled = false;
         m_behaviourAgent.BlackboardReference.SetVariableValue<bool>("Alive", false);
-        m_animatorController.SetFloat("DeathAnim",Random.Range(0,4));
+        m_animatorController.SetFloat("DeathAnim", Random.Range(0, 4));
         m_animatorController.SetTrigger("Die");
         GameManager.GetInstance().m_playerController.m_UIController.m_pointsController.AddPoints(100);
         GameManager.GetInstance().m_playerController.m_UIController.m_scoreController.m_kills++;
-        
+
+        GameManager.GetInstance().m_powerUpManager.TryToInstatiateRandomNewPowerUp(transform.position);
+        m_isDead = true;
         DieDespawn();
     }
 
     public virtual void DamageTaked()
     {
         GameManager.GetInstance().m_playerController.m_UIController.m_pointsController.AddPoints(10);
+
+        if (m_instaKill)
+        {
+            m_enemyHealth.Die();
+        }
     }
 
     public void DisableAnimator()
@@ -155,5 +165,10 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(15);
         gameObject.SetActive(false);
         m_deadCoroutine = null;
+    }
+
+    public void SetInstaKill(bool instaKill)
+    {
+        m_instaKill = instaKill;
     }
 }

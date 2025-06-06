@@ -5,6 +5,7 @@ public class PointsController : MonoBehaviour
 {
     private int _totalPoints;
     [SerializeField] private TextMeshProUGUI m_pointsText;
+    public float _pointsMult = 1;
 
     private void Start()
     {
@@ -15,7 +16,7 @@ public class PointsController : MonoBehaviour
 
     public void AddPoints(int points)
     {
-        _totalPoints += points;
+        _totalPoints += (int)(points * _pointsMult);
         UpdateText();
     }
 
@@ -50,5 +51,10 @@ public class PointsController : MonoBehaviour
     {
         m_pointsText.text = _totalPoints.ToString();
         GameManager.GetInstance().m_playerController.m_UIController.m_scoreController.m_score = _totalPoints;
+    }
+
+    public void SetPointsMult(int mult)
+    {
+        _pointsMult = mult;
     }
 }
