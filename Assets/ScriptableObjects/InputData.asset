@@ -25,3 +25,4 @@ MonoBehaviour:
   m_reload: Reload
   m_mouseWheel: MouseWheel
   m_tab: Tab
+  m_esc: Esc

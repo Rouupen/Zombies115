@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
         //TEMP - Need a weapon manager
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started += Weapon1;
         GameManager.GetInstance().m_inputManager.m_weaponSelection2.started += Weapon2;
+        
+        GameManager.GetInstance().m_inputManager.m_esc.started += ApplicationManager.GetInstance().ShowSettings;
 
 
         //TEMP - set active weapon id 0
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started -= Weapon1;
         GameManager.GetInstance().m_inputManager.m_weaponSelection2.started -= Weapon2;
+        GameManager.GetInstance().m_inputManager.m_esc.started -= ApplicationManager.GetInstance().ShowSettings;
     }
 
     /// <summary>

@@ -29,10 +29,12 @@ public class CharacterLook : MonoBehaviour
     void Update()
     {
         //Temp - Rotation
-        transform.parent.Rotate(Vector3.up, GetLookInput().x * m_lookSpeed * Time.deltaTime);
-        xRotation -= GetLookInput().y * m_lookSpeed * Time.deltaTime;
+
+        float LookSpeed = m_lookSpeed * ApplicationManager.GetInstance().m_settingsManager.m_settings.m_mouseSensitivity;
+        transform.parent.Rotate(Vector3.up, GetLookInput().x * LookSpeed * Time.deltaTime);
+        xRotation -= GetLookInput().y * LookSpeed * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
-        _lookVelocity = new Vector2(GetLookInput().x * m_lookSpeed * Time.deltaTime, GetLookInput().y * m_lookSpeed * Time.deltaTime);
+        _lookVelocity = new Vector2(GetLookInput().x * LookSpeed * Time.deltaTime, GetLookInput().y * LookSpeed * Time.deltaTime);
         Quaternion rotation = Quaternion.Euler(xRotation, 0, 0);
         
         WalkingLoop();

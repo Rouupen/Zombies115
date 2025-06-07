@@ -21,4 +21,5 @@ public class SO_InputData : ScriptableObject
     public string m_reload;
     public string m_mouseWheel;
     public string m_tab;
+    public string m_esc;
 }

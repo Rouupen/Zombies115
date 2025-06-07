@@ -24,6 +24,7 @@ public class InputManager : Manager
     public InputAction m_reload;
     public InputAction m_mouseWheel;
     public InputAction m_tab;
+    public InputAction m_esc;
 
     /// <summary>
     /// Initializes the input actions by retrieving them from the PlayerInput component
@@ -61,6 +62,7 @@ public class InputManager : Manager
         m_reload = _playerInput.actions.FindAction(inputData.m_reload);
         m_mouseWheel = _playerInput.actions.FindAction(inputData.m_mouseWheel);
         m_tab = _playerInput.actions.FindAction(inputData.m_tab);
+        m_esc = _playerInput.actions.FindAction(inputData.m_esc);
     }
 
     /// <summary>
