@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5609041219ee29447be67fe106d27855, type: 3}
-  m_Name: PistolData
+  m_Name: PistolUpgradeData
   m_EditorClassIdentifier: 
-  m_weaponID: 0
-  m_weaponUpgrade: {fileID: 11400000, guid: 2c5bf8ca0da98fa439615c0b1f36a7ef, type: 2}
-  m_weaponPrefab: {fileID: 2654474628102545927, guid: 96e85e01e46ef65428558c959398e7c1, type: 3}
-  m_model: {fileID: 2923857698585369879, guid: a217e2c8fd35310448ab2b3cbb6f85fb, type: 3}
+  m_weaponID: 11
+  m_isUpgraded: 1
+  m_weaponUpgrade: {fileID: 0}
+  m_weaponPrefab: {fileID: 2654474628102545927, guid: 815516724f1192d4b8a760dca228617c, type: 3}
+  m_model: {fileID: 2923857698585369879, guid: 3dbf07a08acfc8246896a7e1ef8560b3, type: 3}
   m_weaponStats:
     m_shootingMode: 0
-    m_magazineAmmo: 8
-    m_totalAmmo: 32
-    m_fireRate: 15
-    m_damage: 7
-    m_range: 4
+    m_magazineAmmo: 16
+    m_totalAmmo: 150
+    m_fireRate: 18
+    m_damage: 19
+    m_range: 13
     m_accuracyIdle: 18
-    m_accuracyMoving: 14
+    m_accuracyMoving: 17
     m_numberOfProjectiles: 1
     m_projectilesSpreadAngle: 0
     m_shotSounds:

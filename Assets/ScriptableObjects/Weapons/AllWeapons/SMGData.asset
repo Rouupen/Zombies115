@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SMGData
   m_EditorClassIdentifier: 
   m_weaponID: 2
+  m_weaponUpgrade: {fileID: 11400000, guid: 16b720d93478fa44d8e996ae05f5b6ec, type: 2}
   m_weaponPrefab: {fileID: 2887529939065599147, guid: 18eef5b2d61a2f74292c798ee5992f02, type: 3}
   m_model: {fileID: 1019255992467060726, guid: 8e743e966427e324d938b97a1dd5d802, type: 3}
   m_weaponStats:

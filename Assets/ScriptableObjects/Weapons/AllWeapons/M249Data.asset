@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: M249Data
   m_EditorClassIdentifier: 
   m_weaponID: 4
+  m_weaponUpgrade: {fileID: 11400000, guid: 9e6d7fe9397394a45b78b61298fd9319, type: 2}
   m_weaponPrefab: {fileID: 661121800286281080, guid: 712d9303c11c9fc4eb4636a319c89794, type: 3}
   m_model: {fileID: 1363655124920747354, guid: f251d0ec51a461f4e80a752ce85197c7, type: 3}
   m_weaponStats:

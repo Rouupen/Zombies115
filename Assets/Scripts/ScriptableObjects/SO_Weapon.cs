@@ -8,6 +8,8 @@ using UnityEngine;
 public class SO_Weapon : ScriptableObject
 {
     public int m_weaponID = -1;
+    public bool m_isUpgraded;
+    public SO_Weapon m_weaponUpgrade;
     public GameObject m_weaponPrefab;
     public GameObject m_model;
     public WeaponStatsData m_weaponStats;

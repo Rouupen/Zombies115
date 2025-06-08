@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EBRData
   m_EditorClassIdentifier: 
   m_weaponID: 3
+  m_weaponUpgrade: {fileID: 11400000, guid: bcdeb0d2cb73e874cab0aafcb307147c, type: 2}
   m_weaponPrefab: {fileID: 2068676633479724104, guid: 56e7693e584b92947875049eed1dba4f, type: 3}
   m_model: {fileID: 8541164226174503475, guid: 1e441c85f8341f64f84b12d15085e071, type: 3}
   m_weaponStats:

@@ -151,6 +151,19 @@ public class PlayerController : MonoBehaviour
         _activeWeapon = weapon;
     }
 
+    public int UpgradeWeapon(int id)
+    {
+        SO_WeaponsInGame weaponsInGame = GameManager.GetInstance().m_weaponsInGame;
+        for (int i = 0; i < weaponsInGame.m_weaponsInGame.Count; i++)
+        {
+            if (weaponsInGame.m_weaponsInGame[i].m_weaponID == id && weaponsInGame.m_weaponsInGame[i].m_weaponUpgrade)
+            {
+                return weaponsInGame.m_weaponsInGame[i].m_weaponUpgrade.m_weaponID;
+            }
+        }
+        return -1;
+    }
+
     public void ChangeSlotWeapon(int id)
     {
         for (int i = 0; i < _weaponsInventoryId.Count; i++)

@@ -20,10 +20,13 @@ public class InteractableRandomWeapon : InteractableCostPointsBase
         m_weapons = new Dictionary<int, GameObject>();
         foreach (SO_Weapon weapon in GameManager.GetInstance().m_weaponsInGame.m_weaponsInGame)
         {
-            GameObject go = Instantiate(weapon.m_model, m_boxTransform.position, Quaternion.identity, m_boxTransform);
-            go.SetActive(false);
+            if (!weapon.m_isUpgraded)
+            {
+                GameObject go = Instantiate(weapon.m_model, m_boxTransform.position, Quaternion.identity, m_boxTransform);
+                go.SetActive(false);
 
-            m_weapons.Add(weapon.m_weaponID, go);
+                m_weapons.Add(weapon.m_weaponID, go);
+            }
         }
         _canInteract = true;
     }

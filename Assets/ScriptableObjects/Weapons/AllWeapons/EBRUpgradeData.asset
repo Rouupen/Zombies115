@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5609041219ee29447be67fe106d27855, type: 3}
-  m_Name: PistolData
+  m_Name: EBRUpgradeData
   m_EditorClassIdentifier: 
-  m_weaponID: 0
-  m_weaponUpgrade: {fileID: 11400000, guid: 2c5bf8ca0da98fa439615c0b1f36a7ef, type: 2}
-  m_weaponPrefab: {fileID: 2654474628102545927, guid: 96e85e01e46ef65428558c959398e7c1, type: 3}
-  m_model: {fileID: 2923857698585369879, guid: a217e2c8fd35310448ab2b3cbb6f85fb, type: 3}
+  m_weaponID: 8
+  m_isUpgraded: 1
+  m_weaponUpgrade: {fileID: 0}
+  m_weaponPrefab: {fileID: 2068676633479724104, guid: b32e4ec2f218aad4f9604ac1136f03af, type: 3}
+  m_model: {fileID: 8541164226174503475, guid: e0ca44b45cb055447b88cc0142ca4c80, type: 3}
   m_weaponStats:
     m_shootingMode: 0
-    m_magazineAmmo: 8
-    m_totalAmmo: 32
-    m_fireRate: 15
-    m_damage: 7
-    m_range: 4
+    m_magazineAmmo: 9
+    m_totalAmmo: 80
+    m_fireRate: 13
+    m_damage: 20
+    m_range: 20
     m_accuracyIdle: 18
     m_accuracyMoving: 14
     m_numberOfProjectiles: 1
@@ -317,8 +318,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_aimPosition: {x: -0.05, y: -0.21, z: 0.623}
-    m_aimRotation: {x: 0, y: 0, z: 0}
+    m_aimPosition: {x: -0.104, y: -0.189, z: 0.417}
+    m_aimRotation: {x: 0, y: -0.002, z: 3.674}
     m_aimStartTime: 0.1
     m_aimEndTime: 0.1
     m_lookReductionWhileAiming: 0.3

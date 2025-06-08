@@ -10,27 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5609041219ee29447be67fe106d27855, type: 3}
-  m_Name: PistolData
+  m_Name: M4A1UgradeData
   m_EditorClassIdentifier: 
-  m_weaponID: 0
-  m_weaponUpgrade: {fileID: 11400000, guid: 2c5bf8ca0da98fa439615c0b1f36a7ef, type: 2}
-  m_weaponPrefab: {fileID: 2654474628102545927, guid: 96e85e01e46ef65428558c959398e7c1, type: 3}
-  m_model: {fileID: 2923857698585369879, guid: a217e2c8fd35310448ab2b3cbb6f85fb, type: 3}
+  m_weaponID: 9
+  m_isUpgraded: 1
+  m_weaponUpgrade: {fileID: 0}
+  m_weaponPrefab: {fileID: 6303303045485617839, guid: 9f1fe53a2c8a72f42a10c875974a789d, type: 3}
+  m_model: {fileID: 998881631296347964, guid: de1b81d35e60eb74e947fb385b53c006, type: 3}
   m_weaponStats:
-    m_shootingMode: 0
-    m_magazineAmmo: 8
-    m_totalAmmo: 32
-    m_fireRate: 15
-    m_damage: 7
-    m_range: 4
-    m_accuracyIdle: 18
-    m_accuracyMoving: 14
+    m_shootingMode: 1
+    m_magazineAmmo: 45
+    m_totalAmmo: 300
+    m_fireRate: 20
+    m_damage: 16
+    m_range: 15
+    m_accuracyIdle: 17
+    m_accuracyMoving: 15
     m_numberOfProjectiles: 1
     m_projectilesSpreadAngle: 0
     m_shotSounds:
     - {fileID: 8300000, guid: 75f9b21e1d6435f4db71661e8a7b5d2a, type: 3}
-    - {fileID: 8300000, guid: c488b01d5b9d978498c6cc41087c7b8d, type: 3}
     - {fileID: 8300000, guid: a506df22140bf04478b0bf69572a5bbc, type: 3}
+    - {fileID: 8300000, guid: c488b01d5b9d978498c6cc41087c7b8d, type: 3}
   m_weaponData:
     _info: This section controls everything related to weapon movement. Some values,
       like recoil time, depend on the weapon's stats.All variables have descriptions
@@ -229,9 +230,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_recoilMaxRotation: {x: 30, y: 15, z: 15}
-    m_recoilAdditiveRotation: {x: -20, y: 0, z: 0}
-    m_recoilRandomRotationY: {x: 1, y: 5}
+    m_recoilMaxRotation: {x: 7, y: 15, z: 15}
+    m_recoilAdditiveRotation: {x: -3, y: 0, z: 0}
+    m_recoilRandomRotationY: {x: 1, y: 3}
     m_recoilRotationCurve:
       serializedVersion: 2
       m_Curve:
@@ -265,8 +266,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_recoilMaxPosition: {x: 0, y: 0.05, z: 0.05}
-    m_recoilAdditivePosition: {x: 0, y: 0.02, z: -0.025}
+    m_recoilMaxPosition: {x: 0, y: 0.03, z: 0.05}
+    m_recoilAdditivePosition: {x: 0, y: 0.01, z: -0.025}
     m_recoilPositionCurve:
       serializedVersion: 2
       m_Curve:
@@ -317,7 +318,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_aimPosition: {x: -0.05, y: -0.21, z: 0.623}
+    m_aimPosition: {x: 0, y: -0.24, z: 0.59}
     m_aimRotation: {x: 0, y: 0, z: 0}
     m_aimStartTime: 0.1
     m_aimEndTime: 0.1

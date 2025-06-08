@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RPGData
   m_EditorClassIdentifier: 
   m_weaponID: 6
+  m_weaponUpgrade: {fileID: 11400000, guid: 9e1c4e500b0e7d74687075e594ea0457, type: 2}
   m_weaponPrefab: {fileID: 3302929766794346918, guid: 9612dbfa71971c340b5b6a1c5d9b2912, type: 3}
   m_model: {fileID: 409851305692375189, guid: fb150a5d523a9bc4198ae5ba5fe92c6d, type: 3}
   m_weaponStats:
