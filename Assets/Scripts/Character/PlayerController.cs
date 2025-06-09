@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
         //TEMP - Need a weapon manager
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started += Weapon1;
         GameManager.GetInstance().m_inputManager.m_weaponSelection2.started += Weapon2;
+        GameManager.GetInstance().m_inputManager.m_mouseWheel.performed += MouseWheel;
         
         GameManager.GetInstance().m_inputManager.m_esc.started += ApplicationManager.GetInstance().ShowSettings;
 
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started -= Weapon1;
         GameManager.GetInstance().m_inputManager.m_weaponSelection2.started -= Weapon2;
+        GameManager.GetInstance().m_inputManager.m_mouseWheel.performed -= MouseWheel;
+
         GameManager.GetInstance().m_inputManager.m_esc.started -= ApplicationManager.GetInstance().ShowSettings;
     }
 
@@ -202,6 +206,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        _currentWeaponSlot = 0;
         SetCurrentWeapon(_weaponsInSlots[0]);
     }
 
@@ -212,7 +217,25 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        _currentWeaponSlot = 1;
+
         SetCurrentWeapon(_weaponsInSlots[1]);
+    }
+
+    private void MouseWheel(InputAction.CallbackContext context)
+    {   
+        float dir = context.ReadValue<float>();
+
+        _currentWeaponSlot += (int)dir;
+        if (_currentWeaponSlot < 0)
+        {
+            _currentWeaponSlot = _weaponsInSlots.Count -1;
+        }
+        else if (_currentWeaponSlot > _weaponsInSlots.Count -1)
+        {
+            _currentWeaponSlot = 0;
+        }
+        SetCurrentWeapon(_weaponsInSlots[_currentWeaponSlot]);
     }
 
     public bool HaveWeaponOnInventory(int id)
