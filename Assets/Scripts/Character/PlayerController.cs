@@ -46,8 +46,11 @@ public class PlayerController : MonoBehaviour
         GameManager.GetInstance().m_inputManager.m_weaponSelection1.started += Weapon1;
         GameManager.GetInstance().m_inputManager.m_weaponSelection2.started += Weapon2;
         GameManager.GetInstance().m_inputManager.m_mouseWheel.performed += MouseWheel;
-        
-        GameManager.GetInstance().m_inputManager.m_esc.started += ApplicationManager.GetInstance().ShowSettings;
+
+        if (ApplicationManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().m_inputManager.m_esc.started += ApplicationManager.GetInstance().ShowSettings;
+        }
 
 
         //TEMP - set active weapon id 0
