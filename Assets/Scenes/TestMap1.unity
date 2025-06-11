@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.10980393, g: 0.11764707, b: 0.1254902, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.02
+  m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -93,7 +93,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: aeaeaf8e6d8816940b295819b2011c78, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -7375,7 +7375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &320207168
 Transform:
   m_ObjectHideFlags: 0
@@ -7385,7 +7385,7 @@ Transform:
   m_GameObject: {fileID: 320207167}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 29.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8914,7 +8914,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.34091312, g: 0.37317467, b: 0.4433962, a: 1}
-  m_Intensity: 3.52
+  m_Intensity: 5.8
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -23340,7 +23340,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1103572436153022243, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
       insertIndex: -1
       addedObject: {fileID: 954797579}
+    - targetCorrespondingSourceObject: {fileID: -7186510185062072591, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1096773021}
+    - targetCorrespondingSourceObject: {fileID: -3859430889888473796, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 843617824}
   m_SourcePrefab: {fileID: 100100000, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+--- !u!1 &843617823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3859430889888473796, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+  m_PrefabInstance: {fileID: 843617822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &843617824
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843617823}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7584328927001181218, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
 --- !u!1 &844403839 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1094559010302358929, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
@@ -27091,6 +27124,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 320207168}
   m_LocalEulerAnglesHint: {x: 62.735, y: 37.201, z: 0.286}
+--- !u!1 &1096773016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7186510185062072591, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+  m_PrefabInstance: {fileID: 843617822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1096773021
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096773016}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3112064613963963836, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
 --- !u!43 &1098598352
 Mesh:
   m_ObjectHideFlags: 0
