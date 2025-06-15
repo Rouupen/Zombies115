@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private Animator m_animatorController;
     [SerializeField] private BehaviorGraphAgent m_behaviourAgent;
+    [SerializeField] private ParticleSystem m_bloodParticle;
 
     [HideInInspector] public EntityHealth m_enemyHealth;
     private GameObject m_target;
@@ -115,6 +116,13 @@ public class Enemy : MonoBehaviour
         GameManager.GetInstance().m_powerUpManager.TryToInstatiateRandomNewPowerUp(transform.position);
         m_isDead = true;
         DieDespawn();
+    }
+
+    public void StartBloodParticles(Vector3 position, Vector3 lookAt) 
+    {
+        m_bloodParticle.transform.position = position;
+        m_bloodParticle.transform.LookAt(lookAt, Vector3.up);
+        m_bloodParticle.Play();
     }
 
     public virtual void DamageTaked()

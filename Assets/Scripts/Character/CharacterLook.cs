@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CharacterLook : MonoBehaviour
@@ -28,6 +28,10 @@ public class CharacterLook : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.GetInstance().m_playerController._canMove)
+        {
+            return;
+        }
         //Temp - Rotation
 
         float LookSpeed = m_lookSpeed * ApplicationManager.GetInstance().m_settingsManager.m_settings.m_mouseSensitivity;
@@ -36,7 +40,7 @@ public class CharacterLook : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90, 90);
         _lookVelocity = new Vector2(GetLookInput().x * LookSpeed * Time.deltaTime, GetLookInput().y * LookSpeed * Time.deltaTime);
         Quaternion rotation = Quaternion.Euler(xRotation, 0, 0);
-        
+
         WalkingLoop();
 
         // Camera shake
@@ -168,66 +172,62 @@ public class CharacterLook : MonoBehaviour
     private void WalkingLoop()
     {
         //WALKING
-        if (GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
+        if (!GameManager.GetInstance().m_playerController.m_characterController.isGrounded)
+            return;
+
+        Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterController.velocity;
+        characterVelocity.y = 0f;
+
+        float velocityMagnitude = characterVelocity.magnitude;
+        float maxSpeed = GameManager.GetInstance().m_playerController.m_characterMovement.GetCurrentPlayerSpeed();
+        float normalizedVelocity = Mathf.InverseLerp(0, maxSpeed, velocityMagnitude);
+
+        if (velocityMagnitude > 0.1f)
         {
+            if (!_isWalking)
+                StartEndWalking(true);
 
-            Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterController.velocity;
-            characterVelocity.y = 0f; //Ingore the Y-axies
+            _currentVerticalBounceTime += Time.deltaTime / m_walkingBounceVerticalTime;
+            _currentHorizontalBounceTime += Time.deltaTime / m_walkingBounceHorizontalTime;
+            _currentForwardRotationTime += Time.deltaTime / m_walkingRotationLoopForwardTime;
 
-            if (characterVelocity.magnitude > 0.1f)
-            {
-                //Temp - Need state machine
-                if (!_isWalking)
-                {
-                    StartEndWalking(true);
-                }
+            Vector3 newPosition = new Vector3(
+                m_walkingBounceHorizontalCurve.Evaluate(_currentHorizontalBounceTime % 1) * m_walkingBounceHorizontalAmplitude,
+                m_walkingBounceVerticalCurve.Evaluate(_currentVerticalBounceTime % 1) * m_walkingBounceVerticalAmplitude,
+                0.0f
+            );
 
-                //Bounce
-                _currentVerticalBounceTime += Time.deltaTime / m_walkingBounceVerticalTime;
-                _currentHorizontalBounceTime += Time.deltaTime / m_walkingBounceHorizontalTime;
-                _currentForwardRotationTime += Time.deltaTime / m_walkingRotationLoopForwardTime;
+            Quaternion newRotation = Quaternion.Euler(
+                0.0f,
+                0.0f,
+                m_walkingRotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_walkingRotationForwardAngle * normalizedVelocity
+            );
 
-                Vector3 newPosition = new Vector3(
-                    m_walkingBounceHorizontalCurve.Evaluate(_currentHorizontalBounceTime % 1) * m_walkingBounceHorizontalAmplitude,
-                    m_walkingBounceVerticalCurve.Evaluate(_currentVerticalBounceTime % 1) * m_walkingBounceVerticalAmplitude,
-                    0.0f
-                    );
+            // Dirección del movimiento → Influye en el desplazamiento lateral/adelante
+            Vector3 charDirection = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
+            charDirection.x *= m_walkingOffsetHorizontalDistance;
+            charDirection.z = -charDirection.y * m_walkingOffsetForwardDistance;
+            charDirection.y = 0;
 
-                Quaternion newRotation = Quaternion.Euler(
-                    0.0f,
-                    0.0f,
-                    m_walkingRotationLoopForwardCurve.Evaluate(_currentForwardRotationTime % 1) * m_walkingRotationForwardAngle
-                    );
+            _currentDirectionTranslation += charDirection * m_walkingOffsetPositionSpeed * Time.deltaTime;
+            _currentDirectionTranslation.x = Mathf.Clamp(_currentDirectionTranslation.x, -m_walkingOffsetHorizontalDistance, m_walkingOffsetHorizontalDistance);
+            _currentDirectionTranslation.z = Mathf.Clamp(_currentDirectionTranslation.z, -m_walkingOffsetForwardDistance, m_walkingOffsetForwardDistance);
 
-
-                //Dir translation
-                Vector3 charDirection = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
-                charDirection.x *= m_walkingOffsetHorizontalDistance;
-                charDirection.z = -charDirection.y * m_walkingOffsetForwardDistance;
-                charDirection.y = 0;
-
-                _currentDirectionTranslation += charDirection * m_walkingOffsetPositionSpeed * Time.deltaTime;
-
-                _currentDirectionTranslation.x = Mathf.Clamp(_currentDirectionTranslation.x, -m_walkingOffsetHorizontalDistance, m_walkingOffsetHorizontalDistance);
-                _currentDirectionTranslation.z = Mathf.Clamp(_currentDirectionTranslation.z, -m_walkingOffsetForwardDistance, m_walkingOffsetForwardDistance);
-
-                _walkingPositionOffset = newPosition + _currentDirectionTranslation + _startEndWalkingPositionOffset;
-                _walkingRotationOffset = newRotation * _startEndWalkingRotationOffset;
-            }
-            else
-            {
-                if (_isWalking)
-                {
-                    StartEndWalking(false);
-                }
-                _walkingPositionOffset = _startEndWalkingPositionOffset;
-                _walkingRotationOffset = _startEndWalkingRotationOffset;
-                _currentVerticalBounceTime = 0f;
-                _currentHorizontalBounceTime = 0f;
-                _currentForwardRotationTime = 0f;
-                _currentDirectionTranslation = Vector3.zero;
-            }
-
+            _walkingPositionOffset = newPosition + _currentDirectionTranslation + _startEndWalkingPositionOffset;
+            _walkingRotationOffset = newRotation * _startEndWalkingRotationOffset;
         }
+        else
+        {
+            if (_isWalking)
+                StartEndWalking(false);
+
+            _walkingPositionOffset = _startEndWalkingPositionOffset;
+            _walkingRotationOffset = _startEndWalkingRotationOffset;
+            _currentVerticalBounceTime = 0f;
+            _currentHorizontalBounceTime = 0f;
+            _currentForwardRotationTime = 0f;
+            _currentDirectionTranslation = Vector3.zero;
+        }
+
     }
 }

@@ -117,7 +117,7 @@ public class WeaponBase : MonoBehaviour
         //Temp 
         _animatorController = GetComponent<Animator>();
 
-        ReloadWeapon();
+        ReloadWeapon(false);
 
     }
 
@@ -159,6 +159,7 @@ public class WeaponBase : MonoBehaviour
         {
             if (GameManager.GetInstance().m_playerController.GetCurrentWeapon() == this)
             {
+                _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
                 yield break;
             }
         }
@@ -177,6 +178,8 @@ public class WeaponBase : MonoBehaviour
 
             //CHANGE BUG
             SetIdleValues();
+            _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+
             yield break;
 
         }
@@ -290,6 +293,10 @@ public class WeaponBase : MonoBehaviour
 
     public virtual bool Fire()
     {
+        if (!GameManager.GetInstance().m_playerController._canMove)
+        {
+            return false;
+        }
         if (!_canShoot)
         {
             return false;
@@ -438,7 +445,7 @@ public class WeaponBase : MonoBehaviour
         }
     }
 
-    public virtual void ReloadWeapon()
+    public virtual void ReloadWeapon(bool updateHud = true)
     {
         if (m_reserveAmmo > 0)
         {
@@ -446,8 +453,10 @@ public class WeaponBase : MonoBehaviour
             m_reserveAmmo -= ammoReloded;
             m_magazineAmmo += ammoReloded;
         }
-
-        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        if (updateHud)
+        {
+            _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        }
     }
 
     public void SetTotalAmmo(int magazineAmmo, int reserveAmmo)
@@ -457,10 +466,13 @@ public class WeaponBase : MonoBehaviour
         _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
 
     }
-    public void SetReserveAmmo(int ammo)
+    public void SetReserveAmmo(int ammo, bool updateHud = true)
     {
         m_reserveAmmo = ammo;
-        _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        if (updateHud)
+        {
+            _playerController.m_UIController.m_ammoController.UpdateAmmoHud(m_magazineAmmo, m_reserveAmmo);
+        }
 
     }
     public int GetReserveAmmo()

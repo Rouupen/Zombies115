@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NormalWeapon : WeaponBase
@@ -7,7 +9,7 @@ public class NormalWeapon : WeaponBase
         if (!base.Fire())
         {
             return false;
-        } 
+        }
         _currentFireRateTime = Mathf.Lerp(GameManager.GetInstance().m_gameValues.m_minMaxFireRate.x, GameManager.GetInstance().m_gameValues.m_minMaxFireRate.y, (20 - _weaponStatsData.m_fireRate) / 20f);
         GameManager.GetInstance().m_playerController.m_weaponSocketMovementController.Fire();
         if (_weaponStatsData.m_shotSounds.Count != 0)
@@ -47,22 +49,64 @@ public class NormalWeapon : WeaponBase
             int enemyLayer = LayerMask.NameToLayer("Enemy");
             int layerMask = ~(1 << enemyLayer);
 
-            if (Physics.Raycast(position, rotatedDirection, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+            RaycastHit[] hits = Physics.RaycastAll(position, rotatedDirection, distance, layerMask, QueryTriggerInteraction.Ignore);
+
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+            List<Enemy> enemysHits = new List<Enemy>();
+
+            foreach (RaycastHit hit in hits)
             {
+                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+
+                if (enemy != null && enemysHits.Contains(enemy))
+                {
+                    continue;
+                }
+                enemysHits.Add(enemy);
+
                 Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
                 float tDamage = _weaponStatsData.m_damage / 20.0f;
-
-                float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) * GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_doubleDamageMulti/*/ _weaponStatsData.m_numberOfProjectiles*/;
+                float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) * GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_doubleDamageMulti;
 
                 EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
                 if (entityHealth != null)
                 {
-                    entityHealth.TakeDamage(damage);
+                    entityHealth.TakeDamage(damage / enemysHits.Count);
+                }
+
+                if (enemy != null)
+                {
+                    enemy.StartBloodParticles(hit.point, GameManager.GetInstance().m_playerController.transform.position);
+                }
+                else
+                {
+                    break;
                 }
             }
+
+            //if (Physics.Raycast(position, rotatedDirection, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+            //{
+            //    Vector2 minMaxDamage = GameManager.GetInstance().m_gameValues.m_minMaxDamage;
+            //    float tDamage = _weaponStatsData.m_damage / 20.0f;
+
+            //    float damage = Mathf.Lerp(minMaxDamage.x, minMaxDamage.y, tDamage) * GameManager.GetInstance().m_playerController.m_characterPerks.m_perksData.m_doubleDamageMulti/*/ _weaponStatsData.m_numberOfProjectiles*/;
+
+            //    EntityHealth entityHealth = hit.collider.GetComponentInParent<EntityHealth>();
+            //    if (entityHealth != null)
+            //    {
+
+            //        entityHealth.TakeDamage(damage);
+            //    }
+            //    Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+            //    if (enemy != null)
+            //    {
+            //        enemy.StartBloodParticles(hit.point, GameManager.GetInstance().m_playerController.transform.position);
+            //    }
+            //}
         }
 
-        
+
 
 
         //if (Physics.Raycast(position, rotatedDirection, out hitInfo, 10))

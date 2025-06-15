@@ -17,7 +17,7 @@ public class SpawnManager : Manager
     private int _currentSpawnedSameTime = 0;
 
     private GameObject _enemysObject;
-
+    private bool _gameStarted = false;
     public override void Initialize()
     {
         GameManager.GetInstance().m_updateManagers += UpdateManager;
@@ -46,6 +46,10 @@ public class SpawnManager : Manager
 
     public override void UpdateManager()
     {
+        if (!_gameStarted)
+        {
+            return;
+        }
         if (_currentSpawned > _totalToSpawn && _currentSpawnedSameTime == 0)
         {
             GameManager.GetInstance().m_gameModeManager.StartNextRound();
@@ -91,6 +95,11 @@ public class SpawnManager : Manager
 
     public void InitializeNewRound(int totalToSpawn)
     {
+        if (!_gameStarted)
+        {
+            _gameStarted = true;
+            currentTime = -5;
+        }
         SetTotalToSpawn(totalToSpawn);
         _currentSpawned = 0;
         _currentSpawnedSameTime = 0;

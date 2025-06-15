@@ -16,7 +16,7 @@ public class GameModeManager : Manager
     public override void Initialize()
     {
         _currentEnemyHealth = GameManager.GetInstance().m_gameValues.m_enemyStartHealth;
-        StartNextRound();
+        //StartNextRound();
     }
 
     public override void UpdateManager()

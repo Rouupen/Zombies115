@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -32,7 +33,8 @@ public class PlayerController : MonoBehaviour
     private List<int> _weaponsInSlots;
     private int _currentWeaponSlot;
 
-
+    [HideInInspector]
+    public bool _canMove;
     /// <summary>
     /// Initialize character and weapons
     /// </summary>
@@ -64,6 +66,10 @@ public class PlayerController : MonoBehaviour
         _weaponsInSlots.Add(0);
         //Empty temp
         _weaponsInSlots.Add(-1);
+
+
+        StartCoroutine(StartGameAnimation());
+
     }
 
     private void OnDestroy()
@@ -226,15 +232,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void MouseWheel(InputAction.CallbackContext context)
-    {   
+    {
         float dir = context.ReadValue<float>();
 
         _currentWeaponSlot += (int)dir;
         if (_currentWeaponSlot < 0)
         {
-            _currentWeaponSlot = _weaponsInSlots.Count -1;
+            _currentWeaponSlot = _weaponsInSlots.Count - 1;
         }
-        else if (_currentWeaponSlot > _weaponsInSlots.Count -1)
+        else if (_currentWeaponSlot > _weaponsInSlots.Count - 1)
         {
             _currentWeaponSlot = 0;
         }
@@ -257,7 +263,8 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < _weaponList.Count; i++)
         {
-            _weaponList[i].SetReserveAmmo(GameManager.GetInstance().m_weaponsInGame.GetWeaponData(_weaponList[i].GetWeaponID()).m_weaponStats.m_totalAmmo);
+            bool isCurrentWeapon = _weaponList[i] == GetCurrentWeapon();
+            _weaponList[i].SetReserveAmmo(GameManager.GetInstance().m_weaponsInGame.GetWeaponData(_weaponList[i].GetWeaponID()).m_weaponStats.m_totalAmmo, isCurrentWeapon);
         }
     }
 
@@ -292,5 +299,18 @@ public class PlayerController : MonoBehaviour
     {
         GetStateMachine().SetCurrentState<Downed>();
         Debug.Log("DEAD");
+    }
+
+    IEnumerator StartGameAnimation()
+    {
+        _canMove = false;
+        m_UIController.m_blackScreenController.SetFadeActive(true);
+        yield return new WaitForSeconds(2);
+        StartCoroutine(m_UIController.m_blackScreenController.FadeAnimation(true));
+        yield return new WaitForSeconds(2);
+        GameManager.GetInstance().m_gameModeManager.StartNextRound();
+        _canMove = true;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(m_UIController.m_roundsController.StartRoundAnimation());
     }
 }

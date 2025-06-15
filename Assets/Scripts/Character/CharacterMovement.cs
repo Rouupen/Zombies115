@@ -21,7 +21,9 @@ public class CharacterMovement : MonoBehaviour
     public float m_crouchHeight = 1f;
     public float m_downedHeight = 0.5f;
     public float m_stamina = 3f;
-
+    private float _targetSpeed;
+    public float acceleration = 10f;
+    public float deceleration = 12f;
     //Private
     private float _currentPlayerSpeed;
     private Vector3 _velocity;
@@ -46,6 +48,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void EvaluateMoving()
     {
+        if (!GameManager.GetInstance().m_playerController._canMove)
+        {
+            return;
+        }
         //Evaluate moving temp
         Vector3 moveValue = transform.right * GetMovementInput().x + transform.forward * GetMovementInput().z;
         moveValue.x = moveValue.x * _currentPlayerSpeed;
@@ -106,9 +112,25 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateMove()
     {
-        Vector3 moveValue = transform.right * GetMovementInput().x + transform.forward * GetMovementInput().z;
-        _velocity.x = moveValue.x * _currentPlayerSpeed;
-        _velocity.z = moveValue.z * _currentPlayerSpeed;
+        if (!GameManager.GetInstance().m_playerController._canMove)
+        {
+            return;
+        }
+
+        Vector3 moveInput = transform.right * GetMovementInput().x + transform.forward * GetMovementInput().z;
+
+        _targetSpeed = moveInput.magnitude > 0 ? _currentPlayerSpeed : 0;
+
+        Vector3 horizontalVelocity = new Vector3(_velocity.x, 0, _velocity.z);
+
+        Vector3 desiredVelocity = moveInput.normalized * _targetSpeed;
+
+        float lerpSpeed = (moveInput.magnitude > 0) ? acceleration : deceleration;
+
+        horizontalVelocity = Vector3.Lerp(horizontalVelocity, desiredVelocity, lerpSpeed * Time.deltaTime);
+
+        _velocity.x = horizontalVelocity.x;
+        _velocity.z = horizontalVelocity.z;
 
         MoveCharacter();
     }
@@ -161,7 +183,7 @@ public class CharacterMovement : MonoBehaviour
         _characterController.radius = radius;
     }
 
-    Vector3 GetMovementInput()
+    public Vector3 GetMovementInput()
     {
         Vector2 value = GameManager.GetInstance().m_inputManager.m_move.ReadValue<Vector2>();
         return new Vector3(value.x, 0, value.y);

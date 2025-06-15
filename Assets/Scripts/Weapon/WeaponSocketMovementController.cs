@@ -375,7 +375,7 @@ public class WeaponSocketMovementController : MonoBehaviour
         {
             float recoilInertiaReduction = _isAiming ? m_weaponMovementData.m_lookReductionWhileAiming : 1;
 
-            Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterController.velocity;
+            Vector3 characterVelocity = GameManager.GetInstance().m_playerController.m_characterMovement.GetMovementInput();
             characterVelocity.y = 0f; //Ingore the Y-axies
 
             if (characterVelocity.magnitude > 0.1f && !_isAiming)
@@ -503,6 +503,10 @@ public class WeaponSocketMovementController : MonoBehaviour
 
     public void StartAim()
     {
+        if (!GameManager.GetInstance().m_playerController._canMove)
+        {
+            return;
+        }
         if (_isAiming || !_canAim)
         {
             return;

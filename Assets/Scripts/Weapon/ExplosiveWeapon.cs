@@ -26,9 +26,9 @@ public class ExplosiveWeapon : WeaponBase
         return true;
     }
 
-    public override void ReloadWeapon()
+    public override void ReloadWeapon(bool updateHud = true)
     {
-        base.ReloadWeapon();
+        base.ReloadWeapon(updateHud);
         m_rocketReference.SetActive(true);
 
     }
