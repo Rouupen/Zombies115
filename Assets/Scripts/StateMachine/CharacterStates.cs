@@ -238,6 +238,9 @@ public class Downed : CharacterState
     public override void OnExit()
     {
         base.OnExit();
+        //temp
+        _playerController.m_characterMovement.m_stamina = 3;
+
     }
 
     IEnumerator EndGameAnim()

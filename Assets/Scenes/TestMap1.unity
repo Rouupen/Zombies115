@@ -17441,6 +17441,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorInteractable (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5470295457828414612, guid: f5b1e7214fc919046b2850fd617c7406, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5790253861706968082, guid: f5b1e7214fc919046b2850fd617c7406, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -35707,6 +35711,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7664728788398519507, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 14e51aa756ccbab44a39ed3c35666772, type: 2}
     - target: {fileID: -2407699025559542186, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -35727,6 +35735,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 84ecfde7ac4c5164db8a99f86af13499, type: 2}
+    - target: {fileID: 3892981495617743736, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4761909715315347258, guid: f19d71677b7955f429fa3eb95eacd133, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
